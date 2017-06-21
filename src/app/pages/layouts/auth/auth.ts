@@ -46,25 +46,22 @@ export class LayoutsAuthComponent implements OnInit {
           {
             'title': 'Home',
             'icon': 'dashboard',
-            'link': ['/']
+            'link': ['/home']
           },
           {
-            'title': 'Client',
-            'icon': 'usd',
-            'link': ['/client']
-          },
-          {
-            'title': 'Sub menu',
-            'icon': 'link',
+            'title': 'Administration',
+            'icon': 'gears',
             'sublinks': [
               {
-                'title': 'Page 2',
-                'link': ['/page/2'],
+                'title': 'Client',
+                'icon': 'users',
+                'link': ['/client']
               },
               {
-                'title': 'Page 3',
-                'link': ['/page/3'],
-              }
+                'title': 'Projets',
+                'icon': 'briefcase',
+                'link': ['/projects']
+              },
             ]
           },
           {

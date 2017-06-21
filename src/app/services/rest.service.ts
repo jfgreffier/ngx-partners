@@ -14,11 +14,10 @@ export class RestService {
     public lastGet: any;
 
     constructor(private http: Http, private config: Configuration) {
-        this.modelName = 'to-configure';
-
-        this.headers = new Headers();
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('Accept', 'application/json');
+      this.modelName = "";
+      this.headers = new Headers();
+      this.headers.append('Content-Type', 'application/json');
+      this.headers.append('Accept', 'application/json');
     }
 
     // HELPERS
@@ -47,20 +46,14 @@ export class RestService {
 
 
     // REST functions
-    public getAll(): Observable<any[]> {
+    public getAll(entity: string): Observable<any[]> {
+        this.modelName = entity;
         return this.http.get(this.getActionUrl())
             .map((response: Response) => {
               // getting an array having the same name as the model
               let data = response.json()[this.modelName];
               // transforming the array from indexed to associative
-              let tab = data.records.map((elem) => {
-                let unit = {};
-                // using the columns order and number to rebuild the object
-                data.columns.forEach( (champ, index) => {
-                  unit[champ] = elem[index];
-                });
-                return unit;
-              });
+              let tab = data;
               this.lastGetAll = tab;
               let obj = {
                 data: tab,
@@ -72,7 +65,8 @@ export class RestService {
             .catch(this.handleError);
     }
 
-    public get(id: number): Observable<any> {
+    public get(entity: string, id: number): Observable<any> {
+        this.modelName = entity;
         return this.http.get(this.getActionUrl() + id)
             .map((response: Response) => {
               let data = response.json();
@@ -82,7 +76,8 @@ export class RestService {
             .catch(this.handleError);
     }
 
-    public add(item: any): Observable<number> {
+    public add(entity: string, item: any): Observable<any> {
+        this.modelName = entity;
         let toAdd = JSON.stringify(item);
 
         return this.http.post(this.getActionUrl(), toAdd, { headers: this.headers })
@@ -90,21 +85,15 @@ export class RestService {
             .catch(this.handleError);
     }
 
-    public addAll(tab: Array<any>): Observable<Array<number>> {
-      let toAdd = JSON.stringify(tab);
-
-      return this.http.post(this.getActionUrl(), toAdd, { headers: this.headers })
-          .map((response: Response) => response.json())
-          .catch(this.handleError);
-    }
-
-    public update(id: number, itemToUpdate: any): Observable<number> {
+    public update(entity: string, id: number, itemToUpdate: any): Observable<any> {
+        this.modelName = entity;
         return this.http.put(this.getActionUrl() + id, JSON.stringify(itemToUpdate), { headers: this.headers })
             .map((response: Response) => response.json())
             .catch(this.handleError);
     }
 
-    public delete(id: number): Observable<Response> {
+    public delete(entity: string, id: number): Observable<Response> {
+        this.modelName = entity;
         return this.http.delete(this.getActionUrl() + id)
             .catch(this.handleError);
     }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class Configuration {
-    public server: string = 'http://test.weberantoine.fr/';
-    public apiUrl: string = 'php-crud-api/api.php/';
+    public server: string = 'http://127.0.0.1:8000/';
+    public apiUrl: string = '';
     public serverWithApiUrl = this.server + this.apiUrl;
 }
