@@ -2,11 +2,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, Http } from '@angular/http';
+import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AlertModule, DatepickerModule } from 'ng2-bootstrap';
 import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { environment } from '../environments/environment';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
@@ -63,8 +64,18 @@ import { BreadcrumbService } from './services/breadcrumb.service';
 import { AdminLTETranslateService } from './services/translate.service';
 import { LoggerService } from './services/logger.service';
 import { RestService } from './services/rest.service';
+import { AuthenticationService } from './services/authentication.service';
+
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+    return new AuthHttp( new AuthConfig({}), http, options);
+}
 
 let services = [
+    {
+        provide: AuthHttp,
+        useFactory: authHttpServiceFactory,
+        deps: [ Http, RequestOptions ]
+    },
     UserService,
     BreadcrumbService,
     MessagesService,
@@ -73,6 +84,7 @@ let services = [
     AdminLTETranslateService,
     LoggerService,
     RestService,
+    AuthenticationService,
 ];
 
 // les pages

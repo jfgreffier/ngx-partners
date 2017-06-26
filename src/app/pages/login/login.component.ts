@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -9,11 +11,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   private password: string;
-  private email: string;
+  private username: string;
+
+  protected error: string;
 
   constructor(
     private userServ: UserService,
-    private router: Router
+    private router: Router,
+    private authentication: AuthenticationService,
   ) {
   }
 
@@ -22,32 +27,39 @@ export class LoginComponent implements OnInit {
   }
 
   private login() {
+    this.error = "";
 
-    // test les champs en js
+    this.authentication.authenticate(this.username, this.password)
+      .subscribe(
+        data => {
+          localStorage.setItem('id_token', data.token);
+          this.updateUser();
+        },
+        error => {
+          if (error.status == 401){ // Unauthorized
+              this.error = "credentials";
+          }else{
+              this.error = error._body;
+          }
+          console.log(error);
+          this.userServ.logout();
+        }
+      );
+  }
 
-    // envoyer les champs a php
+  private updateUser(){
+    this.userServ.fetchUser().subscribe(
+        user => {
+          console.log(user.getName() + " logged in!");
 
-    // si retour positif, log le user
-    if ( 1 === 1 ) {
-
-      let user1 = new User( {
-          avatarUrl: 'public/assets/img/user2-160x160.jpg',
-          email: 'weber.antoine.pro@gmail.com',
-          firstname: 'WEBER',
-          lastname: 'Antoine'
-      } );
-
-      user1.connected = true;
-
-      this.userServ.setCurrentUser( user1 );
-
-      this.router.navigate( ['home'] );
-    } else {
-      // je recupere l'erreur du php
-      // et on le place dans un label, ou un toaster
-    }
-
-
+          this.router.navigate(['home']);
+        },
+        error => {
+          console.log(error);
+          this.error = error._body;
+          this.authentication.logout();
+        }
+      );
   }
 
 }

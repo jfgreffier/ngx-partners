@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { UserService } from './user.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class CanActivateGuard implements CanActivate {
@@ -8,7 +9,8 @@ export class CanActivateGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private user: UserService
+    private user: UserService,
+    private authentication: AuthenticationService
   ) {
     this.user.currentUser.subscribe((user) => {
       this.connected = user.connected;
@@ -17,9 +19,10 @@ export class CanActivateGuard implements CanActivate {
 
   public canActivate() {
     // test here if you user is logged
-    if ( !this.connected ) {
+    if (!this.authentication.loggedIn()){
       this.router.navigate( [ 'login' ] );
     }
-    return this.connected;
+
+    return this.authentication.loggedIn();
   }
 }

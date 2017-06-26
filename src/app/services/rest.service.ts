@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
+import { AuthHttp } from 'angular2-jwt';
 
 @Injectable()
 export class RestService {
@@ -13,7 +14,7 @@ export class RestService {
     public lastGetAll: Array<any>;
     public lastGet: any;
 
-    constructor(private http: Http, private config: Configuration) {
+    constructor(private http: AuthHttp, private config: Configuration) {
       this.modelName = "";
       this.headers = new Headers();
       this.headers.append('Content-Type', 'application/json');
