@@ -4,11 +4,11 @@ import { CanActivateGuard } from './services/guard.service';
 
 // Components
 import { HomeComponent } from './pages/home/home.component';
-import { PageNumComponent } from './pages/page-num/page-num.component';
 import { ClientComponent } from './pages/client/client.component';
 import { ProjectComponent } from './pages/project/project.component';
 import { LayoutsAuthComponent } from './pages/layouts/auth/auth';
 import { LoginComponent } from './pages/login/login.component';
+import { ReportComponent } from './pages/report/report.component';
 import { RegisterComponent } from './pages/register/register.component';
 
 const routes: Routes = [
@@ -23,8 +23,8 @@ const routes: Routes = [
       },
       {
         canActivate: [CanActivateGuard],
-        component: PageNumComponent,
-        path: 'page/:id'
+        component: ReportComponent,
+        path: 'report'
       },
       {
         canActivate: [CanActivateGuard],

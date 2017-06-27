@@ -89,20 +89,20 @@ let services = [
 
 // les pages
 import { HomeComponent } from './pages/home/home.component';
-import { PageNumComponent } from './pages/page-num/page-num.component';
 import { ClientComponent } from './pages/client/client.component';
 import { ProjectComponent } from './pages/project/project.component';
 import { LayoutsAuthComponent } from './pages/layouts/auth/auth';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { ReportComponent } from './pages/report/report.component';
 
 let pages = [
     HomeComponent,
-    PageNumComponent,
     ClientComponent,
     ProjectComponent,
     LayoutsAuthComponent,
     LoginComponent,
+    ReportComponent,
     RegisterComponent
 ];
 

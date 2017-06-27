@@ -49,6 +49,11 @@ export class LayoutsAuthComponent implements OnInit {
             'link': ['/home']
           },
           {
+            'title': 'Compte rendu d\'activité',
+            'icon': 'calendar',
+            'link': ['/report']
+          },
+          {
             'title': 'Administration',
             'icon': 'gears',
             'sublinks': [
@@ -64,33 +69,6 @@ export class LayoutsAuthComponent implements OnInit {
               },
             ]
           },
-          {
-            'title': 'External Link',
-            'icon': 'google',
-            'link': ['http://google.com'],
-            'external': true,
-            'target': '_blank'
-          },
-          {
-            'title': 'External Links',
-            'icon': 'link',
-            'sublinks': [
-              {
-                'title': 'Github',
-                'link': ['http://github.com'],
-                'icon': 'github',
-                'external': true,
-                'target': '_blank'
-              },
-              {
-                'title': 'Yahoo',
-                'link': ['http://yahoo.com'],
-                'icon': 'yahoo',
-                'external': true,
-                'target': '_blank'
-              }
-            ]
-          }
         ];
 
     }

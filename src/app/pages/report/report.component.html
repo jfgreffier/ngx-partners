@@ -1,0 +1,57 @@
+<div class="row">
+	<div class="col-md-12" style="margin-bottom: 10px;">
+		<button class="btn btn-success pull-right" (click)="addProject()">
+			<i class="fa fa-plus fa-fw"></i> Ajouter un projet
+        </button>
+	</div>
+	<div class="col-md-12" style="margin-bottom: 10px;">
+        <div class="table-responsive">
+            <table
+                class="table table-striped table-bordered table-hover table-condensed"
+                style="table-layout: auto;"
+            >
+                    <tr>
+                        <th><p>{{currentMonthName}}</p></th>
+                        <th *ngFor='let day of days'>
+                            <p style="text-align: center;">{{day.day}}</p>
+                        </th>
+                    </tr>
+                    <tr *ngFor="let project of shownProjects">
+                        <td nowrap="nowrap" style="table-layout: auto">
+                            <a title="Retirer le projet du compte rendu" (click)="removeProject(project)"
+                                data-toggle="tooltip" onclick="$('.tooltip').tooltip('destroy');">
+                                <i class="fa fa-times fa-fw"></i>
+                            </a>
+                            {{project.name}}
+                        </td>
+
+                        <td *ngFor="let day of days">
+                            <div [hidden]="!day.working">
+                                <input type="number" step="0.5" value="0" min="0" max="1" class="form-control input-sm" style="padding: 3px;" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let activity of activities">
+                        <td>{{activity}}</td>
+
+                        <td class = "row-separator" *ngFor="let day of days">
+                            <div [hidden]="!day.working">
+                                <input type="number" step="0.5" value="0" min="0" max="1" class="form-control input-sm" style="padding: 3px;" />
+                            </div>
+                        </td>
+                    </tr>
+
+            </table>
+        </div>
+        <div class="col-md-12" [hidden]="shownProjects.length">
+            <p class="text-muted">
+                <i>Ce tableau de contient aucun projet client. <a (click)="addProject()"><i class="fa fa-plus fa-fw"></i> Ajouter un projet</a> ?</i>
+            </p>
+        </div>
+        <hr>
+        <p align="right">
+            <button type="button" class="btn btn-primary" (click)="saveReport()"><i class="fa fa-save fa-fw"></i> Enregistrer</button>
+            <button type="button" class="btn btn-warning" (click)="submitReport()"><i class="fa fa-upload fa-fw"></i> Soumettre pour validation</button>
+        </p>
+	</div>
+</div>
