@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12" style="margin-bottom: 10px;">
-		<button class="btn btn-success pull-right" (click)="addProject()">
+		<button class="btn btn-success pull-right" (click)="addProjectModal.show()">
 			<i class="fa fa-plus fa-fw"></i> Ajouter un projet
         </button>
 	</div>
@@ -11,7 +11,7 @@
                 style="table-layout: auto;"
             >
                     <tr>
-                        <th><p>{{currentMonthName}}</p></th>
+                        <th><p style="text-align: center;">{{currentMonthName}}</p></th>
                         <th *ngFor='let day of days'>
                             <p style="text-align: center;">{{day.day}}</p>
                         </th>
@@ -22,7 +22,7 @@
                                 data-toggle="tooltip" onclick="$('.tooltip').tooltip('destroy');">
                                 <i class="fa fa-times fa-fw"></i>
                             </a>
-                            {{project.name}}
+                            <b>{{project.name}}</b>
                         </td>
 
                         <td *ngFor="let day of days">
@@ -45,13 +45,57 @@
         </div>
         <div class="col-md-12" [hidden]="shownProjects.length">
             <p class="text-muted">
-                <i>Ce tableau de contient aucun projet client. <a (click)="addProject()"><i class="fa fa-plus fa-fw"></i> Ajouter un projet</a> ?</i>
+                <i>Ce tableau ne contient aucun projet client. <a (click)="addProjectModal.show()"><i class="fa fa-plus fa-fw"></i> Ajouter un projet</a> ?</i>
             </p>
         </div>
         <hr>
         <p align="right">
             <button type="button" class="btn btn-primary" (click)="saveReport()"><i class="fa fa-save fa-fw"></i> Enregistrer</button>
-            <button type="button" class="btn btn-warning" (click)="submitReport()"><i class="fa fa-upload fa-fw"></i> Soumettre pour validation</button>
+            <button type="button" class="btn btn-warning" (click)="submitReportModal.show()"><i class="fa fa-upload fa-fw"></i> Soumettre pour validation</button>
         </p>
 	</div>
 </div>
+
+<modal-dialog #addProjectModal color="primary">
+    <div class="modal-dialog-header">Ajout d'un projet</div>
+    <div class="modal-dialog-body">
+        <form>
+            <div class="form-group" *ngFor="let project of projects | async">
+                <div class="checkbox">
+                    <label for="project_{{project.id}}"
+                        [attr.title]="isShown(project) ? 'Ce projet est déjà présent' : ''"
+                        [attr.data-toggle]="isShown(project) ? 'tooltip' : ''"
+                        [ngClass]="{'muted': isShown(project)}"
+                    >
+                        <input type="radio" name="selectedProjectId" id="project_{{project.id}}" value="{{project.id}}"
+                            [(ngModel)]="selectedProjectId"
+                            [ngClass]="{'disabled': isShown(project)}"
+                            [attr.do.not.disabled.please]="isShown(project) === true"
+                        />
+                        {{project.name}}
+                    </label>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-dialog-footer">
+        <button type="button" class="btn btn-default" (click)="addProjectModal.hide()">Retour</button>
+        <button type="button" class="btn btn-success" (click)="addProject(); addProjectModal.hide()"
+            [ngClass]="{'disabled': !selectedProjectId}" [disabled]="!selectedProjectId">
+            <i class="fa fa-plus fa-fw"></i> Ajouter le projet
+        </button>
+    </div>
+</modal-dialog>
+
+<modal-dialog #submitReportModal color="warning">
+    <div class="modal-dialog-header">Validation du compte rendu d'activité</div>
+    <div class="modal-dialog-body">
+        <i class="fa fa-exclamation-circle fa-fw"></i>
+        Une fois soumis, le compte rendu d'activité du mois de <b>{{currentMonthName}}</b> ne pourra plus être modifié.
+    </div>
+    <div class="modal-dialog-footer">
+        <button type="button" class="btn btn-default" (click)="submitReportModal.hide()">Annuler</button>
+        <button type="button" class="btn btn-danger" (click)="submitReport()"><i class="fa fa-upload fa-fw"></i> Valider</button>
+    </div>
+</modal-dialog>
