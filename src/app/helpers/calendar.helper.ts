@@ -12,4 +12,10 @@ export class CalendarHelper {
     return CalendarHelper.monthNames[m];
   }
 
+  public static isWorkingDay(day: Date): boolean{
+    let weekend: boolean = day.getDay() % 6 == 0;
+
+    return !weekend;
+  }
+
 }

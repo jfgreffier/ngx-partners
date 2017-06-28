@@ -83,7 +83,7 @@ export class ReportComponent implements OnInit {
     for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++){
       let d = new Day;
       d.day = i;
-      d.working = !(i % 7 == 3 || i % 7 == 4);
+      d.working = CalendarHelper.isWorkingDay(new Date(this.currentMonth.getFullYear(), this.currentMonth.getUTCMonth(), i));
       this.days.push(d);
     }
   }
