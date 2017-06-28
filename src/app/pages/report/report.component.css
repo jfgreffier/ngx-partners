@@ -1,0 +1,7 @@
+.report-value-valid {
+  border-bottom: solid 2px green;
+}
+
+.report-value-invalid {
+  border-bottom: solid 2px red;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ApplicationRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { BreadcrumbService } from '../../services/breadcrumb.service';
@@ -17,6 +17,7 @@ class Day {
 @Component({
   providers: [ProjectDAL],
   selector: 'app-report',
+  styleUrls: ['./report.component.css'],
   templateUrl: './report.component.html'
 })
 export class ReportComponent implements OnInit {
@@ -26,15 +27,20 @@ export class ReportComponent implements OnInit {
   private shownProjects: Array<Project>;
   private days: Array<Day>;
 
+  private values: Object; // [project.id][day.id] = float [0..1]
+
   private currentMonth: Date;
   private currentMonthName: string;
 
   // used by add-project dialog
   private selectedProjectId: number = -1;
 
+  private dayError: Array<boolean>; // [day.id][project.id] = { -1: invalid, 0: empty, 1: valid}
+
   constructor(
     private breadServ: BreadcrumbService,
     private projectDal: ProjectDAL,
+    private app: ApplicationRef,
   ) {
   }
 
@@ -45,10 +51,13 @@ export class ReportComponent implements OnInit {
 
     this.activities = new Array("Geeking Days", "Formation", "CP", "Maladie", "Abs. exceptionnelle", "Congé sans solde");
 
+    this.values = new Object();
+    this.dayError = new Array<boolean>();
+
     this.selectMonth(new Date());
 
     this.breadServ.set({
-      description: 'Compte rendu d\'activité',
+      header: 'Compte rendu d\'activité',
       display: true,
       levels: [
         {
@@ -67,15 +76,21 @@ export class ReportComponent implements OnInit {
 
   public selectMonth(month: Date): void{
     this.currentMonth = new Date();
+    this.currentMonthName = CalendarHelper.monthName(this.currentMonth) + " " + this.currentMonth.getFullYear();
 
     this.projects = this.projectDal.readAll().toPromise();
 
-    this.currentMonthName = CalendarHelper.monthName(this.currentMonth) + " " + this.currentMonth.getFullYear();
+    this.dayError = new Array<boolean>(CalendarHelper.daysInMonth(this.currentMonth));
 
     this.projects.then((parray) => {
       parray.forEach(p => {
         if (true){ // if we have reports on this projects
           this.shownProjects.push(p);
+
+          this.values[p.id] = new Array<number>(CalendarHelper.daysInMonth(this.currentMonth));
+
+          for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++)
+            this.values[p.id][i] = 0;
         }
       })
     });
@@ -104,7 +119,14 @@ export class ReportComponent implements OnInit {
 
   public removeProject(p: Project): void{
     if (this.shownProjects.indexOf(p) > -1){
+
+      for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++){
+        this.values[p.id][i] = 0
+        this.checkValidity(i);
+      }
+
       this.shownProjects.splice(this.shownProjects.indexOf(p), 1);
+
     }
   }
 
@@ -120,6 +142,41 @@ export class ReportComponent implements OnInit {
     return this.shownProjects.findIndex(it => {
       return it.id === p.id;
     }) != -1;
+  }
+
+  public onInputChanged(event, project: Project, day: Day): void{
+    let value: number = event * 1.0;
+    value = value || this.values[project.id][day.day];
+
+    this.values[project.id][day.day] = value;
+  }
+
+  public checkInput(event, project: Project, day: Day): void{
+    if (isNaN(event.target.value * 1.0) || event.target.value == ""){
+      // force input revaluation
+      if (event.target.value == "") this.values[project.id][day.day] = 0;
+      let value: number = this.values[project.id][day.day] * 1.0 || 0;
+      this.values[project.id][day.day] = -1;
+      this.app.tick();
+      this.values[project.id][day.day] = value;
+    }
+
+    if (this.values[project.id][day.day] > 1) this.values[project.id][day.day] = 1;
+    if (this.values[project.id][day.day] < 0) this.values[project.id][day.day] = 0;
+
+    this.checkValidity(day.day);
+  }
+
+  public checkValidity(day: number){
+    this.projects.then(projects => {
+      let sum: number = 0;
+
+      projects.forEach(it => {
+        sum += this.values[it.id][day];
+      });
+
+      this.dayError[day] = sum > 1;
+    });
   }
 
 }
