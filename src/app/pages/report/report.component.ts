@@ -6,6 +6,7 @@ import { BreadcrumbService } from '../../services/breadcrumb.service';
 import { Project } from "../../models/project";
 
 import { ProjectDAL } from '../../dal/project.dal';
+import { ReportDAL } from '../../dal/report.dal';
 
 import { CalendarHelper } from '../../helpers/calendar.helper';
 
@@ -15,7 +16,7 @@ class Day {
 }
 
 @Component({
-  providers: [ProjectDAL],
+  providers: [ProjectDAL, ReportDAL],
   selector: 'app-report',
   styleUrls: ['./report.component.css'],
   templateUrl: './report.component.html'
@@ -40,6 +41,7 @@ export class ReportComponent implements OnInit {
   constructor(
     private breadServ: BreadcrumbService,
     private projectDal: ProjectDAL,
+    private reportDal: ReportDAL,
     private app: ApplicationRef,
   ) {
   }
@@ -82,17 +84,36 @@ export class ReportComponent implements OnInit {
 
     this.dayError = new Array<boolean>(CalendarHelper.daysInMonth(this.currentMonth));
 
-    this.projects.then((parray) => {
+    this.projects.then(parray => {
+      let usedProject = Object();
+
       parray.forEach(p => {
-        if (true){ // if we have reports on this projects
-          this.shownProjects.push(p);
+        this.values[p.id] = new Array<number>(CalendarHelper.daysInMonth(this.currentMonth));
 
-          this.values[p.id] = new Array<number>(CalendarHelper.daysInMonth(this.currentMonth));
-
-          for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++)
-            this.values[p.id][i] = 0;
+        for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++){
+          this.values[p.id][i] = 0;
+          usedProject[p.id] = false;
         }
-      })
+      });
+
+      let serverSideReport = this.reportDal.readMonth(this.currentMonth.getFullYear(), this.currentMonth.getMonth());
+
+      serverSideReport.then(reports => {
+
+        reports.forEach(report => {
+          this.values[report.activity][report.date.getDate()] = report.duration;
+          usedProject[report.activity] = true;
+        });
+
+        parray.forEach(p => {
+          if (usedProject[p.id])
+            this.shownProjects.push(p);
+        });
+
+        for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++)
+          this.checkValidity(i);
+
+      });
     });
 
     for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++){
@@ -131,7 +152,7 @@ export class ReportComponent implements OnInit {
   }
 
   public saveReport(): void{
-
+    this.reportDal.saveReport(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), this.values);
   }
 
   public submitReport(): void{
