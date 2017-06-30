@@ -28,7 +28,7 @@
                         <td *ngFor="let day of days">
                             <div [hidden]="!day.working">
                                 <input pattern="[0-9]?\.?[0-9]*"
-                                    size="1" class="form-control input-sm" style="padding: 3px; min-width: 20px"
+                                    size="1" class="form-control input-sm" style="padding: 3px; min-width: 20px; text-align: center;"
                                     [ngModel]="values[project.id][day.day]"
                                     (ngModelChange)="onInputChanged($event, project, day)" (blur)="checkInput($event, project, day)"
                                     [ngClass]="{
@@ -42,12 +42,20 @@
                     <tr *ngIf="shownProjects.length">
                         <td></td><td *ngFor="let day of days"></td>
                     </tr>
-                    <tr *ngFor="let activity of activities | async">
+                    <tr *ngFor="let activity of shownActivities">
                         <td>{{activity.name}}</td>
 
-                        <td class = "row-separator" *ngFor="let day of days">
+                        <td *ngFor="let day of days">
                             <div [hidden]="!day.working">
-                                <input size="1" class="form-control input-sm" style="padding: 3px;" />
+                                <input pattern="[0-9]?\.?[0-9]*"
+                                    size="1" class="form-control input-sm" style="padding: 3px; min-width: 20px; text-align: center;"
+                                    [ngModel]="values[activity.id][day.day]"
+                                    (ngModelChange)="onInputChanged($event, activity, day)" (blur)="checkInput($event, activity, day)"
+                                    [ngClass]="{
+                                        'report-value-valid': values[activity.id][day.day] != 0,
+                                        'report-value-invalid': values[activity.id][day.day] != 0 && dayError[day.day]
+                                        }"
+                                />
                             </div>
                         </td>
                     </tr>

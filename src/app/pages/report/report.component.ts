@@ -26,6 +26,7 @@ export class ReportComponent implements OnInit {
   private activities: Promise<Array<Project>>;
   private projects: Promise<Array<Project>>;
   private shownProjects: Array<Project>;
+  private shownActivities: Array<Project>;
   private days: Array<Day>;
 
   private values: Object; // [project.id][day.id] = float [0..1]
@@ -49,6 +50,7 @@ export class ReportComponent implements OnInit {
   public ngOnInit() {
     this.days = new Array<Day>();
     this.shownProjects = new Array<Project>();
+    this.shownActivities = new Array<Project>();
     this.projects = Observable.of(new Array<Project>()).toPromise();
     this.values = new Object();
     this.dayError = new Array<boolean>();
@@ -60,6 +62,15 @@ export class ReportComponent implements OnInit {
     info.then((info: Object) => {
       let month: Date = new Date(info["currentMonth"]);
       this.selectMonth(month);
+
+      this.shownActivities = info["activities"];
+
+      this.shownActivities.forEach(a => {
+        this.values[a.id] = new Array<number>(CalendarHelper.daysInMonth(this.currentMonth));
+
+        for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++)
+          this.values[a.id][i] = 0;
+      });
     });
 
     this.breadServ.set({
@@ -123,7 +134,7 @@ export class ReportComponent implements OnInit {
     for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++){
       let d = new Day;
       d.day = i;
-      d.working = CalendarHelper.isWorkingDay(new Date(this.currentMonth.getFullYear(), this.currentMonth.getUTCMonth(), i));
+      d.working = CalendarHelper.isWorkingDay(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), i));
       this.days.push(d);
     }
   }
@@ -194,13 +205,19 @@ export class ReportComponent implements OnInit {
 
   public checkValidity(day: number){
     this.projects.then(projects => {
-      let sum: number = 0;
+      this.activities.then(activities => {
+        let sum: number = 0;
 
-      projects.forEach(it => {
-        sum += this.values[it.id][day];
+        projects.forEach(it => {
+          sum += this.values[it.id][day];
+        });
+
+        activities.forEach(it => {
+          sum += this.values[it.id][day];
+        });
+
+        this.dayError[day] = sum > 1;
       });
-
-      this.dayError[day] = sum > 1;
     });
   }
 
