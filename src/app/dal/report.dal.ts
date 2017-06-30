@@ -41,4 +41,8 @@ export class ReportDAL {
       this.notif.success('Compte rendu ' + (month + 1) + '/' + year + ' sauvegardé.');
     });
   }
+
+  public readInfo = () => {
+    return this.rest.get('reports/me/info').toPromise();
+  }
 }

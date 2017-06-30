@@ -66,9 +66,10 @@ export class RestService {
             .catch(this.handleError);
     }
 
-    public get(entity: string, id: number): Observable<any> {
+    public get(entity: string, id?: number): Observable<any> {
+        let sid: string = "" + (id || "");
         this.modelName = entity;
-        return this.http.get(this.getActionUrl() + id)
+        return this.http.get(this.getActionUrl() + sid)
             .map((response: Response) => {
               let data = response.json();
               this.lastGet = data;

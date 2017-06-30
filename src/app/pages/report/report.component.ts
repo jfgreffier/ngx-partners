@@ -23,7 +23,7 @@ class Day {
 })
 export class ReportComponent implements OnInit {
 
-  private activities: Array<string>;
+  private activities: Promise<Array<Project>>;
   private projects: Promise<Array<Project>>;
   private shownProjects: Array<Project>;
   private days: Array<Day>;
@@ -50,13 +50,17 @@ export class ReportComponent implements OnInit {
     this.days = new Array<Day>();
     this.shownProjects = new Array<Project>();
     this.projects = Observable.of(new Array<Project>()).toPromise();
-
-    this.activities = new Array("Geeking Days", "Formation", "CP", "Maladie", "Abs. exceptionnelle", "Congé sans solde");
-
     this.values = new Object();
     this.dayError = new Array<boolean>();
 
-    this.selectMonth(new Date());
+    let info = this.reportDal.readInfo();
+
+    this.activities = Observable.fromPromise(info).map((info: Object) => { return info["activities"]; }).toPromise();
+
+    info.then((info: Object) => {
+      let month: Date = new Date(info["currentMonth"]);
+      this.selectMonth(month);
+    });
 
     this.breadServ.set({
       header: 'Compte rendu d\'activité',
@@ -77,7 +81,7 @@ export class ReportComponent implements OnInit {
   }
 
   public selectMonth(month: Date): void{
-    this.currentMonth = new Date();
+    this.currentMonth = month;
     this.currentMonthName = CalendarHelper.monthName(this.currentMonth) + " " + this.currentMonth.getFullYear();
 
     this.projects = this.projectDal.readAll().toPromise();

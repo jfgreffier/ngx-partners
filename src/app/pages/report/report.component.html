@@ -28,7 +28,7 @@
                         <td *ngFor="let day of days">
                             <div [hidden]="!day.working">
                                 <input pattern="[0-9]?\.?[0-9]*"
-                                    size="1" class="form-control input-sm" style="padding: 3px;"
+                                    size="1" class="form-control input-sm" style="padding: 3px; min-width: 20px"
                                     [ngModel]="values[project.id][day.day]"
                                     (ngModelChange)="onInputChanged($event, project, day)" (blur)="checkInput($event, project, day)"
                                     [ngClass]="{
@@ -42,8 +42,8 @@
                     <tr *ngIf="shownProjects.length">
                         <td></td><td *ngFor="let day of days"></td>
                     </tr>
-                    <tr *ngFor="let activity of activities">
-                        <td>{{activity}}</td>
+                    <tr *ngFor="let activity of activities | async">
+                        <td>{{activity.name}}</td>
 
                         <td class = "row-separator" *ngFor="let day of days">
                             <div [hidden]="!day.working">
