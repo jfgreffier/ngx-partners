@@ -182,18 +182,18 @@ export class ReportComponent implements OnInit {
     }) != -1;
   }
 
-  public onInputChanged(event, project: Project, day: Day): void{
-    let value: number = event * 1.0;
-    value = value || this.values[project.id][day.day];
+  public onInputChanged(event: string, project: Project, day: Day): void{
+    let value: number = parseFloat(event);
+    if (isNaN(value)) value = this.values[project.id][day.day];
 
     this.values[project.id][day.day] = value;
   }
 
   public checkInput(event, project: Project, day: Day): void{
-    if (isNaN(event.target.value * 1.0) || event.target.value == ""){
+    if (isNaN(parseFloat(event.target.value)) || event.target.value == ""){
       // force input revaluation
       if (event.target.value == "") this.values[project.id][day.day] = 0;
-      let value: number = this.values[project.id][day.day] * 1.0 || 0;
+      let value: number = parseFloat(this.values[project.id][day.day]) || 0;
       this.values[project.id][day.day] = -1;
       this.app.tick();
       this.values[project.id][day.day] = value;
