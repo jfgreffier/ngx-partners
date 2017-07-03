@@ -27,7 +27,7 @@ export class ReportDAL {
     }).toPromise();
   }
 
-  public saveReport = (year: number, month: number, rawData: Object) => {
+  private doSave =  (year: number, month: number, rawData: Object): Observable<any> => {
     let reports = Report.buildReports(year, month, rawData);
 
     // we convert Date to Object because of timezones, and to make month 1-indexed
@@ -37,8 +37,22 @@ export class ReportDAL {
       return o;
     });
 
-    this.rest.update('reports/me/' + year, month + 1, data).toPromise().then(() => {
+    return this.rest.update('reports/me/' + year, month + 1, data);
+  }
+
+  public saveReport = (year: number, month: number, rawData: Object) => {
+    this.doSave(year, month, rawData).toPromise().then(() => {
       this.notif.success('Compte rendu ' + (month + 1) + '/' + year + ' sauvegardé.');
+    });
+  }
+
+  public submitReport = (year: number, month: number, rawData: Object) => {
+    return this.doSave(year, month, rawData).combineLatest(
+      this.rest.add('reports/me/' + year + '/' + (month + 1) + '/submit', {})
+    ).toPromise().then(obs => {
+      this.notif.success('Compte rendu ' + (month + 1) + '/' + year + ' sauvegardé et soumis pour validation.', 'Validation');
+    }).catch(e => {
+      this.notif.error('Le compte rendu ' + (month + 1) + '/' + year + ' a été refusé.', 'Compte rendu invalide');
     });
   }
 

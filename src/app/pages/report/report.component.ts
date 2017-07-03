@@ -171,7 +171,9 @@ export class ReportComponent implements OnInit {
   }
 
   public submitReport(): void{
-
+    this.reportDal.submitReport(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), this.values).then(any => {
+      this.ngOnInit();
+    });
   }
 
   public isShown(p: Project): boolean{
