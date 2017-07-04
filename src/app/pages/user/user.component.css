@@ -1,0 +1,11 @@
+.ng-valid[required], .ng-valid.required  {
+  border-left: 2px solid #00a65a;
+}
+
+.ng-invalid:not(form)  {
+  border-left: 2px solid #d33724;
+}
+
+.user-entry > td {
+  vertical-align: middle;
+}

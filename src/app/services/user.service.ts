@@ -43,12 +43,7 @@ export class UserService {
       let req = this.http.get(url)
         .map((data: Response) => data.json())
         .map((data) => {
-          return new User( {
-              avatarUrl: 'public/assets/img/user2-160x160.jpg',
-              email: data.user.email,
-              firstname: data.user.firstname,
-              lastname: data.user.lastname
-          } );
+          return new User(data.user);
         });
 
       req.subscribe(user => {

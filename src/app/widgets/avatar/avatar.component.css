@@ -1,0 +1,90 @@
+.identicons {
+  border-radius: 50%;
+  padding-top: 4px;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 24px;
+  background-color: black;
+  color: white;
+}
+
+:host.identicons-big /deep/ .identicons {
+  width: 80px;
+  height: 80px;
+  font-size: 48px;
+  border: 2px solid;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+:host.identicons-mini /deep/ .identicons {
+  width: 25px;
+  height: 25px;
+  font-size: 12px;
+  padding-top: 1px;
+}
+
+.identicons-img {
+  width: 45px;
+}
+
+:host.identicons-big /deep/ .identicons-img {
+  width: 80px;
+}
+
+:host.identicons-mini /deep/ .identicons-img {
+  width: 25px;
+}
+
+.identicons-color-1 {
+  background-color: #00a65a;
+}
+
+.identicons-color-2 {
+  background-color: #00c0ef;
+}
+
+.identicons-color-3 {
+  background-color: #3c8dbc;
+}
+
+.identicons-color-4 {
+  background-color: #f39c12;
+}
+
+.identicons-color-5 {
+  background-color: #f56954;
+}
+
+.identicons-color-6 {
+  background-color: #39CCCC;
+}
+
+.identicons-color-7 {
+  background-color: #605ca8;
+}
+
+.identicons-color-8 {
+  background-color: #ff851b;
+}
+
+.identicons-color-9 {
+  background-color: #D81B60;
+}
+
+.identicons p {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.identicons-upload {
+  opacity: 0.6
+}
+
+.identicons-upload, a {
+  color: white;
+}

@@ -67,6 +67,11 @@ export class LayoutsAuthComponent implements OnInit {
                 'icon': 'briefcase',
                 'link': ['/projects']
               },
+              {
+                'title': 'Utilisateurs',
+                'icon': 'user-circle-o',
+                'link': ['/users']
+              },
             ]
           },
         ];

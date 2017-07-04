@@ -43,6 +43,7 @@ import { TasksBoxComponent } from './widgets/tasks-box';
 import { UserBoxComponent } from './widgets/user-box';
 import { BreadcrumbComponent } from './widgets/breadcrumb';
 import { ModalDialogComponent } from './widgets/modal-dialog';
+import { AvatarComponent } from './widgets/avatar';
 
 let widgets = [
     AppComponent,
@@ -56,6 +57,7 @@ let widgets = [
     TasksBoxComponent,
     UserBoxComponent,
     ModalDialogComponent,
+    AvatarComponent,
 ];
 
 import { UserService } from './services/user.service';
@@ -95,7 +97,7 @@ import { ClientComponent } from './pages/client/client.component';
 import { ProjectComponent } from './pages/project/project.component';
 import { LayoutsAuthComponent } from './pages/layouts/auth/auth';
 import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
+import { UserComponent } from './pages/user/user.component';
 import { ReportComponent } from './pages/report/report.component';
 
 let pages = [
@@ -105,7 +107,7 @@ let pages = [
     LayoutsAuthComponent,
     LoginComponent,
     ReportComponent,
-    RegisterComponent
+    UserComponent,
 ];
 
 // main bootstrap

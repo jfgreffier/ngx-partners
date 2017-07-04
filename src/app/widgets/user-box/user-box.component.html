@@ -1,16 +1,20 @@
 <!-- Menu Toggle Button -->
 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
   <!-- The user image in the navbar-->
-  <img [src]="currentUser.avatarUrl" class="user-image" [alt]="currentUser.getName()">
+  <avatar [user]="currentUser" class="identicons-mini user-image"></avatar>
   <!-- hidden-xs hides the username on small devices so only the image appears. -->
   <span class="hidden-xs">{{currentUser.getName()}}</span>
 </a>
 <ul class="dropdown-menu">
   <!-- The user image in the menu -->
   <li class="user-header">
-    <img [src]="currentUser.avatarUrl" class="img-circle" [alt]="currentUser.getName()">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4"><avatar [user]="currentUser" class="identicons-big img-circle"></avatar></div>
+      <div class="col-md-4"></div>
+    </div>
     <p>
-      {{currentUser.getName()}} - Web Developer
+      {{currentUser.getName()}}
       <small>Member since {{currentUser.creation_date}}</small>
     </p>
   </li>

@@ -1,0 +1,98 @@
+<div class="row">
+    <div class="col-md-9">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <i class="fa fa-users"></i>
+                <h3 class="box-title">Utilisateurs</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th style="width: 80px;">Avatar</th>
+                            <th style="width: 50px;">Id</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th style="width: 280px;">Actions</th>
+                        </tr>
+                        <tr *ngFor="let user of users | async" class="user-entry">
+                            <td><avatar [user]="user"></avatar></td>
+                            <td>{{user.id}}</td>
+                            <td>{{user.firstname}}</td>
+                            <td>{{user.lastname}}</td>
+                            <td>{{user.email}}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-danger" type="button">Supprimer</button>
+                                    <button class="btn btn-sm btn-primary" type="button">Modifier</button>
+                                    <button class="btn btn-sm btn-primary" type="button">Consulter le profil</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <i class="fa fa-user-plus"></i>
+                <h3 class="box-title">Ajouter un utilisateur</h3>
+            </div>
+            <div class="box-body">
+                <form #addUserForm="ngForm" (ngSubmit)="addUser()">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <avatar [(user)]="newUser" allowUpload=1 class="identicons-big"></avatar>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group has-feedback">
+                                <input type="text" class="form-control" placeholder="Firstname" name="firstname" [(ngModel)]="newUser.firstname" required>
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <input type="text" class="form-control" placeholder="Lastname" name="lastname" [(ngModel)]="newUser.lastname" required>
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control" placeholder="Username" name="username" [(ngModel)]="newUser.username" required>
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="email" class="form-control" placeholder="Email" name="email" [(ngModel)]="newUser.email" required>
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" class="form-control" placeholder="Password" name="password" [(ngModel)]="newUser.password" required>
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" class="form-control" placeholder="Retype password" name="password2" [(ngModel)]="newUser.password_confirmation" required>
+                        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <select class="form-control" placeholder="User role" name="role" [(ngModel)]="newUser.role" required>
+                            <option value="ROLE_USER">Utilisateur</option>
+                            <option value="ROLE_ADMIN">Administrateur</option>
+                        </select>
+                        <span class="fa fa-id-badge form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8"></div>
+                        <!-- /.col -->
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat" [disabled]="!addUserForm.form.valid"><i class="fa fa-plus fa-fw"></i> Ajouter</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

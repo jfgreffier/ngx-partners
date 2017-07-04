@@ -1,19 +1,31 @@
 export class User {
+    public id: number;
+    public username: string;
     public firstname: string;
     public lastname: string;
     public email: string;
+    public role: string;
+
     public avatarUrl: string;
     public creationDate: string;
     public preferredLang: string;
+
+    public password: string;
+    public password_confirmation: string;
+
     public connected: boolean = false;
 
     public constructor( data: any = {}) {
+        this.username = data.username || '';
         this.firstname = data.firstname || '';
         this.lastname = data.lastname || '';
         this.email = data.email || '';
+        this.role = data.role || 'ROLE_USER';
+
         this.avatarUrl = data.avatarUrl || '';
         this.creationDate = data.creation_date || Date.now();
         this.preferredLang = data.preferredLang || null;
+
         this.connected = data.connected || false;
     }
 

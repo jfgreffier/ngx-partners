@@ -9,7 +9,7 @@ import { ProjectComponent } from './pages/project/project.component';
 import { LayoutsAuthComponent } from './pages/layouts/auth/auth';
 import { LoginComponent } from './pages/login/login.component';
 import { ReportComponent } from './pages/report/report.component';
-import { RegisterComponent } from './pages/register/register.component';
+import { UserComponent } from './pages/user/user.component';
 
 const routes: Routes = [
   // logged routes
@@ -36,6 +36,11 @@ const routes: Routes = [
         component: ProjectComponent,
         path: 'projects'
       },
+      {
+        canActivate: [CanActivateGuard],
+        component: UserComponent,
+        path: 'users'
+      },
     ],
     component: LayoutsAuthComponent,
     path: '',
@@ -44,10 +49,6 @@ const routes: Routes = [
   {
     component: LoginComponent,
     path: 'login'
-  },
-  {
-    component: RegisterComponent,
-    path: 'register'
   }
 ];
 
