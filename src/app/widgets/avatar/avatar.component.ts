@@ -9,16 +9,18 @@ import { User } from "../../models/user";
 })
 export class AvatarComponent implements OnChanges {
 
-  private avatar = null;
-  private text;
-  private color;
+  protected avatar = null;
+  protected text;
+  protected color;
 
   @Input()
-  private allowUpload = false;
-  private uploadicon = false;
+  protected allowUpload = false;
+  protected uploadicon = false;
 
   @Input()
-  private user: User;
+  protected user: User;
+
+  protected title = "";
 
   constructor(
   ) {
@@ -27,7 +29,8 @@ export class AvatarComponent implements OnChanges {
   public ngOnChanges() {
     if (this.user.firstname) this.text = this.user.firstname.length > 0 ? this.user.firstname[0].toUpperCase() : "";
 
-    this.color = AvatarComponent.hashCode(this.user.username.toLowerCase() + this.user.email.toLowerCase()) % 9 + 1;
+    this.color = AvatarComponent.hashCode(this.user.username.toLowerCase() + this.user.firstname.toLowerCase() + this.user.email.toLowerCase()) % 9 + 1;
+    this.title = this.user.firstname + ' ' + this.user.lastname;
   }
 
   public upload() {

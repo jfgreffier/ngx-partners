@@ -1,31 +1,115 @@
 <div class="row">
-	<div class="col-md-12" style="margin-bottom: 10px;">
-		<button class="btn btn-success pull-right" (click)="add()">
-			<i class="fa fa-plus"></i> Add Client
-		</button>
-	</div>
-	<div class="col-md-3" *ngFor='let client of clients | async'>
-		<div class="well">
-			<form>
-				<div class="form-group">
-					<label for="id">Id</label> <input type="text" disabled="disabled"
-						[(ngModel)]="client.clientId" name="clientId" class="form-control"
-						id="id" required>
-				</div>
-				<div class="form-group">
-					<label for="name">Name</label> <input type="text"
-						class="form-control" (keyup.enter)="save(client)"
-						[(ngModel)]="client.name" id="name" name="name" required>
-				</div>
-				<div class="form-group">
-					<label for="address">Address</label> <input type="text"
-						class="form-control" (keyup.enter)="save(client)"
-						[(ngModel)]="client.address" name="address" id="address">
-				</div>
-				<button type="button" class="btn btn-primary" (click)="save(client)">Save</button>
-				<button type="button" class="btn btn-danger"
-					(click)="delete(client)">Delete</button>
-			</form>
+    <div class="col-md-4">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <i class="fa fa-users"></i>
+                <h3 class="box-title">Liste des clients</h3>
+                <button type="button" class="pull-right btn btn-sm btn-success"><i class="fa fa-fw fa-plus"></i>&nbsp;Nouveau client</button>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <th>Client</th>
+                            <th style="text-align: center; width: 110px"><i class="fa fa-gear"></i></th>
+                        </tr>
+                        <tr *ngFor="let client of clients" [class.selectedClient]="selectedClient == client">
+                            <td (click)="selectClient(client)">{{client.id}}</td>
+                            <td (click)="selectClient(client)">{{client.name}}</td>
+                            <td class="text-right">
+                                <button title="Supprimer" data-toggle="tooltip" type="button" class="btn btn-xs btn-danger"
+                                    (click)="deleteClient(client)"><i class="fa fa-fw fa-times"></i></button>
+                                <button title="Modifier" data-toggle="tooltip" type="button" class="btn btn-xs btn-primary"
+                                    (click)="editClient(client)"><i class="fa fa-fw fa-pencil"></i></button>
+                                <button title="Sélectionner" data-toggle="tooltip" type="button" class="btn btn-xs btn-primary"
+                                    (click)="selectClient(client)"><i class="fa fa-fw fa-arrow-circle-right"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8" *ngIf="selectedClient">
+		<div class="box box-default">
+			<div class="box-header with-border">
+				<i class="fa fa-folder-open"></i>
+				<h3 class="box-title">{{selectedClient.name}} - Projets</h3>
+                <button type="button" class="pull-right btn btn-sm btn-success"><i class="fa fa-fw fa-plus"></i>&nbsp;Nouveau projet</button>
+			</div>
+			<div class="box-body">
+                <ng-container *ngFor="let project of clientProjects">
+                    <div class="col-md-12" *ngIf='project.isActive()'>
+                        <div class="well" style="padding: 10px; margin: 10px">
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="form-group">
+                                        <label>{{project.name}}</label>
+                                        <p>&nbsp;&nbsp;{{project.client.name}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <ng-container *ngFor="let user of projectUsers[project.id]">
+                                        <avatar [user]="user" class="pull-right" style="padding-right: 5px"></avatar>
+                                    </ng-container>
+                                </div>
+                                <div class="col-xs-1">
+                                    <div class="btn-group-vertical pull-right">
+                                        <button title="Ouvrir" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"><i class="fa fa-arrow-right"></i></button>
+                                        <button title="Archiver" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"><i class="fa fa-archive"></i></button>
+                                        <button title="Supprimer" data-toggle="tooltip" type="button" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="col-md-12" [hidden]="getNbActive()">
+                    <p class="text-muted">
+                        <i>Ce client de possède aucun projet. <a><i class="fa fa-plus fa-fw"></i> Ajouter un projet</a> ?</i>
+                    </p>
+                </div>
+			</div>
+		</div>
+		<div class="box box-default">
+			<div class="box-header with-border">
+				<i class="fa fa-folder-open"></i>
+				<h3 class="box-title">Projets Archivés</h3>
+			</div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <th>Client</th>
+                            <th>Nom du projet</th>
+                            <th>Etat</th>
+							<th></th>
+                        </tr>
+                        <ng-container *ngFor="let project of clientProjects">
+                            <tr *ngIf="!project.isActive()">
+                                <td>{{project.id}}</td>
+                                <td>{{project.client.name}}</td>
+                                <td>{{project.name}}</td>
+                                <td><small class="label bg-orange">Inactif</small></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm" type="button"><i class="fa fa-fw fa-external-link"></i> Ouvrir</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+                <div class="col-md-12" [hidden]="getNbInactive()">
+                    <br />
+                    <p class="text-muted" style="text-align: center;">
+                        Il n'y a aucun projet inactif pour ce client.<br />
+                        Pour archiver un projet, cliquez sur l'icone <button type="button" class="btn btn-xs btn-default"><i class="fa fa-archive"></i> Archiver</button> d'un projet.
+                    </p>
+                </div>
+            </div>
 		</div>
 	</div>
 </div>

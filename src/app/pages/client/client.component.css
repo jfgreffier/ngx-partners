@@ -1,0 +1,22 @@
+.selectedClient {
+    font-weight: bold;
+    color: white;
+    background-color: #3c8dbc;
+}
+
+.table-hover > tbody > tr.selectedClient:hover {
+    font-weight: bold;
+    color: white;
+    background-color: #3c8dbc;
+    opacity: 0.65;
+}
+
+.table-hover > tbody > tr.selectedClient:hover > td {
+    opacity: 1;
+}
+
+.table-striped > tbody > tr.selectedClient:nth-of-type(2n+1) {
+    font-weight: bold;
+    color: white;
+    background-color: #3c8dbc;
+}

@@ -1,40 +1,22 @@
 import { Injectable } from '@angular/core';
-import { FirebaseListObservable, AngularFire } from 'angularfire2';
+import { Observable, ReplaySubject } from 'rxjs/Rx';
+
 import { Client } from '../models/client';
+
+import { RestService } from '../services/rest.service';
 import { NotificationService } from '../services/notification.service';
 
 @Injectable()
 export class ClientDAL {
-  constructor(private af: AngularFire, private notif: NotificationService) { }
+  public clients: ReplaySubject<Array<Client>> = new ReplaySubject<Array<Client>>( 1 );
 
-  public readAll = (): FirebaseListObservable<Array<Client>> => {
-    return this.af.database.list('clients');
-  }
+  constructor(private rest: RestService, private notif: NotificationService) { }
 
-  public read = (id: string): FirebaseListObservable<Client[]> => {
-    return this.af.database.list('clients', {
-      query: {
-        equalTo: id,
-        orderByChild: 'clientId'
-      }
+  public readAll = () => {
+    this.rest.getAll('clients').toPromise().then(clients => {
+      let array = new Array<Client>();
+      clients.forEach(c => { array.push(new Client(c)); });
+      this.clients.next(array);
     });
-  }
-
-  public create = (newClient: Client): void => {
-    this.af.database.list('clients').push(newClient).then(resp =>
-      this.notif.success('New client has been added')
-    );
-  }
-
-  public update = (id: string, client: Client): void => {
-    this.af.database.list('clients').update(id, client).then(resp =>
-      this.notif.success('Client ' + client.name + ' has been updated')
-    );
-  }
-
-  public delete = (client: Client): void => {
-    this.af.database.list('clients').remove(client as any).then(resp =>
-      this.notif.success('Client ' + client.name + ' has been deleted')
-    );
   }
 }

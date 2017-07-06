@@ -1,6 +1,6 @@
 <div (mouseover)="uploadicon=allowUpload" (mouseout)="uploadicon=false">
-    <img *ngIf="avatar && !uploadicon" [src]="avatar" [alt]="user.getName()" class="img-circle identicons-img">
-    <div *ngIf="!avatar" class="identicons identicons-color-{{color}}">
+    <img *ngIf="avatar && !uploadicon" [src]="avatar" [alt]="user.getName()" title="user.getName()" class="img-circle identicons-img">
+    <div *ngIf="!avatar" [title]="title" class="identicons identicons-color-{{color}}">
         <p *ngIf="text && !uploadicon">{{text}}</p>
         <p *ngIf="!text && !uploadicon"><i class="fa fa-fw fa-user"></i></p>
         <p *ngIf="uploadicon"><a (click)="upload()"><i class="fa fa-fw fa-upload"></i></a></p>

@@ -60,7 +60,7 @@ export class LayoutsAuthComponent implements OnInit {
               {
                 'title': 'Client',
                 'icon': 'users',
-                'link': ['/client']
+                'link': ['/clients']
               },
               {
                 'title': 'Projets',

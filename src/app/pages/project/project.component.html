@@ -1,21 +1,62 @@
-<div class="box box-default"><div class="box-body"><div class="row">
-	<div class="col-md-12" style="margin-bottom: 10px;">
-		<button class="btn btn-success pull-right" (click)="add()">
-			<i class="fa fa-plus"></i> Add Project
-		</button>
-	</div>
-	<div class="col-md-3" *ngFor='let project of projects | async'>
-		<div class="well">
-			<form>
-				<div class="form-group">
-					<label for="name">Name</label> <input type="text"
-						class="form-control" (keyup.enter)="save(project)"
-						[(ngModel)]="project.name" id="name" name="name" required>
-				</div>
-				<button type="button" class="btn btn-primary" (click)="save(project)">Save</button>
-				<button type="button" class="btn btn-danger"
-					(click)="delete(project)">Delete</button>
-			</form>
-		</div>
-	</div>
-</div></div></div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <i class="fa fa-folder-open"></i>
+                <h3 class="box-title">Projets</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <th>Client</th>
+                            <th>Nom du projet</th>
+                            <th>Etat</th>
+							<th></th>
+                        </tr>
+                        <tr *ngFor="let project of projects">
+                            <td>{{project.id}}</td>
+                            <td></td>
+                            <td>{{project.name}}</td>
+                            <td><small class="label bg-green">Actif</small></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm" type="button"><i class="fa fa-fw fa-external-link"></i> Modifier</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <i class="fa fa-folder-open"></i>
+                <h3 class="box-title">Ajouter un projet</h3>
+            </div>
+            <div class="box-body">
+                <form #addUserForm="ngForm" (ngSubmit)="add()">
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control" placeholder="Nom du projet" name="name" [(ngModel)]="newProject.name" required>
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control" placeholder="Client" name="client" [(ngModel)]="newProject.client" required>
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8"></div>
+                        <!-- /.col -->
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat" [disabled]="!addUserForm.form.valid"><i class="fa fa-plus fa-fw"></i> Ajouter</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

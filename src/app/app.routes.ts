@@ -29,7 +29,12 @@ const routes: Routes = [
       {
         canActivate: [CanActivateGuard],
         component: ClientComponent,
-        path: 'client'
+        path: 'clients'
+      },
+      {
+        canActivate: [CanActivateGuard],
+        component: ClientComponent,
+        path: 'clients/:id'
       },
       {
         canActivate: [CanActivateGuard],
