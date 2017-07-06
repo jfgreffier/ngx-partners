@@ -79,7 +79,7 @@
     <div class="modal-dialog-header">Ajout d'un projet</div>
     <div class="modal-dialog-body">
         <form>
-            <div class="form-group" *ngFor="let project of projects | async">
+            <div class="form-group" *ngFor="let project of projects">
                 <div class="checkbox">
                     <label for="project_{{project.id}}"
                         [attr.title]="isShown(project) ? 'Ce projet est déjà présent' : ''"

@@ -6,19 +6,21 @@
                 <h3 class="box-title">Utilisateurs</h3>
             </div>
             <div class="box-body table-responsive no-padding">
-                <table class="table table-hover">
+                <table class="table table-hover table-striped">
                     <tbody>
                         <tr>
                             <th style="width: 80px;">Avatar</th>
                             <th style="width: 50px;">Id</th>
+                            <th>Nom d'utilisateur</th>
                             <th>Prénom</th>
                             <th>Nom</th>
                             <th>Email</th>
                             <th style="width: 280px;">Actions</th>
                         </tr>
-                        <tr *ngFor="let user of users | async" class="user-entry">
+                        <tr *ngFor="let user of users" class="user-entry">
                             <td><avatar [user]="user"></avatar></td>
                             <td>{{user.id}}</td>
+                            <td>{{user.username}}</td>
                             <td>{{user.firstname}}</td>
                             <td>{{user.lastname}}</td>
                             <td>{{user.email}}</td>

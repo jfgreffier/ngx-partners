@@ -1,35 +1,46 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, ReplaySubject } from 'rxjs/Rx';
 
 import { User } from '../models/user';
+import { Project } from '../models/project';
 
 import { NotificationService } from '../services/notification.service';
 import { RestService } from '../services/rest.service';
 
 @Injectable()
 export class UserDAL {
-  private users: Observable<Array<User>>;
+  public users: ReplaySubject<Array<User>> = new ReplaySubject<Array<User>>( 1 );
 
   constructor(private rest: RestService, private notif: NotificationService) { }
 
-  public readAll = (): Observable<Array<User>> => {
-    this.users = this.rest.getAll('users');
-    return this.users;
+  public readAll = () => {
+    this.rest.getAll('users').first().toPromise().then(users => {
+      let array = new Array<User>();
+      users.forEach(u => { array.push(new User(u)); });
+      this.users.next(array);
+    });
   }
 
-  public create = (newUser: User): Observable<Array<User>> => {
-    return this.users = Observable.combineLatest(
-      this.users,
-      this.rest.add('users', newUser),
-      (array, res) => {
-        this.notif.success('L\'utilisateur a bien été créé.');
-        let u: User = res;
-        array.push(u);
-        return array;
-      }
-    ).catch((err, res) => {
+  public readByActivity = (project: Project): Promise<Array<User>> => {
+    return this.rest.getAll('users', '/by-activity/' + project.id).first().toPromise().then(users => {
+      let array = new Array<User>();
+      users.forEach(u => { array.push(new User(u)); });
+      this.users.next(array);
+      return users;
+    });
+  }
+
+  public create = (newUser: User) => {
+    this.rest.add('users', newUser).first().toPromise().then((res) => {
+      this.notif.success('L\'utilisateur a bien été créé.');
+      let u: User = new User(res.user);
+
+      this.users.first().subscribe(users => {
+        users.push(u);
+        this.users.next(users);
+      });
+    }).catch((err) => {
       this.notif.error('Erreur lors de la création : ' + err);
-      return res;
     });
   }
 

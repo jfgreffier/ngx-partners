@@ -13,16 +13,23 @@ import { Configuration } from '../../app.constants';
   templateUrl: './project.component.html'
 })
 export class ProjectComponent implements OnInit, OnDestroy {
-  private projects: Observable<Array<Project>>;
+  protected projects: Array<Project>;
+
+  protected newProject: Project;
 
   constructor(private dal: ProjectDAL, private breadServ: BreadcrumbService) {
 
   }
 
   public ngOnInit() {
-    this.projects = this.dal.readAll();
+    this.dal.readAll();
+    this.dal.projects.subscribe((projects) => { this.projects = projects; });
+
+    this.newProject = new Project();
+
     this.breadServ.set({
       description: 'This is our Projects page',
+      header: 'Gestion des projets',
       display: true,
       levels: [
         {
@@ -46,7 +53,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   private save = (project: Project): void => {
-    this.dal.update(project.id, project);
+
   }
 
   private delete = (project: Project): void => {

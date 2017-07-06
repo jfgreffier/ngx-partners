@@ -15,9 +15,9 @@ import { UserDAL } from '../../dal/user.dal';
 })
 export class UserComponent implements OnInit {
 
-  private users: Promise<Array<User>>;
+  protected users: Array<User>;
 
-  private newUser: User;
+  protected newUser: User;
 
   constructor(
     private breadServ: BreadcrumbService,
@@ -26,7 +26,9 @@ export class UserComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.users = this.userDal.readAll().toPromise();
+    this.userDal.readAll();
+
+    this.userDal.users.subscribe((clients) => { this.users = clients; });
 
     this.newUser = new User();
 
@@ -49,7 +51,7 @@ export class UserComponent implements OnInit {
   }
 
   public addUser(){
-    this.users = this.userDal.create(this.newUser).toPromise();
+    this.userDal.create(this.newUser);
   }
 
 }

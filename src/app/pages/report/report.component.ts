@@ -24,7 +24,7 @@ class Day {
 export class ReportComponent implements OnInit {
 
   private activities: Promise<Array<Project>>;
-  private projects: Promise<Array<Project>>;
+  protected projects: Array<Project>;
   private shownProjects: Array<Project>;
   private shownActivities: Array<Project>;
   private days: Array<Day>;
@@ -51,7 +51,7 @@ export class ReportComponent implements OnInit {
     this.days = new Array<Day>();
     this.shownProjects = new Array<Project>();
     this.shownActivities = new Array<Project>();
-    this.projects = Observable.of(new Array<Project>()).toPromise();
+    this.projects = new Array<Project>();
     this.values = new Object();
     this.dayError = new Array<boolean>();
 
@@ -95,11 +95,12 @@ export class ReportComponent implements OnInit {
     this.currentMonth = month;
     this.currentMonthName = CalendarHelper.monthName(this.currentMonth) + " " + this.currentMonth.getFullYear();
 
-    this.projects = this.projectDal.readAll().toPromise();
+    this.projectDal.readAll();
+    this.projectDal.projects.subscribe((projects) => { this.projects = projects; });
 
     this.dayError = new Array<boolean>(CalendarHelper.daysInMonth(this.currentMonth));
 
-    this.projects.then(parray => {
+    this.projectDal.projects.subscribe(parray => {
       let usedProject = Object();
 
       parray.forEach(p => {
@@ -140,7 +141,7 @@ export class ReportComponent implements OnInit {
   }
 
   public addProject(): void{
-    this.projects.then(projects => {
+    this.projectDal.projects.first().subscribe(projects => {
       let project = projects.find(it => {
         return it.id == this.selectedProjectId;
       })
@@ -206,7 +207,7 @@ export class ReportComponent implements OnInit {
   }
 
   public checkValidity(day: number){
-    this.projects.then(projects => {
+    this.projectDal.projects.first().subscribe(projects => {
       this.activities.then(activities => {
         let sum: number = 0;
 

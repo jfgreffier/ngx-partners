@@ -47,12 +47,13 @@ export class RestService {
 
 
     // REST functions
-    public getAll(entity: string): Observable<any[]> {
-        this.modelName = entity;
+    public getAll(entity: string, uri?: string): Observable<any[]> {
+        uri = uri || '';
+        this.modelName = entity + uri;
         return this.http.get(this.getActionUrl())
             .map((response: Response) => {
               // getting an array having the same name as the model
-              let data = response.json()[this.modelName];
+              let data = response.json()[entity];
               // transforming the array from indexed to associative
               let tab = data;
               this.lastGetAll = tab;
@@ -60,7 +61,7 @@ export class RestService {
                 data: tab,
                 date: Date.now()
               };
-              localStorage.setItem( 'rest_all_' + this.modelName, JSON.stringify(obj) );
+              localStorage.setItem( 'rest_all_' + this.modelName + uri, JSON.stringify(obj) );
               return tab;
             })
             .catch(this.handleError);

@@ -1,51 +1,50 @@
 import { Injectable } from '@angular/core';
 import { RestService } from '../services/rest.service';
-import { Project } from '../models/project';
 import { NotificationService } from '../services/notification.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable, ReplaySubject } from 'rxjs/Rx';
+
+import { Project } from '../models/project';
+import { Client } from '../models/client';
 
 @Injectable()
 export class ProjectDAL {
-  private projects: Observable<Array<Project>>;
+  public projects: ReplaySubject<Array<Project>> = new ReplaySubject<Array<Project>>( 1 );
 
   constructor(private rest: RestService, private notif: NotificationService) { }
 
-  public readAll = (): Observable<Array<Project>> => {
-    this.projects = this.rest.getAll('projects');
-    return this.projects;
+  public readAll = () => {
+    this.rest.getAll('projects').toPromise().then(projects => {
+      let array = new Array<Project>();
+      projects.forEach(p => { array.push(new Project(p)); });
+      this.projects.next(array);
+    });
+  }
+
+  public readByClient = (client: Client) => {
+    if (!client) return;
+
+    this.rest.getAll('projects', '/by-client/' + client.id).first().toPromise().then(projects => {
+      let array = new Array<Project>();
+      projects.forEach(p => { array.push(new Project(p)); });
+      this.projects.next(array);
+    });
   }
 
   public read = (id: number): Observable<Project> => {
     return this.rest.get('projects', id);
   }
 
-  public create = (newProject: Project): Observable<Array<Project>> => {
-    this.rest.add('projects', newProject).toPromise().then(r => {
-      this.notif.success('New project has been added');
-      let project: Project = r;
+  public create = (newProject: Project) => {
+    this.rest.add('users', newProject).first().toPromise().then((res) => {
+      this.notif.success('Le projet a bien été créé.');
+      let u: Project = new Project(res.project);
 
-      this.projects = this.projects.map(parray => {
-        parray.push(project);
-        return parray;
+      this.projects.first().subscribe(users => {
+        users.push(u);
+        this.projects.next(users);
       });
-      this.projects.publish();
-    });
-
-    return this.projects;
-  }
-
-  public update = (id: number, project: Project): void => {
-    this.rest.update('projects', id, project).toPromise().then(resp => {
-      let project: Project = resp;
-      this.notif.success('Project ' + project.name + ' has been updated');
-
-   /* this.projects.map(parray => {
-        parray.forEach(p => {
-          if (p.id !== project.id) return;
-
-          p = project;
-        });
-      });*/
+    }).catch((err) => {
+      this.notif.error('Erreur lors de la création : ' + err);
     });
   }
 
