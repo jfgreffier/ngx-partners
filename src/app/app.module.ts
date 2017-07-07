@@ -5,10 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AlertModule, DatepickerModule } from 'ng2-bootstrap';
-import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
-import { environment } from '../environments/environment';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
 export function createTranslateLoader( http: Http ) {
@@ -22,7 +20,6 @@ let modules = [
     FormsModule,
     HttpModule,
     RouterModule,
-    AngularFireModule.initializeApp( environment.firebase ),
     TranslateModule.forRoot({
         deps: [Http],
         provide: TranslateLoader,
