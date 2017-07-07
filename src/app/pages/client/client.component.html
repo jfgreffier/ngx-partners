@@ -4,7 +4,7 @@
             <div class="box-header with-border">
                 <i class="fa fa-users"></i>
                 <h3 class="box-title">Liste des clients</h3>
-                <button type="button" class="pull-right btn btn-sm btn-success"><i class="fa fa-fw fa-plus"></i>&nbsp;Nouveau client</button>
+                <button type="button" class="pull-right btn btn-sm btn-success" (click)="editClientModal.show()"><i class="fa fa-fw fa-plus"></i>&nbsp;Nouveau client</button>
             </div>
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover table-striped">
@@ -19,15 +19,20 @@
                             <td (click)="selectClient(client)">{{client.name}}</td>
                             <td class="text-right">
                                 <button title="Supprimer" data-toggle="tooltip" type="button" class="btn btn-xs btn-danger"
-                                    (click)="deleteClient(client)"><i class="fa fa-fw fa-times"></i></button>
+                                    (click)="removeClientModal.show(client);"><i class="fa fa-fw fa-times"></i></button>
                                 <button title="Modifier" data-toggle="tooltip" type="button" class="btn btn-xs btn-primary"
-                                    (click)="editClient(client)"><i class="fa fa-fw fa-pencil"></i></button>
+                                    (click)="editClientModal.show(client)"><i class="fa fa-fw fa-pencil"></i></button>
                                 <button title="Sélectionner" data-toggle="tooltip" type="button" class="btn btn-xs btn-primary"
                                     (click)="selectClient(client)"><i class="fa fa-fw fa-arrow-circle-right"></i></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="col-md-12" [hidden]="clients.length">
+                    <p class="text-muted" style="text-align: center;">
+                        <br /><i>Il n'y a aucun client enregistré. <a (click)="editClientModal.show()"><i class="fa fa-plus fa-fw"></i> Ajouter un client</a> ?</i>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -113,3 +118,41 @@
 		</div>
 	</div>
 </div>
+
+<modal-dialog #editClientModal color="default">
+    <div class="modal-dialog-header" *ngIf="!editClientModal.entity.id">Création d'un nouveau client</div>
+    <div class="modal-dialog-header" *ngIf="editClientModal.entity.id">Edition d'un client</div>
+    <div class="modal-dialog-body">
+        <form #editUserForm="ngForm">
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Nom du client" name="name" [(ngModel)]="editClientModal.entity.name" required>
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+        </form>
+    </div>
+    <div class="modal-dialog-footer">
+        <button type="button" class="btn btn-default" (click)="editClientModal.hide()">Retour</button>
+        <button *ngIf="!editClientModal.entity.id" type="button" class="btn btn-success"
+            (click)="createClient(editClientModal.entity); editClientModal.hide()" [disabled]="!editUserForm.form.valid">
+            <i class="fa fa-plus fa-fw"></i> Ajouter le client
+        </button>
+        <button *ngIf="editClientModal.entity.id" type="button" class="btn btn-success"
+            (click)="editClient(editClientModal.entity); editClientModal.hide()" [disabled]="!editUserForm.form.valid">
+            <i class="fa fa-plus fa-fw"></i> Sauvegarder
+        </button>
+    </div>
+</modal-dialog>
+
+<modal-dialog #removeClientModal color="danger">
+    <div class="modal-dialog-header">Suppression d'un client</div>
+    <div class="modal-dialog-body" *ngIf="removeClientModal.entity">
+        <i class="fa fa-exclamation-circle fa-fw"></i>
+        Etes vous sûr de vouloir supprimer le client <b>{{removeClientModal.entity.name}}</b> ?.<br />
+        Cette action est irreversible et aura pour effet de supprimer également tous les projets de <b>{{removeClientModal.entity.name}}</b>
+        ainsi que leurs données associées (rapports d'activités, ...).
+    </div>
+    <div class="modal-dialog-footer" *ngIf="removeClientModal.entity">
+        <button type="button" class="btn btn-default" (click)="removeClientModal.hide()">Annuler</button>
+        <button type="button" class="btn btn-danger" (click)="deleteClient(removeClientModal.entity); removeClientModal.hide()"><i class="fa fa-upload fa-fw"></i> Confirmer la suppression</button>
+    </div>
+</modal-dialog>

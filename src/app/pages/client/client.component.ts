@@ -54,7 +54,8 @@ export class ClientComponent implements OnInit, OnDestroy {
           levels.push({ icon: 'user', link: ['/clients', ''+client.id],  title: client.name })
 
         this.breadServ.set({
-          description: 'This is our Client page',
+          header: 'Gestion des clients',
+          description: client ? client.name : '',
           display: true,
           levels
         });
@@ -108,14 +109,22 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   public editClient(c: Client): void {
+    this.clientDal.save(c);
   }
 
   public deleteClient(c: Client): void {
-    if (this.selectedClient && this.selectedClient.id === c.id)
-      this.router.navigate(['/clients']);
+    this.clientDal.delete(c).then(any => {
+      if (this.selectedClient && this.selectedClient.id === c.id)
+        this.router.navigate(['/clients']);
+    });
   }
 
-  private add = (): void => {
+  public createClient(data: Object): void {
+    let newClient = new Client(data);
 
+    this.clientDal.create(newClient).then((client: Client) => {
+      this.selectClient(client);
+    });
+    newClient = new Client();
   }
 }

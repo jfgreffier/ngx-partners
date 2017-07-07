@@ -11,11 +11,14 @@ export class ModalDialogComponent {
   public visible = false;
   private visibleAnimate = false;
 
+  protected entity = {};
+
   @Input() private color: string = "default";
 
   constructor(){}
 
-  public show(): void {
+  public show(entity?: Object): void {
+    this.entity = new Object(entity) || new Object;
     this.visible = true;
     setTimeout(() => this.visibleAnimate = true, 100);
   }
