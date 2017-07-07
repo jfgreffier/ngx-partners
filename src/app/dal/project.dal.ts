@@ -34,9 +34,9 @@ export class ProjectDAL {
     return this.rest.get('projects', id);
   }
 
-  public create = (newProject: Project) => {
-    this.rest.add('users', newProject).first().toPromise().then((res) => {
-      this.notif.success('Le projet a bien été créé.');
+  public create = (newProject: Project): Promise<any> => {
+    return this.rest.add('projects', newProject.flat()).first().toPromise().then((res) => {
+      this.notif.success('Le projet "' + newProject.name + '" a bien été créé.');
       let u: Project = new Project(res.project);
 
       this.projects.first().subscribe(users => {
@@ -48,9 +48,24 @@ export class ProjectDAL {
     });
   }
 
-  public delete = (project: Project): void => {
-    this.rest.delete('projects', project.id).toPromise().then(resp =>
-      this.notif.success('Project ' + project.name + ' has been deleted')
-    );
+  public delete = (project: Project): Promise<void> => {
+    return this.rest.delete('projects', project.id).toPromise().then(resp => {
+      this.notif.success('Le projet ' + project.name + ' a bien été supprimé.')
+
+      this.projects.first().subscribe(projects => {
+        let index = projects.indexOf(project);
+        if (index > -1) projects.splice(index, 1);
+
+        this.projects.next(projects);
+      });
+    });
+  }
+
+  public save = (project: Project) => {
+    return this.rest.update('projects', project.id, project.flat()).toPromise().then(any => {
+      this.notif.success('Le projet ' + project.name + ' a bien été sauvegardé.')
+    }).catch((err) => {
+      this.notif.error('Erreur lors de la sauvegarde : ' + err);
+    });
   }
 }

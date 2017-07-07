@@ -17,12 +17,16 @@
                         </tr>
                         <tr *ngFor="let project of projects">
                             <td>{{project.id}}</td>
-                            <td></td>
+                            <td>{{project.client.name}}</td>
                             <td>{{project.name}}</td>
-                            <td><small class="label bg-green">Actif</small></td>
+                            <td>
+                                <small *ngIf="project.isActive()" class="label bg-green">Actif</small>
+                                <small *ngIf="!project.isActive()" class="label bg-yellow">Archivé</small>
+                            </td>
                             <td>
                                 <div class="btn-group">
-                                    <button class="btn btn-sm" type="button"><i class="fa fa-fw fa-external-link"></i> Modifier</button>
+                                    <button class="btn btn-sm btn-warning" type="button" (click)="removeProjectModal.show(project)"><i class="fa fa-fw fa-times"></i> Supprimer</button>
+                                    <button class="btn btn-sm btn-default" type="button" (click)="editProjectModal.show(project)"><i class="fa fa-fw fa-external-link"></i> Modifier</button>
                                 </div>
                             </td>
                         </tr>
@@ -38,20 +42,24 @@
                 <h3 class="box-title">Ajouter un projet</h3>
             </div>
             <div class="box-body">
-                <form #addUserForm="ngForm" (ngSubmit)="add()">
+                <form #addProjectForm="ngForm" (ngSubmit)="add()">
                     <div class="form-group has-feedback">
+                        <label for="name">Nom</label>
                         <input type="text" class="form-control" placeholder="Nom du projet" name="name" [(ngModel)]="newProject.name" required>
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        <span class="fa fa-tag form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="text" class="form-control" placeholder="Client" name="client" [(ngModel)]="newProject.client" required>
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <label for="client">Client</label>
+                        <select class="form-control" placeholder="Client" name="client" [(ngModel)]="newProject.client" required>
+                            <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
+                        </select>
+                        <span class="fa fa-suitcase form-control-feedback"></span>
                     </div>
                     <div class="row">
                         <div class="col-xs-8"></div>
                         <!-- /.col -->
                         <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat" [disabled]="!addUserForm.form.valid"><i class="fa fa-plus fa-fw"></i> Ajouter</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-flat" [disabled]="!addProjectForm.form.valid"><i class="fa fa-plus fa-fw"></i> Ajouter</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -60,3 +68,52 @@
         </div>
     </div>
 </div>
+
+<modal-dialog #removeProjectModal color="danger">
+    <div class="modal-dialog-header">Suppression d'un projet</div>
+    <div class="modal-dialog-body" *ngIf="removeProjectModal.entity">
+        <i class="fa fa-exclamation-circle fa-fw"></i>
+        Etes vous sûr de vouloir supprimer le project <b>{{removeProjectModal.entity.name}}</b> ?.<br />
+        Cette action est irreversible et aura pour effet de supprimer également
+        toutes les données associées au projet <b>{{removeProjectModal.entity.name}}</b> (rapports d'activités, ...).
+    </div>
+    <div class="modal-dialog-footer" *ngIf="removeProjectModal.entity">
+        <button type="button" class="btn btn-default" (click)="removeProjectModal.hide()">Annuler</button>
+        <button type="button" class="btn btn-danger" (click)="deleteProject(removeProjectModal.entity); removeProjectModal.hide()"><i class="fa fa-upload fa-fw"></i> Confirmer la suppression</button>
+    </div>
+</modal-dialog>
+
+<modal-dialog #editProjectModal color="default">
+    <div class="modal-dialog-header">Edition d'un projet</div>
+    <div class="modal-dialog-body">
+        <form #editProjectForm="ngForm">
+            <div class="form-group has-feedback">
+                <label for="name">Nom</label>
+                <input type="text" class="form-control" placeholder="Nom du projet" name="name" [(ngModel)]="editProjectModal.entity.name" required>
+                <span class="fa fa-tag form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <label for="client">Client</label>
+                <select *ngIf="editProjectModal.entity.client" class="form-control" placeholder="Client" name="client" [(ngModel)]="editProjectModal.entity.client.id" required>
+                    <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
+                </select>
+                <span class="fa fa-suitcase form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <label for="status">Statut</label>
+                <select *ngIf="editProjectModal.entity.id" class="form-control" placeholder="Statut" name="status"
+                    [ngModel]="editProjectModal.entity.getStatus()" (ngModelChange)="editProjectModal.entity.setStatus($event)"required>
+                    <option *ngFor="let status of projectsStatus" [value]="status.value">{{status.name}}</option>
+                </select>
+                <span class="fa fa-wrench form-control-feedback"></span>
+            </div>
+        </form>
+    </div>
+    <div class="modal-dialog-footer">
+        <button type="button" class="btn btn-default" (click)="editProjectModal.hide()">Retour</button>
+        <button type="button" class="btn btn-success"
+            (click)="saveProject(editProjectModal.entity); editProjectModal.hide()" [disabled]="!editProjectForm.form.valid">
+            <i class="fa fa-save fa-fw"></i> Sauvegarder
+        </button>
+    </div>
+</modal-dialog>

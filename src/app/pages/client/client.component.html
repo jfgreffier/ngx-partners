@@ -41,7 +41,7 @@
 			<div class="box-header with-border">
 				<i class="fa fa-folder-open"></i>
 				<h3 class="box-title">{{selectedClient.name}} - Projets</h3>
-                <button type="button" class="pull-right btn btn-sm btn-success"><i class="fa fa-fw fa-plus"></i>&nbsp;Nouveau projet</button>
+                <button type="button" class="pull-right btn btn-sm btn-success" (click)="newProjectModal.show()"><i class="fa fa-fw fa-plus"></i>&nbsp;Nouveau projet</button>
 			</div>
 			<div class="box-body">
                 <ng-container *ngFor="let project of clientProjects">
@@ -72,7 +72,7 @@
                 </ng-container>
                 <div class="col-md-12" [hidden]="getNbActive()">
                     <p class="text-muted">
-                        <i>Ce client de possède aucun projet. <a><i class="fa fa-plus fa-fw"></i> Ajouter un projet</a> ?</i>
+                        <i>Ce client de possède aucun projet. <a (click)="newProjectModal.show()"><i class="fa fa-plus fa-fw"></i> Ajouter un projet</a> ?</i>
                     </p>
                 </div>
 			</div>
@@ -138,7 +138,7 @@
         </button>
         <button *ngIf="editClientModal.entity.id" type="button" class="btn btn-success"
             (click)="editClient(editClientModal.entity); editClientModal.hide()" [disabled]="!editUserForm.form.valid">
-            <i class="fa fa-plus fa-fw"></i> Sauvegarder
+            <i class="fa fa-save fa-fw"></i> Sauvegarder
         </button>
     </div>
 </modal-dialog>
@@ -154,5 +154,25 @@
     <div class="modal-dialog-footer" *ngIf="removeClientModal.entity">
         <button type="button" class="btn btn-default" (click)="removeClientModal.hide()">Annuler</button>
         <button type="button" class="btn btn-danger" (click)="deleteClient(removeClientModal.entity); removeClientModal.hide()"><i class="fa fa-upload fa-fw"></i> Confirmer la suppression</button>
+    </div>
+</modal-dialog>
+
+<modal-dialog #newProjectModal color="default">
+    <div class="modal-dialog-header">Création d'un projet</div>
+    <div class="modal-dialog-body">
+        <form #newProjectForm="ngForm">
+            <div class="form-group has-feedback">
+                <label for="name">Nom</label>
+                <input type="text" class="form-control" placeholder="Nom du projet" name="name" [(ngModel)]="newProjectModal.entity.name" required>
+                <span class="fa fa-tag form-control-feedback"></span>
+            </div>
+        </form>
+    </div>
+    <div class="modal-dialog-footer">
+        <button type="button" class="btn btn-default" (click)="newProjectModal.hide()">Retour</button>
+        <button type="button" class="btn btn-success"
+            (click)="addProject(newProjectModal.entity); newProjectModal.hide()" [disabled]="!newProjectForm.form.valid">
+            <i class="fa fa-plus fa-fw"></i> Créer le projet
+        </button>
     </div>
 </modal-dialog>

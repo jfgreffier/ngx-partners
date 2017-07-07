@@ -127,4 +127,11 @@ export class ClientComponent implements OnInit, OnDestroy {
     });
     newClient = new Client();
   }
+
+  public addProject(project: Project) {
+    project.status = Project.StatusActive;
+    project.client = this.selectedClient;
+
+    this.projectDal.create(new Project(project));
+  }
 }

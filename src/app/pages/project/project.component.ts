@@ -1,34 +1,46 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Project } from '../../models/project';
+
 import { BreadcrumbService } from '../../services/breadcrumb.service';
 import { RestService } from "../../services/rest.service";
-import { ProjectDAL } from '../../dal/project.dal';
 
-import { Configuration } from '../../app.constants';
+import { ProjectDAL } from '../../dal/project.dal';
+import { ClientDAL } from '../../dal/client.dal';
+
+import { Project } from '../../models/project';
+import { Client } from '../../models/client';
 
 @Component({
-  providers: [ProjectDAL],
+  providers: [ProjectDAL, ClientDAL],
   selector: 'app-project',
   templateUrl: './project.component.html'
 })
 export class ProjectComponent implements OnInit, OnDestroy {
   protected projects: Array<Project>;
+  protected clients: Array<Client>;
 
   protected newProject: Project;
+  protected projectsStatus: Array<Object> = new Array<Object>();
 
-  constructor(private dal: ProjectDAL, private breadServ: BreadcrumbService) {
-
+  constructor(
+    private projectDal: ProjectDAL,
+    private clientDal: ClientDAL,
+    private breadServ: BreadcrumbService
+  ) {
   }
 
   public ngOnInit() {
-    this.dal.readAll();
-    this.dal.projects.subscribe((projects) => { this.projects = projects; });
+    this.projectDal.readAll();
+    this.projectDal.projects.subscribe((projects) => { this.projects = projects; });
+
+    this.clientDal.readAll();
+    this.clientDal.clients.subscribe((clients) => { this.clients = clients; });
 
     this.newProject = new Project();
 
+    this.projectsStatus = Project.statusArray();
+
     this.breadServ.set({
-      description: 'This is our Projects page',
       header: 'Gestion des projets',
       display: true,
       levels: [
@@ -39,7 +51,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
         },
         {
           icon: 'clock-o',
-          link: ['/project'],
+          link: ['/projects'],
           title: 'Project'
         }
       ]
@@ -52,15 +64,18 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.projects = null;
   }
 
-  private save = (project: Project): void => {
-
+  private saveProject = (project: Project): void => {
+    this.projectDal.save(new Project(project));
   }
 
-  private delete = (project: Project): void => {
-    this.dal.delete(project);
+  private deleteProject = (project: Project): void => {
+    this.projectDal.delete(project);
   }
 
   private add = (): void => {
-    this.dal.create(new Project());
+    this.newProject.status = Project.StatusActive;
+    this.projectDal.create(new Project(this.newProject)).then(any => {
+      this.newProject = new Project();
+    });
   }
 }
