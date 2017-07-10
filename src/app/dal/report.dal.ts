@@ -4,8 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { RestService } from '../services/rest.service';
 import { NotificationService } from '../services/notification.service';
 
-import { ProjectDAL } from '../dal/project.dal';
-
 import { Project } from '../models/project';
 import { Report } from '../models/report';
 
@@ -14,7 +12,6 @@ export class ReportDAL {
   constructor(
     private rest: RestService,
     private notif: NotificationService,
-    private projectDAL: ProjectDAL,
   ) {
   }
 

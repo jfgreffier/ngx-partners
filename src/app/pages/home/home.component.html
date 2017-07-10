@@ -1,8 +1,66 @@
-<div class="box box-default"><div class="box-body"><p>
-	home works!
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-xs-6">
+        <a [routerLink]="['/report']">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{reportMonth}} <span style="font-size: 25px">{{reportYear}}</span></h3>
 
-	<alert type="info">Hello from ng2-bootstrap {{
-	date.toDateString() }}</alert>
+                    <p>Compte rendu d'activité</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <span class="small-box-footer">Accéder <i class="fa fa-arrow-circle-right"></i></span>
+            </div>
+        </a>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-md-4 col-xs-6">
+        <a href="https://mail.ovh.net/roundcube/" target="_blank">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>2 <span style="font-size: 25px">Mails non lus</span></h3>
 
-	<datepicker [(ngModel)]="date" showWeeks="true"></datepicker>
-</p></div></div>
+                    <p>Webmail slickteam.fr</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-envelope"></i>
+                </div>
+                <span class="small-box-footer">Se connecter <i class="fa fa-arrow-circle-right"></i></span>
+            </div>
+        </a>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-md-4 col-xs-6">
+        <a href="http://blog.slickteam.fr" target="_blank">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>Blog</h3>
+
+                    <p>Medium Slickteam</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-rss"></i>
+                </div>
+                <span class="small-box-footer">Consulter <i class="fa fa-arrow-circle-right"></i></span>
+            </div>
+        </a>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-md-4 col-xs-6">
+        <a href="#">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>Documents</h3>
+
+                    <p>Nextcloud Slickteam</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-folder-open"></i>
+                </div>
+                <span class="small-box-footer">Se connecter <i class="fa fa-arrow-circle-right"></i></span>
+            </div>
+        </a>
+    </div>
+<!-- ./col -->
+</div>

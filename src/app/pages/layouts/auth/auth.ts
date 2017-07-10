@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '../../../models/user';
 import { UserService } from '../../../services/user.service';
 import { LoggerService } from '../../../services/logger.service';
@@ -14,14 +15,23 @@ export class LayoutsAuthComponent implements OnInit {
     private logger: LoggerService;
     protected mylinks: Array<any> = [];
 
+    private currentUrl: string;
+
     constructor(
       private userServ: UserService,
       private toastr: ToasterService,
+      private router: Router,
     ) {
         this.toastrConfig = new ToasterConfig( {
             newestOnTop: true,
             showCloseButton: true,
             tapToDismiss: false
+        });
+        this.router.events.subscribe((evt: any) => {
+            this.currentUrl = evt.url
+
+            if (this.currentUrl === '' || this.currentUrl === '/')
+                this.router.navigate(['/home']);
         });
     }
 
@@ -72,6 +82,8 @@ export class LayoutsAuthComponent implements OnInit {
           },
         ];
 
+        if (this.currentUrl === '' || this.currentUrl === '/')
+            this.router.navigate(['/home']);
     }
 
     protected detectIE(): any {
