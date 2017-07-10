@@ -14,7 +14,7 @@ export class CalendarHelper {
     return new Date(anyDate.getFullYear(), anyDate.getMonth() + 1, 0).getDate();
   }
 
-  public static monthName(month): string{
+  public static monthName(month: any): string{
     let m: number = month.getMonth() || month;
 
     return CalendarHelper.monthNames[m];
@@ -52,7 +52,7 @@ export class CalendarHelper {
     CalendarHelper.bankHolidays = r;
   }
 
-  public static eastern_computus(y): Date {
+  public static eastern_computus(y: number): Date {
         var date, a, b, c, m, d;
 
         // Instantiate the date object.

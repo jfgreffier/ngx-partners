@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import '../styles.less';
+
 @Component( {
     selector: 'app-root',
     templateUrl: './app.component.html'

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BreadcrumbService } from '../../services/breadcrumb.service';
 
 import { Project } from "../../models/project";
+import { Report } from "../../models/report";
 
 import { ProjectDAL } from '../../dal/project.dal';
 import { ReportDAL } from '../../dal/report.dal';
@@ -114,9 +115,9 @@ export class ReportComponent implements OnInit {
 
       let serverSideReport = this.reportDal.readMonth(this.currentMonth.getFullYear(), this.currentMonth.getMonth());
 
-      serverSideReport.then(reports => {
+      serverSideReport.then((reports: Array<Report>) => {
 
-        reports.forEach(report => {
+        reports.forEach((report: Report) => {
           this.values[report.activity][report.date.getDate()] = report.duration;
           usedProject[report.activity] = true;
         });
@@ -190,7 +191,7 @@ export class ReportComponent implements OnInit {
     this.values[project.id][day.day] = value;
   }
 
-  public checkInput(event, project: Project, day: Day): void{
+  public checkInput(event: any, project: Project, day: Day): void{
     if (isNaN(parseFloat(event.target.value)) || event.target.value == ""){
       // force input revaluation
       if (event.target.value == "") this.values[project.id][day.day] = 0;
@@ -208,7 +209,7 @@ export class ReportComponent implements OnInit {
 
   public checkValidity(day: number){
     this.projectDal.projects.first().subscribe(projects => {
-      this.activities.then(activities => {
+      this.activities.then((activities: Array<Project>) => {
         let sum: number = 0;
 
         projects.forEach(it => {

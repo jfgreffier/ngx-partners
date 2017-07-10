@@ -10,8 +10,8 @@ import { AuthenticationService } from '../../services/authentication.service';
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
-  private password: string;
-  private username: string;
+  protected password: string;
+  protected username: string;
 
   protected error: string;
 
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     this.authentication.authenticate(this.username, this.password)
       .subscribe(
         data => {
-          localStorage.setItem('id_token', data.token);
+          localStorage.setItem('token', data.token);
           this.updateUser();
         },
         error => {

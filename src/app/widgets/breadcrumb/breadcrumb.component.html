@@ -4,12 +4,12 @@
     <small>{{ description }}</small>
   </h1>
   <ol class="breadcrumb">
-    <template let-item ngFor [ngForOf]="levels">
+    <ng-template let-item ngFor [ngForOf]="levels">
       <li [class.active]="item.active">
         <a [routerLink]="item.link">
           <i *ngIf="item.icon !=null" class="fa fa-{{item.icon}}"></i> {{ item.title }}
         </a>
       </li>
-    </template>
+    </ng-template>
   </ol>
 </section>

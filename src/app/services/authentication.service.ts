@@ -30,7 +30,7 @@ export class AuthenticationService {
   }
 
   logout() {
-    localStorage.removeItem('id_token');
+    localStorage.removeItem('token');
   }
 
   loggedIn() {

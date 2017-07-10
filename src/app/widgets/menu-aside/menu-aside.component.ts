@@ -9,14 +9,14 @@ import { UserService } from '../../services/user.service';
   templateUrl: './menu-aside.component.html'
 })
 export class MenuAsideComponent implements OnInit {
-  private currentUrl: string;
-  private currentUser: User = new User();
+  protected currentUrl: string;
+  protected currentUser: User = new User();
 
-  @Input() private links: Array<any> = [];
+  @Input() protected links: Array<any> = [];
 
   constructor(private userServ: UserService, public router: Router) {
     // getting the current url
-    this.router.events.subscribe((evt) => this.currentUrl = evt.url);
+    this.router.events.subscribe((evt: any) => this.currentUrl = evt.url);
     this.userServ.currentUser.subscribe((user) => this.currentUser = user);
   }
 

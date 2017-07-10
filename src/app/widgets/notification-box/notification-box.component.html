@@ -1,9 +1,9 @@
 <!-- Menu toggle button -->
-<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
+<a dropdownToggle class="dropdown-toggle" data-toggle="dropdown"> <i
 	class="fa fa-bell-o"></i> <span class="label label-warning">10</span>
 </a>
-<ul class="dropdown-menu">
-	<li class="header">{{ 'NOTIFBOX.COUNT' | translate:notifLength }}</li>
+<ul *dropdownMenu class="dropdown-menu">
+	<li class="header">Vous disposez de {{notifLength}} notifications</li>
 	<li>
 		<!-- Inner Menu: contains the notifications -->
 		<ul class="menu">
@@ -15,6 +15,5 @@
 			<!-- end notification -->
 		</ul>
 	</li>
-	<li class="footer"><a href="#">{{ 'NOTIFBOX.FOOTER' |
-			translate }}</a></li>
+	<li class="footer"><a href="#">Afficher toutes les notifications</a></li>
 </ul>

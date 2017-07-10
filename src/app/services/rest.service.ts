@@ -33,7 +33,7 @@ export class RestService {
     }
 
 
-    public getFromCache(id): any {
+    public getFromCache(id: number): any {
       if (this.lastGetAll) {
         return this.lastGetAll.find((unit) => unit.id === id);
       } else {

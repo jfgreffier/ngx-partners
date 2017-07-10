@@ -4,27 +4,18 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { AlertModule, DatepickerModule } from 'ng2-bootstrap';
+import { AlertModule, DatepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
-
-export function createTranslateLoader( http: Http ) {
-    return new TranslateStaticLoader( http, '../public/assets/i18n', '.json' );
-}
 
 let modules = [
     AlertModule.forRoot(),
     DatepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule,
-    TranslateModule.forRoot({
-        deps: [Http],
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader)
-    }),
     ToasterModule
 ];
 
@@ -62,7 +53,6 @@ import { MessagesService } from './services/messages.service';
 import { CanActivateGuard } from './services/guard.service';
 import { NotificationService } from './services/notification.service';
 import { BreadcrumbService } from './services/breadcrumb.service';
-import { AdminLTETranslateService } from './services/translate.service';
 import { LoggerService } from './services/logger.service';
 import { RestService } from './services/rest.service';
 import { AuthenticationService } from './services/authentication.service';
@@ -82,7 +72,6 @@ let services = [
     MessagesService,
     CanActivateGuard,
     NotificationService,
-    AdminLTETranslateService,
     LoggerService,
     RestService,
     AuthenticationService,

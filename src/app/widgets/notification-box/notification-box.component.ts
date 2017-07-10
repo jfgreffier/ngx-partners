@@ -12,7 +12,7 @@ import { MessagesService } from '../../services/messages.service';
 export class NotificationBoxComponent implements OnInit {
 
     private messages: Message[];
-    private notifLength: {} = {0: '10'};
+    protected notifLength: {} = {0: '10'};
 
     constructor() {
         // TODO 

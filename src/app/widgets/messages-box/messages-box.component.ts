@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Http } from '@angular/http';
-import { TranslateService } from 'ng2-translate';
 import { MessagesService } from '../../services/messages.service';
 import { LoggerService } from '../../services/logger.service';
 import { Message } from '../../models/message';
@@ -14,8 +13,8 @@ import { Message } from '../../models/message';
 })
 export class MessagesBoxComponent implements OnInit {
     // Declaring the variable for binding with initial value
-    private messages: Message[];
-    private msgLength: {};
+    protected messages: Message[];
+    protected msgLength: {};
 
     constructor( private msgServ: MessagesService, private logger: LoggerService ) {
         this.messages = [];

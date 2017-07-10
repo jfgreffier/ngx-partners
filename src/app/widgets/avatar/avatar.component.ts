@@ -9,9 +9,9 @@ import { User } from "../../models/user";
 })
 export class AvatarComponent implements OnChanges {
 
-  protected avatar = null;
-  protected text;
-  protected color;
+  protected avatar: string = null;
+  protected text: string;
+  protected color: number;
 
   @Input()
   protected allowUpload = false;

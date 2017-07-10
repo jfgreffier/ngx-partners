@@ -4,29 +4,25 @@ import { UserService } from '../../../services/user.service';
 import { LoggerService } from '../../../services/logger.service';
 
 import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
-import { AdminLTETranslateService } from '../../../services/translate.service';
 
 @Component( {
     selector: 'app-layouts-auth',
     templateUrl: './auth.html'
 })
 export class LayoutsAuthComponent implements OnInit {
-    private toastrConfig: ToasterConfig;
+    protected toastrConfig: ToasterConfig;
     private logger: LoggerService;
-    private mylinks: Array<any> = [];
+    protected mylinks: Array<any> = [];
 
     constructor(
       private userServ: UserService,
       private toastr: ToasterService,
-      private translate: AdminLTETranslateService
     ) {
         this.toastrConfig = new ToasterConfig( {
             newestOnTop: true,
             showCloseButton: true,
             tapToDismiss: false
         });
-        // this.translate = translate.getTranslate();
-        // this.logger = new LoggerService( this.translate );
     }
 
     public ngOnInit() {

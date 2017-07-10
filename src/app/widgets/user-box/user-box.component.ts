@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './user-box.component.html'
 })
 export class UserBoxComponent implements OnInit {
-  private currentUser: User = new User();
+  protected currentUser: User = new User();
 
   constructor(private userServ: UserService, private router: Router) {
     // se connecter au modif du user courant
