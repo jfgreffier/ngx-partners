@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
 
   protected error: string;
 
+  protected loginProgress: number = 0;
+
   constructor(
     private userServ: UserService,
     private router: Router,
@@ -28,6 +30,7 @@ export class LoginComponent implements OnInit {
 
   private login() {
     this.error = "";
+    this.loginProgress = 1;
 
     this.authentication.authenticate(this.username, this.password)
       .subscribe(
@@ -36,6 +39,7 @@ export class LoginComponent implements OnInit {
           this.updateUser();
         },
         error => {
+          this.loginProgress = 0;
           if (error.status == 401){ // Unauthorized
               this.error = "credentials";
           }else{
@@ -51,10 +55,11 @@ export class LoginComponent implements OnInit {
     this.userServ.fetchUser().subscribe(
         user => {
           console.log(user.getName() + " logged in!");
-
+          this.loginProgress = 0;
           this.router.navigate(['home']);
         },
         error => {
+          this.loginProgress = 0;
           console.log(error);
           this.error = error._body;
           this.authentication.logout();

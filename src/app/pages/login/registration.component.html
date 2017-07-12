@@ -1,0 +1,99 @@
+<body class="hold-transition login-page">
+  <div class="login-box" >
+    <div class="login-logo">
+      <a href="../../index.html">Slick<b>team</b></a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body" *ngIf="!progress">
+      <p class="login-box-msg">Bienvenue {{firstname}} {{lastname}} !</p>
+
+      <p>Pour terminer votre inscription, vous devez choisir un nom d'utilisateur et un mot de passe.</p>
+
+      <div [hidden]="error != 'token'" class="callout callout-danger">
+        <p>Le token fourni est invalide.</p>
+      </div>
+
+      <form (submit)="register()" [hidden]="error == 'token'">
+
+        <div [hidden]="error != 'fields'" class="callout callout-danger">
+          <p>Tous les champs sont requis.</p>
+        </div>
+
+        <div [hidden]="error != 'credentials'" class="callout callout-danger">
+          <p>Les mots de passes de correspondent pas.</p>
+        </div>
+
+        <div [hidden]="!error || error == 'token' || error == 'credentials' || error == 'fields'" class="callout callout-danger">
+          <h4>Erreur lors de la connexion.</h4>
+          <p>Le token fourni est probablement expiré.</p>
+        </div>
+
+        <div class="form-group has-feedback">
+          <input type="username" class="form-control" placeholder="Nom d'utilisateur" required name="usr" [(ngModel)]="username" #usr="ngModel">
+          <span class="fa fa-user form-control-feedback"></span>
+          <div *ngIf="usr.errors && usr.dirty" class="alert alert-danger">
+              <div [hidden]="!usr.errors.required">
+                Le nom d'utilisateur est requis.
+              </div>
+          </div>
+        </div>
+
+        <div class="form-group has-feedback">
+          <input type="password" class="form-control" placeholder="Mot de passe" required name="passwd" [(ngModel)]="password" #passwd="ngModel">
+          <span class="fa fa-lock form-control-feedback"></span>
+          <div *ngIf="passwd.errors && passwd.dirty"
+               class="alert alert-danger">
+              <div [hidden]="!passwd.errors.required">
+                Le password est requis.
+              </div>
+          </div>
+        </div>
+
+        <div class="form-group has-feedback">
+          <input type="password" class="form-control" placeholder="Confirmation" required name="passwd_check" [(ngModel)]="password_check" #passwd_check="ngModel">
+          <span class="fa fa-lock form-control-feedback"></span>
+          <div *ngIf="passwd_check.errors && passwd_check.dirty"
+               class="alert alert-danger">
+              <div [hidden]="!passwd_check.errors.required">
+                Le password est requis.
+              </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-8"></div>
+          <div class="col-xs-4">
+            <button type="submit" class="btn btn-primary btn-block btn-flat" >Valider</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- /.login-box-body -->
+    <div class="login-box-body" *ngIf="progress == 1">
+        <div class="sk-cube-grid">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+        </div>
+    </div>
+    <div class="login-box-body" *ngIf="progress == 2">
+        <p class="login-box-msg">Bienvenue {{firstname}} {{lastname}} !</p>
+        <div class="callout callout-success">
+            <p>L'inscription s'est terminée avec succès.</p>
+        </div>
+        <div class="row">
+        <div class="col-xs-6"></div>
+            <div class="col-xs-6">
+            <button type="submit" class="btn btn-primary btn-block btn-flat" [routerLink]="['/login']">Se connecter</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- /.login-box -->
+</body>

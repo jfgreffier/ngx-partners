@@ -19,14 +19,34 @@ export class AuthenticationService {
 
   authenticate(username: string, password: string) {
     let url = this.config.serverWithApiUrl + 'login_check';
-    let body 	= new URLSearchParams();
+    let body = new URLSearchParams();
     body.append('username', username);
     body.append('password', password);
-    let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
-    let options = new RequestOptions({headers: headers});
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    let options = new RequestOptions({ headers: headers });
 
-  	return this.http.post(url, body.toString(), options)
-  		.map((data: Response) => data.json());
+    return this.http.post(url, body.toString(), options)
+      .map((data: Response) => data.json());
+  }
+
+  getRegistrationInfo(token: string) {
+    let url = this.config.serverWithApiUrl + 'registration/' + token;
+
+    return this.http.get(url)
+      .map((data: Response) => data.json())
+      .map((data: Object) => data['user']);
+  }
+
+  registrationConfirm(token: string, username: string, password: string) {
+    let url = this.config.serverWithApiUrl + 'registration/' + token;
+
+    let body = new URLSearchParams();
+    body.append('username', username);
+    body.append('password', password);
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(url, body.toString(), options);
   }
 
   logout() {

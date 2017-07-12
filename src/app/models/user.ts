@@ -10,9 +10,6 @@ export class User {
     public creationDate: string;
     public preferredLang: string;
 
-    public password: string;
-    public password_confirmation: string;
-
     public connected: boolean = false;
 
     public constructor( data: any = {}) {

@@ -19,6 +19,8 @@ export class UserComponent implements OnInit {
 
   protected newUser: User;
 
+  protected userFormProgress: number = 0;
+
   constructor(
     private breadServ: BreadcrumbService,
     private userDal: UserDAL,
@@ -51,7 +53,12 @@ export class UserComponent implements OnInit {
   }
 
   public addUser(){
-    this.userDal.create(this.newUser);
+    this.userFormProgress = 1;
+    this.userDal.create(this.newUser).then(() => {
+      this.userFormProgress = 0;
+    }).catch(() => {
+      this.userFormProgress = 0;
+    });
   }
 
 }

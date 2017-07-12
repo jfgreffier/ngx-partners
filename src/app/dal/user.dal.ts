@@ -30,8 +30,8 @@ export class UserDAL {
     });
   }
 
-  public create = (newUser: User) => {
-    this.rest.add('users', newUser).first().toPromise().then((res) => {
+  public create = (newUser: User): Promise<any> => {
+    return this.rest.add('users', newUser).first().toPromise().then((res) => {
       this.notif.success('L\'utilisateur a bien été créé.');
       let u: User = new User(res.user);
 
@@ -40,7 +40,8 @@ export class UserDAL {
         this.users.next(users);
       });
     }).catch((err) => {
-      this.notif.error('Erreur lors de la création : ' + err);
+      console.log(err);
+      this.notif.error('Erreur lors de la création, l\'email n\'est pas unique');
     });
   }
 

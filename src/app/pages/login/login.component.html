@@ -1,11 +1,11 @@
 <body class="hold-transition login-page">
   <div class="login-box" >
     <div class="login-logo">
-      <a href="../../index2.html"><b>Admin</b>LTE</a>
+      <a href="../../index.html">Slick<b>team</b></a>
     </div>
     <!-- /.login-logo -->
-    <div class="login-box-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+    <div class="login-box-body" [hidden]="loginProgress">
+      <p class="login-box-msg">Connectez-vous pour accéder au portail</p>
 
       <form (submit)="login()" >
 
@@ -29,12 +29,12 @@
         </div>
 
         <div class="form-group has-feedback">
-          <input type="password" class="form-control" placeholder="Password" required name="passwd" [(ngModel)]="password" #passwd="ngModel">
+          <input type="password" class="form-control" placeholder="Mot de passe" required name="passwd" [(ngModel)]="password" #passwd="ngModel">
           <span class="fa fa-lock form-control-feedback"></span>
           <div *ngIf="passwd.errors && passwd.dirty"
                class="alert alert-danger">
               <div [hidden]="!passwd.errors.required">
-                Le password est requis
+                Le mot de passe est requis
               </div>
           </div>
         </div>
@@ -48,7 +48,7 @@
           </div>
           <!-- /.col -->
           <div class="col-xs-4">
-            <button type="submit" class="btn btn-primary btn-block btn-flat" >Sign In</button>
+            <button type="submit" class="btn btn-primary btn-block btn-flat" >Connexion</button>
           </div>
           <!-- /.col -->
         </div>
@@ -58,6 +58,20 @@
 
     </div>
     <!-- /.login-box-body -->
+
+    <div class="login-box-body" [hidden]="!loginProgress">
+        <div class="sk-cube-grid">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+        </div>
+    </div>
   </div>
   <!-- /.login-box -->
 </body>

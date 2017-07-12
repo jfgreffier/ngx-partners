@@ -83,6 +83,7 @@ import { ClientComponent } from './pages/client/client.component';
 import { ProjectComponent } from './pages/project/project.component';
 import { LayoutsAuthComponent } from './pages/layouts/auth/auth';
 import { LoginComponent } from './pages/login/login.component';
+import { RegistrationComponent } from './pages/login/registration.component';
 import { UserComponent } from './pages/user/user.component';
 import { ReportComponent } from './pages/report/report.component';
 
@@ -92,6 +93,7 @@ let pages = [
     ProjectComponent,
     LayoutsAuthComponent,
     LoginComponent,
+    RegistrationComponent,
     ReportComponent,
     UserComponent,
 ];

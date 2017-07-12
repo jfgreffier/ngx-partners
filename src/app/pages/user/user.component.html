@@ -44,7 +44,7 @@
                 <h3 class="box-title">Ajouter un utilisateur</h3>
             </div>
             <div class="box-body">
-                <form #addUserForm="ngForm" (ngSubmit)="addUser()">
+                <form #addUserForm="ngForm" (ngSubmit)="addUser()" [hidden]="userFormProgress">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -63,20 +63,8 @@
                         </div>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="text" class="form-control" placeholder="Username" name="username" [(ngModel)]="newUser.username" required>
-                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    </div>
-                    <div class="form-group has-feedback">
                         <input type="email" class="form-control" placeholder="Email" name="email" [(ngModel)]="newUser.email" required>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <input type="password" class="form-control" placeholder="Password" name="password" [(ngModel)]="newUser.password" required>
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <input type="password" class="form-control" placeholder="Retype password" name="password2" [(ngModel)]="newUser.password_confirmation" required>
-                        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
                         <select class="form-control" placeholder="User role" name="role" [(ngModel)]="newUser.role" required>
@@ -94,6 +82,17 @@
                         <!-- /.col -->
                     </div>
                 </form>
+                <div class="sk-cube-grid" [hidden]="!userFormProgress">
+                    <div class="sk-cube sk-cube1"></div>
+                    <div class="sk-cube sk-cube2"></div>
+                    <div class="sk-cube sk-cube3"></div>
+                    <div class="sk-cube sk-cube4"></div>
+                    <div class="sk-cube sk-cube5"></div>
+                    <div class="sk-cube sk-cube6"></div>
+                    <div class="sk-cube sk-cube7"></div>
+                    <div class="sk-cube sk-cube8"></div>
+                    <div class="sk-cube sk-cube9"></div>
+                </div>
             </div>
         </div>
     </div>
