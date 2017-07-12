@@ -4,6 +4,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
 
+let configurator = require('./config.prod.json')
+
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
@@ -34,5 +36,9 @@ module.exports = webpackMerge(commonConfig, {
         minimize: false // workaround for ng2
       }
     })
-  ]
+  ],
+
+  externals: {
+    'Configurator': JSON.stringify(configurator)
+  }
 });

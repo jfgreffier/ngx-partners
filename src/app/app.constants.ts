@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 
+let Configurator = require('Configurator');
+
 @Injectable()
 export class Configuration {
-    public server: string = 'http://127.0.0.1:8000/';
-    public apiUrl: string = 'api/';
+    public server: string = Configurator.api.server;
+    public apiUrl: string = Configurator.api.uri;
     public serverWithApiUrl = this.server + this.apiUrl;
 }

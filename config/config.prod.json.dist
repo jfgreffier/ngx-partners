@@ -1,0 +1,6 @@
+{
+    "api": {
+        "server": "http://www.web.site/",
+        "uri": "api/"
+    }
+}
