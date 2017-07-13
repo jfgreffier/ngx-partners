@@ -5,7 +5,7 @@
         </button>
 	</div>
 	<div class="col-md-12" style="margin-bottom: 10px;">
-        <div class="table-responsive">
+        <div class="table-responsive" [hidden]="reportProgress">
             <table
                 class="table table-striped table-hover table-condensed"
                 style="table-layout: auto;"
@@ -62,13 +62,14 @@
 
             </table>
         </div>
+        <loading-cube class="box-body" [hidden]="!reportProgress"></loading-cube>
         <div class="col-md-12" [hidden]="shownProjects.length">
             <p class="text-muted">
                 <i>Ce tableau ne contient aucun projet client. <a (click)="addProjectModal.show()"><i class="fa fa-plus fa-fw"></i> Ajouter un projet</a> ?</i>
             </p>
         </div>
         <hr>
-        <p align="right">
+        <p align="right" [hidden]="reportProgress">
             <button type="button" class="btn btn-primary" (click)="saveReport()"><i class="fa fa-save fa-fw"></i> Enregistrer</button>
             <button type="button" class="btn btn-warning" (click)="submitReportModal.show()"><i class="fa fa-upload fa-fw"></i> Soumettre pour validation</button>
         </p>

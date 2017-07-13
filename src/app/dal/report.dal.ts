@@ -37,13 +37,13 @@ export class ReportDAL {
     return this.rest.update('reports/me/' + year, month + 1, data);
   }
 
-  public saveReport = (year: number, month: number, rawData: Object) => {
-    this.doSave(year, month, rawData).toPromise().then(() => {
+  public saveReport = (year: number, month: number, rawData: Object): Promise<void> => {
+    return this.doSave(year, month, rawData).toPromise().then(() => {
       this.notif.success('Compte rendu ' + (month + 1) + '/' + year + ' sauvegardé.');
     });
   }
 
-  public submitReport = (year: number, month: number, rawData: Object) => {
+  public submitReport = (year: number, month: number, rawData: Object): Promise<void> => {
     return this.doSave(year, month, rawData).combineLatest(
       this.rest.add('reports/me/' + year + '/' + (month + 1) + '/submit', {})
     ).toPromise().then(obs => {

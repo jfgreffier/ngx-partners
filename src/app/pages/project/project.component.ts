@@ -16,11 +16,14 @@ import { Client } from '../../models/client';
   templateUrl: './project.component.html'
 })
 export class ProjectComponent implements OnInit, OnDestroy {
-  protected projects: Array<Project>;
-  protected clients: Array<Client>;
+  protected projects: Array<Project> = new Array<Project>();
+  protected clients: Array<Client> = new Array<Client>();
 
   protected newProject: Project;
   protected projectsStatus: Array<Object> = new Array<Object>();
+
+  protected projectsProgress: number = 0;
+  protected addProgress: number = 0;
 
   constructor(
     private projectDal: ProjectDAL,
@@ -30,11 +33,19 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    this.projectsProgress = 2;
+
     this.projectDal.readAll();
-    this.projectDal.projects.subscribe((projects) => { this.projects = projects; });
+    this.projectDal.projects.subscribe((projects) => {
+      this.projects = projects;
+      if (this.projectsProgress) this.projectsProgress--;
+    });
 
     this.clientDal.readAll();
-    this.clientDal.clients.subscribe((clients) => { this.clients = clients; });
+    this.clientDal.clients.subscribe((clients) => {
+      this.clients = clients;
+      if (this.projectsProgress) this.projectsProgress--;
+    });
 
     this.newProject = new Project();
 
@@ -65,17 +76,29 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   private saveProject = (project: Project): void => {
-    this.projectDal.save(new Project(project));
+    this.projectsProgress = 1;
+
+    this.projectDal.save(new Project(project))
+      .then(() => this.projectsProgress = 0)
+      .catch(() => this.projectsProgress = 0);
   }
 
   private deleteProject = (project: Project): void => {
-    this.projectDal.delete(project);
+    this.projectsProgress = 1;
+
+    this.projectDal.delete(project)
+      .then(() => this.projectsProgress = 0)
+      .catch(() => this.projectsProgress = 0);
   }
 
   private add = (): void => {
+    this.addProgress = 1;
+
     this.newProject.status = Project.StatusActive;
     this.projectDal.create(new Project(this.newProject)).then(any => {
       this.newProject = new Project();
-    });
+    })
+    .then(() => this.addProgress = 0)
+    .catch(() => this.addProgress = 0);
   }
 }

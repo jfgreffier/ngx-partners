@@ -6,7 +6,7 @@
                 <h3 class="box-title">Liste des clients</h3>
                 <button type="button" class="pull-right btn btn-sm btn-success" (click)="editClientModal.show()"><i class="fa fa-fw fa-plus"></i>&nbsp;Nouveau client</button>
             </div>
-            <div class="box-body table-responsive no-padding">
+            <div class="box-body table-responsive no-padding" [hidden]="clientsProgress">
                 <table class="table table-hover table-striped">
                     <tbody>
                         <tr>
@@ -34,6 +34,7 @@
                     </p>
                 </div>
             </div>
+            <loading-cube class="box-body" [hidden]="!clientsProgress"></loading-cube>
         </div>
     </div>
     <div class="col-md-8" *ngIf="selectedClient">
@@ -43,7 +44,7 @@
 				<h3 class="box-title">{{selectedClient.name}} - Projets</h3>
                 <button type="button" class="pull-right btn btn-sm btn-success" (click)="newProjectModal.show()"><i class="fa fa-fw fa-plus"></i>&nbsp;Nouveau projet</button>
 			</div>
-			<div class="box-body">
+			<div class="box-body" [hidden]="projectsProgress">
                 <ng-container *ngFor="let project of clientProjects">
                     <div class="col-md-12" *ngIf='project.isActive()'>
                         <div class="well" style="padding: 10px; margin: 10px">
@@ -76,13 +77,14 @@
                     </p>
                 </div>
 			</div>
+            <loading-cube class="box-body" [hidden]="!projectsProgress"></loading-cube>
 		</div>
 		<div class="box box-default">
 			<div class="box-header with-border">
 				<i class="fa fa-folder-open"></i>
 				<h3 class="box-title">Projets Archivés</h3>
 			</div>
-            <div class="box-body table-responsive no-padding">
+            <div class="box-body table-responsive no-padding" [hidden]="projectsProgress">
                 <table class="table table-hover table-striped">
                     <tbody>
                         <tr>
@@ -115,6 +117,7 @@
                     </p>
                 </div>
             </div>
+            <loading-cube class="box-body" [hidden]="!projectsProgress"></loading-cube>
 		</div>
 	</div>
 </div>

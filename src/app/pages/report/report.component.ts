@@ -40,6 +40,8 @@ export class ReportComponent implements OnInit {
 
   private dayError: Array<boolean>; // [day.id][project.id] = { -1: invalid, 0: empty, 1: valid}
 
+  protected reportProgress: number = 0;
+
   constructor(
     private breadServ: BreadcrumbService,
     private projectDal: ProjectDAL,
@@ -57,6 +59,8 @@ export class ReportComponent implements OnInit {
     this.dayError = new Array<boolean>();
 
     let info = this.reportDal.readInfo();
+
+    this.reportProgress = 1;
 
     this.activities = Observable.fromPromise(info).map((info: Object) => { return info["activities"]; }).toPromise();
 
@@ -97,11 +101,11 @@ export class ReportComponent implements OnInit {
     this.currentMonthName = CalendarHelper.monthName(this.currentMonth) + " " + this.currentMonth.getFullYear();
 
     this.projectDal.readAll();
-    this.projectDal.projects.subscribe((projects) => { this.projects = projects; });
+    this.projectDal.projects.first().subscribe((projects) => { this.projects = projects; });
 
     this.dayError = new Array<boolean>(CalendarHelper.daysInMonth(this.currentMonth));
 
-    this.projectDal.projects.subscribe(parray => {
+    this.projectDal.projects.first().subscribe(parray => {
       let usedProject = Object();
 
       parray.forEach(p => {
@@ -131,6 +135,8 @@ export class ReportComponent implements OnInit {
           this.checkValidity(i);
 
       });
+
+      this.reportProgress = 0;
     });
 
     for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++){
@@ -169,13 +175,21 @@ export class ReportComponent implements OnInit {
   }
 
   public saveReport(): void{
-    this.reportDal.saveReport(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), this.values);
+    this.reportProgress = 1;
+
+    this.reportDal.saveReport(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), this.values)
+      .then(() => this.reportProgress = 0)
+      .catch(() => this.reportProgress = 0);
   }
 
   public submitReport(): void{
+    this.reportProgress = 1;
+
     this.reportDal.submitReport(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), this.values).then(any => {
       this.ngOnInit();
-    });
+    })
+    .then(() => this.reportProgress = 0)
+    .catch(() => this.reportProgress = 0);
   }
 
   public isShown(p: Project): boolean{
