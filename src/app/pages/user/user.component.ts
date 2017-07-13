@@ -19,6 +19,7 @@ export class UserComponent implements OnInit {
 
   protected newUser: User;
 
+  protected usersProgress: number = 0;
   protected userFormProgress: number = 0;
 
   constructor(
@@ -28,9 +29,14 @@ export class UserComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.usersProgress = 1;
+
     this.userDal.readAll();
 
-    this.userDal.users.subscribe((clients) => { this.users = clients; });
+    this.userDal.users.subscribe((clients) => {
+      this.users = clients;
+      this.usersProgress = 0;
+    });
 
     this.newUser = new User();
 
@@ -61,4 +67,12 @@ export class UserComponent implements OnInit {
     });
   }
 
+  public deleteUser(user: User) {
+    this.usersProgress = 1;
+    this.userDal.delete(user).then(() => {
+      this.usersProgress = 0;
+    }).catch(() => {
+      this.usersProgress = 0;
+    });
+  }
 }

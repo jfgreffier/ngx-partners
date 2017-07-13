@@ -24,10 +24,10 @@
   <!-- Menu Footer-->
   <li class="user-footer">
     <div class="pull-left">
-      <a href="#" class="btn btn-default btn-flat">Profile</a>
+      <a [routerLink]="['/users/', currentUser.id]" class="btn btn-default btn-flat">Profil</a>
     </div>
     <div class="pull-right">
-      <a (click)="logout()" class="btn btn-default btn-flat">Sign out</a>
+      <a (click)="logout()" class="btn btn-default btn-flat">Déconnexion</a>
     </div>
   </li>
 </ul>

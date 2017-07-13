@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col-lg-8 col-md-6">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Profil Utilisateur</h3>
+            </div>
+            <div class="box-body" [hidden]="!user || profileProgress">
+                <form #addUserForm="ngForm" (ngSubmit)="saveUser()" *ngIf="user">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <avatar [(user)]="user" allowUpload=1 class="identicons-big"></avatar>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group has-feedback">
+                                        <label for="firstname">Prénom</label>
+                                        <input type="text" class="form-control" placeholder="Firstname" name="firstname" [(ngModel)]="user.firstname" required>
+                                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label for="lastname">Nom</label>
+                                        <input type="text" class="form-control" placeholder="Lastname" name="lastname" [(ngModel)]="user.lastname" required>
+                                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label for="email">Adresse mail</label>
+                                <input type="email" class="form-control" placeholder="Email" name="email" [(ngModel)]="user.email" required>
+                                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group has-feedback">
+                                <label for="username">Nom d'utilisateur</label>
+                                <input type="text" class="form-control" placeholder="Nom d'utilisateur" name="username" [(ngModel)]="user.username" required>
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br /><br />
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <button type="button" class="btn btn-default btn-block" (click)="editPasswordModal.show()"><i class="fa fa-lock fa-fw"></i> Modifier le mot de passe</button>
+                        </div>
+                        <div class="col-xs-4"></div>
+                        <!-- /.col -->
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block" [disabled]="!addUserForm.form.valid"><i class="fa fa-save fa-fw"></i> Enregistrer les modifications</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+            </div>
+            <loading-cube class="box-body" [hidden]="user && !profileProgress"></loading-cube>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Projets</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Comptes rendus d'activités</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<modal-dialog #editPasswordModal color="default">
+    <div class="modal-dialog-header" *ngIf="user">Changement du mot de passe - {{ user.getName() }}</div>
+    <div class="modal-dialog-body">
+        <form #editPasswordForm="ngForm">
+            <div class="form-group has-feedback">
+                <label for="status">Mot de passe</label>
+                <input type="password" class="form-control" placeholder="Mot de passe" required name="passwd" [(ngModel)]="password" #passwd="ngModel">
+                <span class="fa fa-lock form-control-feedback"></span>
+            </div>
+
+            <div class="form-group has-feedback">
+                <label for="status">Confirmation</label>
+                <input type="password" class="form-control" placeholder="Confirmation" required name="passwd_check" [(ngModel)]="password_check" #passwd_check="ngModel">
+                <span class="fa fa-lock form-control-feedback"></span>
+            </div>
+        </form>
+    </div>
+    <div class="modal-dialog-footer">
+        <button type="button" class="btn btn-default" (click)="editPasswordModal.hide()">Retour</button>
+        <button type="button" class="btn btn-success"
+            (click)="updatePassword(); editPasswordModal.hide()" [disabled]="!editPasswordForm.form.valid">
+            <i class="fa fa-save fa-fw"></i> Confirmer
+        </button>
+    </div>
+</modal-dialog>

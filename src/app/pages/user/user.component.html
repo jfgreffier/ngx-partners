@@ -5,7 +5,7 @@
                 <i class="fa fa-users"></i>
                 <h3 class="box-title">Utilisateurs</h3>
             </div>
-            <div class="box-body table-responsive no-padding">
+            <div class="box-body table-responsive no-padding" *ngIf="!usersProgress">
                 <table class="table table-hover table-striped">
                     <tbody>
                         <tr>
@@ -26,15 +26,15 @@
                             <td>{{user.email}}</td>
                             <td>
                                 <div class="btn-group">
-                                    <button class="btn btn-sm btn-danger" type="button">Supprimer</button>
-                                    <button class="btn btn-sm btn-primary" type="button">Modifier</button>
-                                    <button class="btn btn-sm btn-primary" type="button">Consulter le profil</button>
+                                    <button class="btn btn-sm btn-danger" type="button" (click)="removeUserModal.show(user)">Supprimer</button>
+                                    <a class="btn btn-sm btn-primary" type="button" [routerLink]="['/users/', user.id]">Modifier / Consulter le profil</a>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <loading-cube class="box-body" *ngIf="usersProgress"></loading-cube>
         </div>
     </div>
     <div class="col-md-3">
@@ -82,18 +82,22 @@
                         <!-- /.col -->
                     </div>
                 </form>
-                <div class="sk-cube-grid" [hidden]="!userFormProgress">
-                    <div class="sk-cube sk-cube1"></div>
-                    <div class="sk-cube sk-cube2"></div>
-                    <div class="sk-cube sk-cube3"></div>
-                    <div class="sk-cube sk-cube4"></div>
-                    <div class="sk-cube sk-cube5"></div>
-                    <div class="sk-cube sk-cube6"></div>
-                    <div class="sk-cube sk-cube7"></div>
-                    <div class="sk-cube sk-cube8"></div>
-                    <div class="sk-cube sk-cube9"></div>
-                </div>
+                <loading-cube [hidden]="!userFormProgress"></loading-cube>
             </div>
         </div>
     </div>
 </div>
+
+<modal-dialog #removeUserModal color="danger">
+    <div class="modal-dialog-header">Suppression d'un projet</div>
+    <div class="modal-dialog-body" *ngIf="removeUserModal.entity">
+        <i class="fa fa-exclamation-circle fa-fw"></i>
+        Etes vous sûr de vouloir supprimer l'utilisateur <b>{{ removeUserModal.entity.firstname }} {{ removeUserModal.entity.lastname }}</b> ?.<br />
+        Cette action est irreversible et aura pour effet de supprimer également
+        toutes les données associées au compte <b>{{ removeUserModal.entity.username }}</b> (rapports d'activités, ...).
+    </div>
+    <div class="modal-dialog-footer" *ngIf="removeUserModal.entity">
+        <button type="button" class="btn btn-default" (click)="removeUserModal.hide()">Annuler</button>
+        <button type="button" class="btn btn-danger" (click)="deleteUser(removeUserModal.entity); removeUserModal.hide()"><i class="fa fa-upload fa-fw"></i> Confirmer la suppression</button>
+    </div>
+</modal-dialog>

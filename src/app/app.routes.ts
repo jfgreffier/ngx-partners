@@ -11,6 +11,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegistrationComponent } from './pages/login/registration.component';
 import { ReportComponent } from './pages/report/report.component';
 import { UserComponent } from './pages/user/user.component';
+import { ProfileComponent } from './pages/user/profile.component';
 
 const routes: Routes = [
   // logged routes
@@ -46,6 +47,11 @@ const routes: Routes = [
         canActivate: [CanActivateGuard],
         component: UserComponent,
         path: 'users'
+      },
+      {
+        canActivate: [CanActivateGuard],
+        component: ProfileComponent,
+        path: 'users/:id'
       },
     ],
     component: LayoutsAuthComponent,

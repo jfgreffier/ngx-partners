@@ -30,6 +30,12 @@ export class UserDAL {
     });
   }
 
+  public readById = (id: number): Promise<User> => {
+    return this.rest.get('users', id).first().toPromise().then(data => {
+      return new User(data['user']);
+    });
+  }
+
   public create = (newUser: User): Promise<any> => {
     return this.rest.add('users', newUser).first().toPromise().then((res) => {
       this.notif.success('L\'utilisateur a bien été créé.');
@@ -42,6 +48,46 @@ export class UserDAL {
     }).catch((err) => {
       console.log(err);
       this.notif.error('Erreur lors de la création, l\'email n\'est pas unique');
+    });
+  }
+
+  public update = (user: User): Promise<any> => {
+    return this.rest.update('users', user.id, user).first().toPromise().then((res) => {
+      this.notif.success('Les informations ont bien été enregistrées.');
+      let u: User = new User(res.user);
+
+      this.users.first().subscribe(users => {
+        users.forEach((u: User) => { if (u.id == user.id) u = user; });
+        this.users.next(users);
+      });
+    }).catch((err) => {
+      console.log(err);
+      this.notif.error('Erreur lors de l\'enregistrement');
+    });
+  }
+
+  public updatePassword = (user: User, password: string): Promise<any> => {
+    return this.rest.update('users/password', user.id, { 'password': password }).first().toPromise().then((res) => {
+      this.notif.success('Le mot de passe a bien été modifié.');
+    }).catch((err) => {
+      console.log(err);
+      this.notif.error('Erreur lors de l\'enregistrement');
+    });
+  }
+
+  public delete = (user: User): Promise<void> => {
+    return this.rest.delete('users', user.id).toPromise().then(resp => {
+      this.notif.success('L\'utilisateur' + user.getName() + ' a bien été supprimé.')
+
+      this.users.first().subscribe(users => {
+        let index = users.indexOf(user);
+        if (index > -1) users.splice(index, 1);
+
+        this.users.next(users);
+      });
+    }).catch((err) => {
+      console.log(err);
+      this.notif.error('Erreur lors de la suppression');
     });
   }
 

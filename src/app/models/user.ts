@@ -13,6 +13,7 @@ export class User {
     public connected: boolean = false;
 
     public constructor( data: any = {}) {
+        this.id = data.id || null;
         this.username = data.username || '';
         this.firstname = data.firstname || '';
         this.lastname = data.lastname || '';

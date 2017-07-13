@@ -32,6 +32,7 @@ import { UserBoxComponent } from './widgets/user-box';
 import { BreadcrumbComponent } from './widgets/breadcrumb';
 import { ModalDialogComponent } from './widgets/modal-dialog';
 import { AvatarComponent } from './widgets/avatar';
+import { LoadingCubeComponent } from './widgets/loading-cube';
 
 let widgets = [
     AppComponent,
@@ -46,6 +47,7 @@ let widgets = [
     UserBoxComponent,
     ModalDialogComponent,
     AvatarComponent,
+    LoadingCubeComponent,
 ];
 
 import { UserService } from './services/user.service';
@@ -85,6 +87,7 @@ import { LayoutsAuthComponent } from './pages/layouts/auth/auth';
 import { LoginComponent } from './pages/login/login.component';
 import { RegistrationComponent } from './pages/login/registration.component';
 import { UserComponent } from './pages/user/user.component';
+import { ProfileComponent } from './pages/user/profile.component';
 import { ReportComponent } from './pages/report/report.component';
 
 let pages = [
@@ -96,6 +99,7 @@ let pages = [
     RegistrationComponent,
     ReportComponent,
     UserComponent,
+    ProfileComponent,
 ];
 
 // main bootstrap
