@@ -59,6 +59,9 @@ export class RegistrationComponent implements OnInit {
     }).catch((r: Response) => {
       if (r.status == 200 || r.status == 201) {
         this.progress = 2;
+      } else if (r.status == 400){
+        this.progress = 0;
+        this.error = 'username';
       } else {
         this.progress = 0;
         this.error = 'other';

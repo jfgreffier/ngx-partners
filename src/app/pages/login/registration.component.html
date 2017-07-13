@@ -23,7 +23,11 @@
           <p>Les mots de passes de correspondent pas.</p>
         </div>
 
-        <div [hidden]="!error || error == 'token' || error == 'credentials' || error == 'fields'" class="callout callout-danger">
+        <div [hidden]="error != 'username'" class="callout callout-danger">
+          <p>Ce nom d'utilisateur est déjà pris.</p>
+        </div>
+
+        <div [hidden]="!error || error == 'token' || error == 'credentials' || error == 'fields' || error == 'username'" class="callout callout-danger">
           <h4>Erreur lors de la connexion.</h4>
           <p>Le token fourni est probablement expiré.</p>
         </div>
