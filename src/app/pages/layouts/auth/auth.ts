@@ -17,6 +17,8 @@ export class LayoutsAuthComponent implements OnInit {
 
     private currentUrl: string;
 
+    private currentUser: User = new User;
+
     constructor(
       private userServ: UserService,
       private toastr: ToasterService,
@@ -33,6 +35,12 @@ export class LayoutsAuthComponent implements OnInit {
             if (this.currentUrl === '' || this.currentUrl === '/')
                 this.router.navigate(['/home']);
         });
+
+        this.userServ.currentUser.subscribe((user) => {
+            this.currentUser = user;
+
+            this.setupLinks();
+        });
     }
 
     public ngOnInit() {
@@ -47,6 +55,11 @@ export class LayoutsAuthComponent implements OnInit {
             window.dispatchEvent( event );
         }
 
+        if (this.currentUrl === '' || this.currentUrl === '/')
+            this.router.navigate(['/home']);
+    }
+
+    public setupLinks() {
         // define here your own links menu structure
         this.mylinks = [
           {
@@ -59,6 +72,10 @@ export class LayoutsAuthComponent implements OnInit {
             'icon': 'calendar',
             'link': ['/report']
           },
+        ];
+
+        if (this.currentUser.isAdmin())
+          this.mylinks.push(
           {
             'title': 'Administration',
             'icon': 'gears',
@@ -80,10 +97,7 @@ export class LayoutsAuthComponent implements OnInit {
               },
             ]
           },
-        ];
-
-        if (this.currentUrl === '' || this.currentUrl === '/')
-            this.router.navigate(['/home']);
+          );
     }
 
     protected detectIE(): any {

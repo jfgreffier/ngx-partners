@@ -30,4 +30,8 @@ export class User {
     public getName() {
         return this.firstname + ' ' + this.lastname;
     }
+
+    public isAdmin(): boolean {
+        return this.role == 'ROLE_ADMIN';
+    }
 }

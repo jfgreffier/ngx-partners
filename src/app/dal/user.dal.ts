@@ -36,6 +36,12 @@ export class UserDAL {
     });
   }
 
+  public readMe = (): Promise<User> => {
+    return this.rest.get('users/me').first().toPromise().then(data => {
+      return new User(data['user']);
+    });
+  }
+
   public create = (newUser: User): Promise<any> => {
     return this.rest.add('users', newUser).first().toPromise().then((res) => {
       this.notif.success('L\'utilisateur a bien été créé.');
@@ -51,8 +57,8 @@ export class UserDAL {
     });
   }
 
-  public update = (user: User): Promise<any> => {
-    return this.rest.update('users', user.id, user).first().toPromise().then((res) => {
+  public update = (user: User, self: boolean): Promise<any> => {
+    return this.rest.update('users' + (self ? '/me' : ''), (self ? null : user.id), user).first().toPromise().then((res) => {
       this.notif.success('Les informations ont bien été enregistrées.');
       let u: User = new User(res.user);
 
@@ -66,8 +72,8 @@ export class UserDAL {
     });
   }
 
-  public updatePassword = (user: User, password: string): Promise<any> => {
-    return this.rest.update('users/password', user.id, { 'password': password }).first().toPromise().then((res) => {
+  public updatePassword = (user: User, password: string, self: boolean): Promise<any> => {
+    return this.rest.update('users' + (self ? '/me' : '') + '/password', (self ? null : user.id), { 'password': password }).first().toPromise().then((res) => {
       this.notif.success('Le mot de passe a bien été modifié.');
     }).catch((err) => {
       console.log(err);

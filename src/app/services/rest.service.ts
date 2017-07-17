@@ -90,7 +90,7 @@ export class RestService {
 
     public update(entity: string, id: number, itemToUpdate: any): Observable<any> {
         this.modelName = entity;
-        return this.http.put(this.getActionUrl() + id, JSON.stringify(itemToUpdate), { headers: this.headers })
+        return this.http.put(this.getActionUrl() + (id || ""), JSON.stringify(itemToUpdate), { headers: this.headers })
             .map((response: Response) => response.json())
             .catch(this.handleError);
     }

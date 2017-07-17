@@ -1,7 +1,7 @@
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
 	<!-- sidebar: style can be found in sidebar.less -->
-	<section class="sidebar" >
+	<section class="sidebar">
 		<!-- Sidebar user panel (optional) -->
 		<div class="user-panel">
 			<div class="pull-left image">
@@ -16,31 +16,37 @@
 		<!-- Sidebar Menu -->
 		<ul class="sidebar-menu">
 			<li class="header">NAVIGATION</li>
-			<ng-template ngFor let-item [ngForOf]="links"> <ng-template
-				[ngIf]="!item.sublinks">
-			<li [class.active]="item.link[0] === currentUrl"><a
-				*ngIf="!item.external" [routerLink]="item.link"> <i
-					class="fa fa-{{item.icon}}"></i> <span>{{item.title}}</span>
-			</a> <a *ngIf="item.external" [href]="item.link" [target]="item.target">
-					<i class="fa fa-{{item.icon}}"></i> <span>{{item.title}}</span>
-			</a></li>
-			</ng-template> <ng-template [ngIf]="item.sublinks">
-			<li class="treeview"><a href="#"> <i *ngIf="item.icon"
-					class="fa fa-{{item.icon}}"></i> <span>{{item.title}}</span> <i
-					class="fa fa-angle-left pull-right"></i>
-			</a>
-				<ul class="treeview-menu">
-					<ng-template ngFor let-subitem [ngForOf]="item.sublinks">
-					<li [class.active]="subitem.link[0] === currentUrl"><a
-						*ngIf="!subitem.external" [routerLink]="subitem.link"> <i
-							*ngIf="subitem.icon" class="fa fa-{{subitem.icon}}"></i> <span>{{subitem.title}}</span>
-					</a> <a *ngIf="subitem.external" [href]="subitem.link"
-						[target]="subitem.target"> <i *ngIf="subitem.icon"
-							class="fa fa-{{subitem.icon}}"></i> <span>{{subitem.title}}</span>
-					</a></li>
-					</ng-template>
-				</ul></li>
-			</ng-template> </ng-template>
+			<ng-container *ngFor="let item of links">
+				<ng-container *ngIf="!hasSubLinks(item)">
+					<li [class.active]="isCurrentLink(item.link)">
+						<a *ngIf="!item.external" [routerLink]="item.link">
+							<i class="fa fa-{{item.icon}}"></i> <span>{{item.title}}</span>
+						</a>
+						<a *ngIf="item.external" [href]="item.link" [target]="item.target">
+							<i class="fa fa-{{item.icon}}"></i> <span>{{item.title}}</span>
+						</a>
+					</li>
+				</ng-container>
+				<ng-container *ngIf="hasSubLinks(item)">
+					<li class="treeview" [class.active]="isSubLinkCurrentLink(item)">
+						<a href="#">
+							<i *ngIf="item.icon" class="fa fa-{{item.icon}}"></i> <span>{{item.title}}</span> <i class="fa fa-angle-left pull-right"></i>
+						</a>
+						<ul class="treeview-menu">
+							<ng-container *ngFor="let subitem of item.sublinks">
+								<li [class.active]="isCurrentLink(subitem.link)">
+									<a *ngIf="!subitem.external" [routerLink]="subitem.link">
+										<i *ngIf="subitem.icon" class="fa fa-{{subitem.icon}}"></i> <span>{{subitem.title}}</span>
+									</a>
+									<a *ngIf="subitem.external" [href]="subitem.link" [target]="subitem.target">
+										<i *ngIf="subitem.icon" class="fa fa-{{subitem.icon}}"></i> <span>{{subitem.title}}</span>
+									</a>
+								</li>
+							</ng-container>
+						</ul>
+					</li>
+				</ng-container>
+			</ng-container>
 		</ul>
 		<!-- /.sidebar-menu -->
 	</section>

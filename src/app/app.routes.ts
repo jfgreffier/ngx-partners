@@ -1,6 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CanActivateGuard } from './services/guard.service';
+import { CanActivateAdminGuard } from './services/admin.guard.service';
 
 // Components
 import { HomeComponent } from './pages/home/home.component';
@@ -29,27 +30,32 @@ const routes: Routes = [
         path: 'report'
       },
       {
-        canActivate: [CanActivateGuard],
+        canActivate: [CanActivateAdminGuard],
         component: ClientComponent,
         path: 'clients'
       },
       {
-        canActivate: [CanActivateGuard],
+        canActivate: [CanActivateAdminGuard],
         component: ClientComponent,
         path: 'clients/:id'
       },
       {
-        canActivate: [CanActivateGuard],
+        canActivate: [CanActivateAdminGuard],
         component: ProjectComponent,
         path: 'projects'
       },
       {
-        canActivate: [CanActivateGuard],
+        canActivate: [CanActivateAdminGuard],
         component: UserComponent,
         path: 'users'
       },
       {
         canActivate: [CanActivateGuard],
+        component: ProfileComponent,
+        path: 'users/me'
+      },
+      {
+        canActivate: [CanActivateAdminGuard],
         component: ProfileComponent,
         path: 'users/:id'
       },

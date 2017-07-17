@@ -21,7 +21,24 @@ export class MenuAsideComponent implements OnInit {
   }
 
   public ngOnInit() {
-    // TODO
+
+  }
+
+  public hasSubLinks(item: any): boolean {
+    return item.sublinks;
+  }
+
+  public isCurrentLink(link: string[]): boolean {
+    return this.currentUrl.startsWith(link.toString());
+  }
+
+  public isSubLinkCurrentLink(item: any): boolean {
+    let current = false;
+    item.sublinks.forEach((subitem: any) => {
+      if (this.isCurrentLink(subitem.link)) current = true;
+    });
+
+    return current;
   }
 
 }
