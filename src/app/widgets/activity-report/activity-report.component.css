@@ -1,0 +1,36 @@
+.report-value-valid {
+  border-bottom: solid 2px green;
+}
+
+.report-value-invalid {
+  border-bottom: solid 2px red;
+}
+
+.floating-cube {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}
+
+table.activity-report {
+  table-layout: auto;
+  min-height: 200px;
+}
+
+table.activity-report tr:first-child > th {
+  min-width: 20px;
+}
+
+table.activity-report tr:first-child p {
+  text-align: center;
+}
+
+table.activity-report tr:first-child th.month > p {
+  width: 150px;
+}
+
+table.activity-report td input {
+  padding: 3px;
+  min-width: 20px;
+  text-align: center;
+}

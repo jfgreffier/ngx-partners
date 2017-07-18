@@ -15,13 +15,13 @@ export class ReportDAL {
   ) {
   }
 
-  public readMonth = (year: number, month: number): Promise<Array<Report>> => {
+  public readMonth = (year: number, month: number): Observable<Array<Report>> => {
     return this.rest.get('reports/me/' + year, month + 1).map((array: Array<Report>) => {
       return array.map(it => {
         it.date = new Date(it.date);
         return it;
       });
-    }).toPromise();
+    });
   }
 
   private doSave =  (year: number, month: number, rawData: Object): Observable<any> => {

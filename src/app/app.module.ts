@@ -33,6 +33,7 @@ import { BreadcrumbComponent } from './widgets/breadcrumb';
 import { ModalDialogComponent } from './widgets/modal-dialog';
 import { AvatarComponent } from './widgets/avatar';
 import { LoadingCubeComponent } from './widgets/loading-cube';
+import { ActivityReportComponent } from './widgets/activity-report';
 
 let widgets = [
     AppComponent,
@@ -48,6 +49,7 @@ let widgets = [
     ModalDialogComponent,
     AvatarComponent,
     LoadingCubeComponent,
+    ActivityReportComponent,
 ];
 
 import { UserService } from './services/user.service';
