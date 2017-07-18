@@ -57,7 +57,9 @@
                                 </div>
                                 <div class="col-xs-6">
                                     <ng-container *ngFor="let user of projectUsers[project.id]">
-                                        <avatar [user]="user" class="pull-right" style="padding-right: 5px"></avatar>
+                                        <a [routerLink]="['/users', user.id]">
+                                            <avatar [user]="user" class="pull-right" style="padding-right: 5px"></avatar>
+                                        </a>
                                     </ng-container>
                                 </div>
                                 <div class="col-xs-1">
@@ -161,7 +163,7 @@
 </modal-dialog>
 
 <modal-dialog #newProjectModal color="default">
-    <div class="modal-dialog-header">Création d'un projet</div>
+    <div class="modal-dialog-header" *ngIf="selectedClient">Création d'un projet - {{selectedClient.name}}</div>
     <div class="modal-dialog-body">
         <form #newProjectForm="ngForm">
             <div class="form-group has-feedback">
