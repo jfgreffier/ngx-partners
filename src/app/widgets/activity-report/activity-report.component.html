@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="table-responsive" style="min-height: 100px">
     <table class="table table-striped table-hover table-condensed activity-report">
             <tr>
                 <th class="month"><p>{{currentMonthName}}</p></th>
@@ -6,13 +6,20 @@
                     <p>{{day.day}}</p>
                 </th>
             </tr>
-            <tr *ngFor="let project of shownProjects">
+            <tr *ngFor="let project of shownProjects" class="entry">
                 <td nowrap="nowrap">
-                    <a title="Retirer le projet du compte rendu" (click)="removeProject(project)"
+                    <a *ngIf="!readOnly" title="Retirer le projet du compte rendu" (click)="removeProject(project)"
                         data-toggle="tooltip" >
                         <i class="fa fa-times fa-fw"></i>
                     </a>
-                    <b>{{project.name}}</b>
+                    <b>
+                        <ng-container *ngIf="currentUser.isAdmin()">
+                            <a [routerLink]="['/clients/', project.client.id]">{{project.client.name}}</a> / <a [routerLink]="['/projects/', project.id]">{{project.name}}</a>
+                        </ng-container>
+                        <ng-container *ngIf="!currentUser.isAdmin()">
+                            {{project.client.name}} / {{project.name}}
+                        </ng-container>
+                    </b>
                 </td>
 
                 <td *ngFor="let day of days">
@@ -25,14 +32,24 @@
                                 'report-value-valid': values[project.id][day.day] != 0,
                                 'report-value-invalid': values[project.id][day.day] != 0 && dayError[day.day]
                                 }"
+                            *ngIf="!readOnly"
+                        />
+                        <input disabled
+                            size="1" class="form-control input-sm"
+                            [ngModel]="values[project.id][day.day]"
+                            [ngClass]="{
+                                'report-value-valid': values[project.id][day.day] != 0,
+                                'report-value-invalid': values[project.id][day.day] != 0 && dayError[day.day]
+                                }"
+                            *ngIf="readOnly"
                         />
                     </div>
                 </td>
             </tr>
-            <tr *ngIf="shownProjects.length">
+            <tr *ngIf="shownProjects.length && shownActivities.length">
                 <td></td><td *ngFor="let day of days"></td>
             </tr>
-            <tr *ngFor="let activity of shownActivities">
+            <tr *ngFor="let activity of shownActivities" class="entry">
                 <td>{{activity.name}}</td>
 
                 <td *ngFor="let day of days">
@@ -45,12 +62,27 @@
                                 'report-value-valid': values[activity.id][day.day] != 0,
                                 'report-value-invalid': values[activity.id][day.day] != 0 && dayError[day.day]
                                 }"
+                            *ngIf="!readOnly"
+                        />
+                        <input disabled
+                            size="1" class="form-control input-sm"
+                            [ngModel]="values[activity.id][day.day]"
+                            [ngClass]="{
+                                'report-value-valid': values[activity.id][day.day] != 0,
+                                'report-value-invalid': values[activity.id][day.day] != 0 && dayError[day.day]
+                                }"
+                            *ngIf="readOnly"
                         />
                     </div>
                 </td>
             </tr>
 
     </table>
+    <div class="col-md-12" [hidden]="!readOnly || (reportProgress || shownProjects.length || shownActivities.length)">
+        <p class="text-muted" style="text-align: center">
+            <i>Aucune activité renseignée pour <b>{{currentMonthName}}</b></i>
+        </p>
+    </div>
     <div class="floating-cube" *ngIf="reportProgress">
         <loading-cube></loading-cube>
     </div>

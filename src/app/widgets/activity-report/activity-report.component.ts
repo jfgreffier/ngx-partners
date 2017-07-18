@@ -1,10 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter, ApplicationRef } from '@angular/core';
+import { Observable, ReplaySubject } from 'rxjs/Rx';
 
 import { Report } from '../../models/report';
 import { Project } from '../../models/project';
+import { User } from '../../models/user';
 
 import { ReportDAL } from '../../dal/report.dal';
 import { ProjectDAL } from '../../dal/project.dal';
+
+import { UserService } from '../../services/user.service';
 
 import { CalendarHelper } from '../../helpers/calendar.helper';
 
@@ -20,12 +24,26 @@ class Day {
 })
 export class ActivityReportComponent implements OnInit {
 
+  protected currentUser: User = new User;
+  private currentUserInfo: ReplaySubject<Object> = new ReplaySubject<Object>( 1 );
+
+  private _reportUser: User = null;
+  @Input('user') protected set reportUser(value: User) {
+    this._reportUser = value;
+    this.readActivities().then(() => { this.selectMonth(); });
+  }
+  protected get reportUser(): User { return this._reportUser }
+
   public shownProjects: Array<Project> = new Array<Project>();
   protected shownActivities: Array<Project> = new Array<Project>();
   protected days: Array<Day> = new Array<Day>();
 
+  private activities: Array<Project> = new Array<Project>();
+
   protected values: Object = new Object(); // [project.id][day.id] = float [0..1]
   @Output('values') private valuesChange: EventEmitter<Object> = new EventEmitter();
+
+  @Input() protected readOnly: boolean = false;
 
   protected _currentMonth: Date;
 
@@ -49,21 +67,28 @@ export class ActivityReportComponent implements OnInit {
     private app: ApplicationRef,
     private reportDal: ReportDAL,
     private projectDal: ProjectDAL,
+    private userServ: UserService,
   ) {
+    this.userServ.currentUser.subscribe((user: User) => {
+      this.currentUser = user;
 
+      this.reportDal.readInfo().then((info: Object) => {
+        this.currentUserInfo.next(info);
+      });
+    });
   }
 
   public ngOnInit() {
-
+    this.projectDal.readAll();
   }
 
   public readActivities(): Promise<void> {
     this.reportProgress++;
 
-    return this.reportDal.readInfo().then((info: Object) => {
-      this.shownActivities = info["activities"];
+    return this.currentUserInfo.first().toPromise().then((info: Object) => {
+      this.activities = info["activities"];
 
-      this.shownActivities.forEach(a => {
+      this.activities.forEach(a => {
         this.values[a.id] = new Array<number>(CalendarHelper.daysInMonth(this.currentMonth));
 
         for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++)
@@ -80,8 +105,6 @@ export class ActivityReportComponent implements OnInit {
 
     this.currentMonthName = CalendarHelper.monthName(this.currentMonth) + " " + this.currentMonth.getFullYear();
 
-    this.projectDal.readAll();
-
     this.projectDal.projects.first().subscribe(parray => {
       let usedProject = Object();
 
@@ -96,7 +119,9 @@ export class ActivityReportComponent implements OnInit {
         }
       });
 
-      let serverSideReport = this.reportDal.readMonth(this.currentMonth.getFullYear(), this.currentMonth.getMonth());
+      let user = this.reportUser ? (this.reportUser.id === this.currentUser.id ? null : this.reportUser) : null;
+
+      let serverSideReport = this.reportDal.readMonth(user, this.currentMonth.getFullYear(), this.currentMonth.getMonth());
 
       serverSideReport.first().subscribe((reports: Array<Report>) => {
 
@@ -108,10 +133,16 @@ export class ActivityReportComponent implements OnInit {
         this.valuesChange.emit(this.values);
 
         this.shownProjects = new Array<Project>();
+        this.shownActivities = new Array<Project>();
 
         parray.forEach(p => {
           if (usedProject[p.id])
             this.shownProjects.push(p);
+        });
+
+        this.activities.forEach(p => {
+          if (usedProject[p.id] || !this.readOnly)
+            this.shownActivities.push(p);
         });
 
         for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++)

@@ -14,7 +14,6 @@
 
 table.activity-report {
   table-layout: auto;
-  min-height: 200px;
 }
 
 table.activity-report tr:first-child > th {
@@ -33,4 +32,12 @@ table.activity-report td input {
   padding: 3px;
   min-width: 20px;
   text-align: center;
+}
+
+table.activity-report tr {
+  height: 10px;
+}
+
+table.activity-report tr.entry {
+  height: 41px;
 }

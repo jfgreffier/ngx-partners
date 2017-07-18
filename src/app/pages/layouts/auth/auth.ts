@@ -68,6 +68,11 @@ export class LayoutsAuthComponent implements OnInit {
             'link': ['/home']
           },
           {
+            'title': 'Mon profil',
+            'icon': 'user',
+            'link': ['/users', 'me']
+          },
+          {
             'title': 'Compte rendu d\'activité',
             'icon': 'calendar',
             'link': ['/report']

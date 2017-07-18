@@ -6,6 +6,7 @@ import { NotificationService } from '../services/notification.service';
 
 import { Project } from '../models/project';
 import { Report } from '../models/report';
+import { User } from '../models/user';
 
 @Injectable()
 export class ReportDAL {
@@ -15,8 +16,9 @@ export class ReportDAL {
   ) {
   }
 
-  public readMonth = (year: number, month: number): Observable<Array<Report>> => {
-    return this.rest.get('reports/me/' + year, month + 1).map((array: Array<Report>) => {
+  public readMonth = (user: User, year: number, month: number): Observable<Array<Report>> => {
+    let u: string = user ? 'user/'+user.id : 'me';
+    return this.rest.get('reports/' + u + '/' + year, month + 1).map((array: Array<Report>) => {
       return array.map(it => {
         it.date = new Date(it.date);
         return it;

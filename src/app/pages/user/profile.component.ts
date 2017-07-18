@@ -4,18 +4,24 @@ import { Observable } from 'rxjs/Observable';
 
 import { NotificationService } from '../../services/notification.service';
 import { BreadcrumbService } from '../../services/breadcrumb.service';
+import { UserService } from '../../services/user.service';
 
 import { User } from '../../models/user';
 
 import { UserDAL } from '../../dal/user.dal';
+import { ProjectDAL } from '../../dal/project.dal';
+import { ReportDAL } from '../../dal/report.dal';
 
 @Component({
-  providers: [UserDAL],
+  providers: [UserDAL, ProjectDAL, ReportDAL],
   selector: 'app-profile',
   templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
   protected user: User = null;
+
+  protected currentUser: User = new User();
+  protected currentUserCurrentMonth: Date = new Date();
 
   protected profileProgress: number = 0;
 
@@ -24,12 +30,18 @@ export class ProfileComponent implements OnInit {
 
   private self: boolean = false;
 
+  protected reportMonth: Date = new Date();
+  protected reportMonthDropdownOpen: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private breadServ: BreadcrumbService,
     private userDal: UserDAL,
+    private reportDal: ReportDAL,
     private notif: NotificationService,
+    private userServ: UserService,
   ) {
+    this.userServ.currentUser.subscribe((user: User) => this.currentUser = user );
   }
 
   public ngOnInit() {
@@ -77,6 +89,10 @@ export class ProfileComponent implements OnInit {
       });
 
     });
+
+    this.reportDal.readInfo().then((info: Object) => {
+      this.currentUserCurrentMonth = new Date(info["currentMonth"]);
+    });
   }
 
   public saveUser() {
@@ -101,6 +117,40 @@ export class ProfileComponent implements OnInit {
 
     this.password = "";
     this.password_check = "";
+  }
+
+  public toggleReportMonthDropdown(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.reportMonthDropdownOpen = !this.reportMonthDropdownOpen;
+  }
+
+  public selectReportMonth(event: Date) {
+    this.reportMonth = event;
+    this.reportMonthDropdownOpen = false;
+  }
+
+  public reportMonthNext() {
+    if (this.reportMonth.getMonth() == 11) {
+        this.reportMonth = new Date(this.reportMonth.getFullYear() + 1, 0, 1);
+    } else {
+        this.reportMonth = new Date(this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1, 1);
+    }
+    this.reportMonthDropdownOpen = false;
+  }
+
+  public reportMonthPrevious() {
+    if (this.reportMonth.getMonth() == 0) {
+        this.reportMonth = new Date(this.reportMonth.getFullYear() - 1, 11, 1);
+    } else {
+        this.reportMonth = new Date(this.reportMonth.getFullYear(), this.reportMonth.getMonth() - 1, 1);
+    }
+    this.reportMonthDropdownOpen = false;
+  }
+
+  public canAccessSubmit(): boolean {
+    if (!this.user || this.currentUser.id !== this.user.id) return false;
+    return this.reportMonth.getFullYear() == this.currentUserCurrentMonth.getFullYear() && this.reportMonth.getMonth() == this.currentUserCurrentMonth.getMonth();
   }
 
 }
