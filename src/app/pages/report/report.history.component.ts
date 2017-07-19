@@ -26,6 +26,8 @@ export class ReportHistoryComponent implements OnInit {
   protected user: User = null;
   protected users: Array<User> = new Array<User>();
 
+  protected values: Object = new Object(); // [project.id][day.id] = float [0..1]
+
   protected usersInput: Array<any> = new Array<any>();
   protected selectedUser: Array<any> = new Array<any>();
 
@@ -168,7 +170,13 @@ export class ReportHistoryComponent implements OnInit {
   }
 
   public saveReport() {
-    // todo
+    this.progress = 1;
+
+    let user = this.user ? (this.user.id === this.currentUser.id ? null : this.user) : null;
+
+    this.reportDal.saveReport(this.reportMonth.getFullYear(), this.reportMonth.getMonth(), this.values, user)
+      .then(() => this.progress = 0)
+      .catch(() => this.progress = 0);
   }
 
   public selectUser(event: any) {
@@ -194,6 +202,10 @@ export class ReportHistoryComponent implements OnInit {
       this.status = data["has_data"] ? data["status"] : "empty";
       this.valid = data["valid"];
     })
+  }
+
+  public onValuesChanges(event: Object) {
+    this.values = event;
   }
 
 }

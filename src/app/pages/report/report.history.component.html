@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="col-md-12">
-                    <activity-report [currentMonth]="reportMonth" [readOnly]="!currentUser.isAdmin()" [user]="user"></activity-report>
+                    <activity-report [currentMonth]="reportMonth" [readOnly]="!currentUser.isAdmin()" [user]="user" (values)="onValuesChanges($event)"></activity-report>
                 </div>
                 <div class="col-md-12">
                     <p align="right" [hidden]="progress" *ngIf="currentUser">

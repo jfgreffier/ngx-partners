@@ -26,7 +26,9 @@ export class ReportDAL {
     });
   }
 
-  private doSave =  (year: number, month: number, rawData: Object): Observable<any> => {
+  private doSave =  (year: number, month: number, rawData: Object, user: User): Observable<any> => {
+    let u: string = user ? 'user/'+user.id : 'me';
+
     let reports = Report.buildReports(year, month, rawData);
 
     // we convert Date to Object because of timezones, and to make month 1-indexed
@@ -36,17 +38,17 @@ export class ReportDAL {
       return o;
     });
 
-    return this.rest.update('reports/me/' + year, month + 1, data);
+    return this.rest.update('reports/' + u + '/' + year, month + 1, data);
   }
 
-  public saveReport = (year: number, month: number, rawData: Object): Promise<void> => {
-    return this.doSave(year, month, rawData).toPromise().then(() => {
+  public saveReport = (year: number, month: number, rawData: Object, user: User = null): Promise<void> => {
+    return this.doSave(year, month, rawData, user).toPromise().then(() => {
       this.notif.success('Compte rendu ' + (month + 1) + '/' + year + ' sauvegardé.');
     });
   }
 
   public submitReport = (year: number, month: number, rawData: Object): Promise<void> => {
-    return this.doSave(year, month, rawData).combineLatest(
+    return this.doSave(year, month, rawData, null).combineLatest(
       this.rest.add('reports/me/' + year + '/' + (month + 1) + '/submit', {})
     ).toPromise().then(obs => {
       this.notif.success('Compte rendu ' + (month + 1) + '/' + year + ' sauvegardé et soumis pour validation.', 'Validation');
