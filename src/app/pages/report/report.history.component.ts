@@ -101,6 +101,8 @@ export class ReportHistoryComponent implements OnInit {
 
             this.breadServ.push({ icon: 'user', link: ['/report', 'history', 'me'], title: user.getName() });
             this.selectedUser = [{ 'id': this.user.id, 'text': this.user.getName() }];
+
+            this.navigate();
           });
         } else {
           this.userDal.readById(+params['user']).then((user: User) => {
@@ -109,18 +111,15 @@ export class ReportHistoryComponent implements OnInit {
 
             this.breadServ.push({ icon: 'user', link: ['/report', 'history', user.id], title: user.getName() });
             this.selectedUser = [{ 'id': this.user.id, 'text': this.user.getName() }];
+
+            this.navigate();
           });
         }
-
-        if (this.user)
-          this.selectedUser = [{ 'id': this.user.id, 'text': this.user.getName() }];
 
         if (params['year'] && params['month']) {
           let date = new Date(+params['year'], +params['month'] - 1, 1);
           this.selectReportMonth(date);
         }
-
-        this.navigate();
 
         this.progress = 0;
 

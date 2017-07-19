@@ -15,6 +15,7 @@ import { CalendarHelper } from '../../helpers/calendar.helper';
 class Day {
   public day: number;
   public working: boolean;
+  public shortName: string;
 }
 
 @Component({
@@ -61,6 +62,8 @@ export class ActivityReportComponent implements OnInit {
 
   protected dayError: Object = new Object(); // [day.id][project.id]
 
+  protected rowSum: Array<number> = new Array<number>(); // [project.id]
+
   protected reportProgress: number = 0;
 
   constructor(
@@ -80,6 +83,15 @@ export class ActivityReportComponent implements OnInit {
 
   public ngOnInit() {
     this.projectDal.readAll();
+
+    this.valuesChange.subscribe(() => {
+        this.rowSum = new Array<number>();
+        Object.keys(this.values).forEach(it => {
+          for (let i = 1; i <= CalendarHelper.daysInMonth(this.currentMonth); i++){
+            this.rowSum[it] = this.rowSum[it] ? this.rowSum[it] + this.values[it][i] : this.values[it][i];
+          }
+        });
+    });
   }
 
   public readActivities(): Promise<void> {
@@ -103,7 +115,7 @@ export class ActivityReportComponent implements OnInit {
   public selectMonth(): void{
     this.reportProgress++;
 
-    this.currentMonthName = CalendarHelper.monthName(this.currentMonth) + " " + this.currentMonth.getFullYear();
+    this.currentMonthName = CalendarHelper.monthName(this.currentMonth);
 
     this.projectDal.projects.first().subscribe(parray => {
       let usedProject = Object();
@@ -125,8 +137,11 @@ export class ActivityReportComponent implements OnInit {
 
       serverSideReport.first().subscribe((reports: Array<Report>) => {
 
+        this.rowSum = new Array<number>();
+
         reports.forEach((report: Report) => {
           this.values[report.activity][report.date.getDate()] = report.duration;
+          this.rowSum[report.activity] = this.rowSum[report.activity] ? this.rowSum[report.activity] + report.duration : report.duration;
           usedProject[report.activity] = true;
         });
 
@@ -158,6 +173,7 @@ export class ActivityReportComponent implements OnInit {
       let d = new Day;
       d.day = i;
       d.working = CalendarHelper.isWorkingDay(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), i));
+      d.shortName = CalendarHelper.dayShortName(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), i));
       this.days.push(d);
     }
   }

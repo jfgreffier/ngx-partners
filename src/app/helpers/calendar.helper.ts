@@ -7,6 +7,7 @@ let addDay = (date: Date, day: number) => {
 export class CalendarHelper {
 
   public static monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+  public static daysShortNames = [ "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
 
   public static bankHolidays: Array<Date> = new Array<Date>();
 
@@ -18,6 +19,12 @@ export class CalendarHelper {
     let m: number = month.getMonth() || month;
 
     return CalendarHelper.monthNames[m];
+  }
+
+  public static dayShortName(day: any): string{
+    let d: number = day.getFullYear() ? day.getDay() : day;
+
+    return CalendarHelper.daysShortNames[d];
   }
 
   public static isWorkingDay(day: Date): boolean{

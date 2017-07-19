@@ -16,8 +16,13 @@ table.activity-report {
   table-layout: auto;
 }
 
+table.activity-report tr:first-child h4 {
+  text-align: center;
+}
+
 table.activity-report tr:first-child > th {
   min-width: 20px;
+  vertical-align: middle;
 }
 
 table.activity-report tr:first-child p {
@@ -40,4 +45,9 @@ table.activity-report tr {
 
 table.activity-report tr.entry {
   height: 41px;
+}
+
+.row-sum {
+  border-left: 1px solid #ddd;
+  text-align: center;
 }
