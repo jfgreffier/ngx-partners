@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AlertModule, DatepickerModule, BsDropdownModule } from 'ngx-bootstrap';
+import { SelectModule } from 'ng2-select';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
@@ -12,6 +13,7 @@ let modules = [
     AlertModule.forRoot(),
     DatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
+    SelectModule,
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -93,6 +95,7 @@ import { RegistrationComponent } from './pages/login/registration.component';
 import { UserComponent } from './pages/user/user.component';
 import { ProfileComponent } from './pages/user/profile.component';
 import { ReportComponent } from './pages/report/report.component';
+import { ReportHistoryComponent } from './pages/report/report.history.component';
 
 let pages = [
     HomeComponent,
@@ -102,6 +105,7 @@ let pages = [
     LoginComponent,
     RegistrationComponent,
     ReportComponent,
+    ReportHistoryComponent,
     UserComponent,
     ProfileComponent,
 ];

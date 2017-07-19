@@ -85,7 +85,7 @@
                     <button type="button" class="btn btn-default" [routerLink]="['/report']"><i class="fa fa-pencil fa-fw"></i> Accès à la saisie</button>
                 </div>
                 <div class="pull-right" style="padding-right: 20px" *ngIf="currentUser.isAdmin()">
-                    <button type="button" class="btn btn-default"><i class="fa fa-pencil fa-fw"></i> Modifier / Plus d'informations</button>
+                    <button type="button" class="btn btn-default" (click)="goToDetails()"><i class="fa fa-pencil fa-fw"></i> Modifier / Plus d'informations</button>
                 </div>
             </div>
             <div class="box-body">

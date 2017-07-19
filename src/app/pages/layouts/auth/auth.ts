@@ -61,6 +61,27 @@ export class LayoutsAuthComponent implements OnInit {
 
     public setupLinks() {
         // define here your own links menu structure
+        let reportsLinks = [
+            {
+                'title': 'Saisie',
+                'icon': 'pencil',
+                'link': ['/report', 'submit']
+            },
+            {
+                'title': 'Historique',
+                'icon': 'history',
+                'link': ['/report/history/me']
+            },
+        ]
+
+        if (this.currentUser.isAdmin()) reportsLinks.push(
+            {
+                'title': 'Validation',
+                'icon': 'flag',
+                'link': ['/report/validation']
+            }
+        )
+
         this.mylinks = [
           {
             'title': 'Home',
@@ -75,7 +96,8 @@ export class LayoutsAuthComponent implements OnInit {
           {
             'title': 'Compte rendu d\'activité',
             'icon': 'calendar',
-            'link': ['/report']
+            'link': ['/report', 'submit'],
+            'sublinks' : reportsLinks
           },
         ];
 

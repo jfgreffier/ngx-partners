@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { BreadcrumbService } from '../../services/breadcrumb.service';
 
@@ -36,6 +37,7 @@ export class ReportComponent implements OnInit {
     private breadServ: BreadcrumbService,
     private projectDal: ProjectDAL,
     private reportDal: ReportDAL,
+    private router: Router,
   ) {
   }
 
@@ -60,9 +62,14 @@ export class ReportComponent implements OnInit {
         },
         {
           icon: 'calendar',
-          link: ['/report'],
+          link: ['/report', 'submit'],
           title: 'Compte rendu d\'activité'
-        }
+        },
+        {
+          icon: 'pencil',
+          link: ['/report', 'submit'],
+          title: 'Saisie'
+        },
       ]
     });
   }
@@ -121,6 +128,10 @@ export class ReportComponent implements OnInit {
 
   public onValuesChanges(event: Object) {
     this.values = event;
+  }
+
+  public goToHistory() {
+    this.router.navigate(['/report', 'history', 'me', this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1]);
   }
 
 }

@@ -29,7 +29,10 @@
 				</ng-container>
 				<ng-container *ngIf="hasSubLinks(item)">
 					<li class="treeview" [class.active]="isSubLinkCurrentLink(item)">
-						<a href="#">
+						<a href="#" *ngIf="!item.link">
+							<i *ngIf="item.icon" class="fa fa-{{item.icon}}"></i> <span>{{item.title}}</span> <i class="fa fa-angle-left pull-right"></i>
+						</a>
+						<a [routerLink]="item.link" *ngIf="item.link">
 							<i *ngIf="item.icon" class="fa fa-{{item.icon}}"></i> <span>{{item.title}}</span> <i class="fa fa-angle-left pull-right"></i>
 						</a>
 						<ul class="treeview-menu">

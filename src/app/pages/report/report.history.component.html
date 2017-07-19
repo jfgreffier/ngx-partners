@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <div class="box-title" style="vertical-align: middle">
+                    <ng-container *ngIf="!currentUser.isAdmin() && user">
+                        {{ user.getName() }}
+                    </ng-container>
+                    <ng-container *ngIf="currentUser.isAdmin()">
+                        <div class="pull-left user-select">
+                            <ng-select [allowClear]="false"
+                                [items]="usersInput"
+                                [active]="selectedUser"
+                                (selected)="selectUser($event)"
+                                placeholder="Sélectionnez un utilisateur">
+                            </ng-select>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="pull-right">
+                    <div dropdown [autoClose]="false" [isOpen]="reportMonthDropdownOpen" class="btn-group">
+                        <button type="button" class="btn btn-primary" (click)="reportMonthPrevious()"><i class="fa fa-arrow-circle-left"></i></button>
+                        <button dropdownToggle type="button" class="btn btn-primary" (click)="toggleReportMonthDropdown($event)">
+                            {{ reportMonth | date: 'MMMM yyyy' }} <span class="caret"></span>
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu pull-right" role="menu">
+                            <datepicker [ngModel]="reportMonth" [minMode]="'month'" [datepickerMode]="'month'" [showWeeks]="false" (selectionDone)="selectReportMonth($event)"></datepicker>
+                        </ul>
+                        <button type="button" class="btn btn-primary" (click)="reportMonthNext()"><i class="fa fa-arrow-circle-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" [hidden]="progress">
+
+
+                <div class="col-md-12" style="margin-bottom: 10px;">
+                    <p align="right" [hidden]="progress">
+                        Statut :
+                        <small class="label bg-green"  *ngIf="status == 'validated'">Validé par un administrateur</small>
+                        <small class="label bg-orange" *ngIf="status == 'submitted'">En attente de validation</small>
+                        <small class="label bg-blue"   *ngIf="status == 'not_submitted'">En cours de saisie</small>
+                        <small class="label bg-gray"   *ngIf="status == 'empty'">Non renseigné</small>
+                        <small class="label bg-red"    *ngIf="status != 'empty' && !valid">Invalide</small>
+                        <small class="label bg-green"  *ngIf="status != 'validated' && valid">Valide</small>
+                    </p>
+                </div>
+
+                <div class="col-md-12">
+                    <activity-report [currentMonth]="reportMonth" [readOnly]="!currentUser.isAdmin()" [user]="user"></activity-report>
+                </div>
+                <div class="col-md-12">
+                    <p align="right" [hidden]="progress" *ngIf="currentUser">
+                        <ng-container *ngIf="user">
+                            <button type="button" class="btn btn-default pull-left" [routerLink]="['/report', 'submit']" *ngIf="currentUser.id == user.id">
+                                <i class="fa fa-pencil fa-fw"></i> Accéder à la saisie du mois courrant
+                            </button>
+                        </ng-container>
+                        <button type="button" class="btn btn-primary" (click)="saveReport()" *ngIf="currentUser.isAdmin()">
+                            <i class="fa fa-save fa-fw"></i> Enregistrer les modifications
+                        </button>
+                    </p>
+                </div>
+            </div>
+            <loading-cube [hidden]="!progress"></loading-cube>
+        </div>
+    </div>
+</div>

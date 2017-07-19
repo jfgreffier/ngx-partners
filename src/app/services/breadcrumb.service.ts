@@ -27,6 +27,20 @@ export class BreadcrumbService {
     this.current.next(data);
   }
 
+  public push(data: any) {
+    this.current.first().subscribe((current: any) => {
+      current.levels.push(data);
+      this.current.next(current);
+    })
+  }
+
+  public pop() {
+    this.current.first().subscribe((current: any) => {
+      current.levels.pop();
+      this.current.next(current);
+    })
+  }
+
   public clear() {
     this.set(this.initialData);
   }

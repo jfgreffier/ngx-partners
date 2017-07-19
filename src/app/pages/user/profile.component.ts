@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { NotificationService } from '../../services/notification.service';
@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private breadServ: BreadcrumbService,
     private userDal: UserDAL,
     private reportDal: ReportDAL,
@@ -151,6 +152,11 @@ export class ProfileComponent implements OnInit {
   public canAccessSubmit(): boolean {
     if (!this.user || this.currentUser.id !== this.user.id) return false;
     return this.reportMonth.getFullYear() == this.currentUserCurrentMonth.getFullYear() && this.reportMonth.getMonth() == this.currentUserCurrentMonth.getMonth();
+  }
+
+  public goToDetails() {
+    let u = this.user.id === this.currentUser.id ? 'me' : ''+this.user.id;
+    this.router.navigate(['/report', 'history', u, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
   }
 
 }

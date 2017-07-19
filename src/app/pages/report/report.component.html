@@ -14,6 +14,7 @@
             </div>
         <hr>
         <p align="right" [hidden]="reportProgress">
+            <button type="button" class="btn btn-default pull-left" (click)="goToHistory()"><i class="fa fa-history fa-fw"></i> Accéder à l'historique</button>
             <button type="button" class="btn btn-primary" (click)="saveReport()"><i class="fa fa-save fa-fw"></i> Enregistrer</button>
             <button type="button" class="btn btn-warning" (click)="submitReportModal.show()"><i class="fa fa-upload fa-fw"></i> Soumettre pour validation</button>
         </p>

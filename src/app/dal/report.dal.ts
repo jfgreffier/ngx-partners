@@ -55,6 +55,11 @@ export class ReportDAL {
     });
   }
 
+  public readStatus = (user: User, year: number, month: number): Observable<any> => {
+    let u: string = user ? 'user/'+user.id : 'me';
+    return this.rest.get('reports/' + u + '/' + year + '/' + (month + 1) + '/status');
+  }
+
   public readInfo = () => {
     return this.rest.get('reports/me/info').toPromise();
   }
