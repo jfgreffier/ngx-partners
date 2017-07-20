@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AlertModule, DatepickerModule, BsDropdownModule } from 'ngx-bootstrap';
+import { TreeviewModule } from 'ngx-treeview';
 import { SelectModule } from 'ng2-select';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
@@ -13,6 +14,7 @@ let modules = [
     AlertModule.forRoot(),
     DatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
+    TreeviewModule.forRoot(),
     SelectModule,
     BrowserModule,
     FormsModule,

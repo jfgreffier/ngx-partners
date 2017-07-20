@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, ApplicationRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ApplicationRef, ViewChild } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
+
+import { TreeviewItem, TreeItem, TreeviewConfig } from 'ngx-treeview'
 
 import { Report } from '../../models/report';
 import { Project } from '../../models/project';
@@ -11,6 +13,8 @@ import { ProjectDAL } from '../../dal/project.dal';
 import { UserService } from '../../services/user.service';
 
 import { CalendarHelper } from '../../helpers/calendar.helper';
+
+import { ModalDialogComponent } from '../modal-dialog';
 
 class Day {
   public day: number;
@@ -66,6 +70,11 @@ export class ActivityReportComponent implements OnInit {
 
   protected reportProgress: number = 0;
 
+  @ViewChild('addProjectsModal') protected addProjectsModal: ModalDialogComponent;
+  protected addProjectsItems: TreeviewItem[];
+  protected projectsTreeviewConfig: TreeviewConfig;
+  protected selectedProjects: number[] = new Array<number>();
+
   constructor(
     private app: ApplicationRef,
     private reportDal: ReportDAL,
@@ -91,6 +100,15 @@ export class ActivityReportComponent implements OnInit {
             this.rowSum[it] = this.rowSum[it] ? this.rowSum[it] + this.values[it][i] : this.values[it][i];
           }
         });
+    });
+
+    this.projectDal.projects.first().subscribe(projects => this.updateProjectsTree(projects));
+
+    this.projectsTreeviewConfig = TreeviewConfig.create({
+        hasAllCheckBox: false,
+        hasFilter: true,
+        hasCollapseExpand: true,
+        maxHeight: 400
     });
   }
 
@@ -155,6 +173,8 @@ export class ActivityReportComponent implements OnInit {
             this.shownProjects.push(p);
         });
 
+        this.projectDal.projects.first().subscribe(projects => this.updateProjectsTree(projects));
+
         this.activities.forEach(p => {
           if (usedProject[p.id] || !this.readOnly)
             this.shownActivities.push(p);
@@ -187,6 +207,8 @@ export class ActivityReportComponent implements OnInit {
       }
 
       this.shownProjects.splice(this.shownProjects.indexOf(p), 1);
+
+      this.projectDal.projects.first().subscribe(projects => this.updateProjectsTree(projects));
 
     }
   }
@@ -235,6 +257,66 @@ export class ActivityReportComponent implements OnInit {
     });
 
     this.dayError[day] = sum > 1;
+  }
+
+  public openProjectsDialog() {
+    this.addProjectsModal.show();
+  }
+
+  public updateProjectsTree(projects: Array<Project>) {
+    let array = new Array<TreeviewItem>();
+
+    let clients = new Object();
+
+    projects.forEach(project => {
+      if (!project.isActive()) return;
+
+      if (!clients[project.client.id]) {
+        clients[project.client.id] = new Object();
+        clients[project.client.id]['name'] = project.client.name;
+        clients[project.client.id]['projects'] = new Array<Project>();
+      }
+
+      clients[project.client.id]['projects'].push(project);
+    });
+
+    Object.keys(clients).forEach(cid => {
+      let parray = new Array<TreeItem>();
+
+      clients[cid]['projects'].forEach((p: Project) => {
+        parray.push({
+          'text': p.name,
+          'value': p.id,
+          'checked': this.shownProjects.findIndex(it => { return it.id === p.id; }) != -1,
+          'disabled': this.shownProjects.findIndex(it => { return it.id === p.id; }) != -1,
+        })
+      });
+
+      array.push(new TreeviewItem({
+        'text': clients[cid]['name'],
+        'value': 0,
+        'children': parray,
+        'collapsed': true,
+      }));
+    });
+
+    this.addProjectsItems = array;
+  }
+
+  public addProjects() {
+    this.projectDal.projects.first().subscribe(projects => {
+      this.selectedProjects.forEach((id: number) => {
+        projects.forEach(p => {
+          if (p.id == id)
+            if (this.shownProjects.findIndex(it => { return it.id === p.id; }) == -1)
+              this.addProject(p)
+        });
+      });
+
+      this.updateProjectsTree(projects);
+    });
+
+    this.selectedProjects = [];
   }
 
 }

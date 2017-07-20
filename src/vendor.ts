@@ -12,6 +12,7 @@ import 'rxjs';
 import 'jquery';
 import 'jquery-ui';
 import 'ngx-bootstrap';
+import 'ngx-treeview';
 import 'ng2-select';
 import 'admin-lte';
 

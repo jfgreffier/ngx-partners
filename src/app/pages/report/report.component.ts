@@ -26,9 +26,6 @@ export class ReportComponent implements OnInit {
   protected currentMonth: Date = new Date();
   protected currentMonthName: string;
 
-  // used by add-project dialog
-  protected selectedProjectId: number = -1;
-
   protected reportProgress: number = 0;
 
   @ViewChild(ActivityReportComponent) view: ActivityReportComponent;
@@ -86,20 +83,6 @@ export class ReportComponent implements OnInit {
     });
   }
 
-  public addProject(): void{
-    this.projectDal.projects.first().subscribe(projects => {
-      let project = projects.find(it => {
-        return it.id == this.selectedProjectId;
-      })
-
-      if (project == null) return;
-
-      if (!this.isShown(project)){
-        this.view.addProject(project);
-      }
-    });
-  }
-
   public saveReport(): void{
     this.reportProgress = 1;
 
@@ -116,14 +99,6 @@ export class ReportComponent implements OnInit {
     })
     .then(() => this.reportProgress = 0)
     .catch(() => this.reportProgress = 0);
-  }
-
-  public isShown(p: Project): boolean{
-    if (!this.view) return false;
-
-    this.view.shownProjects.findIndex(it => {
-      return it.id === p.id;
-    }) != -1;
   }
 
   public onValuesChanges(event: Object) {

@@ -16,7 +16,7 @@ export class CalendarHelper {
   }
 
   public static monthName(month: any): string{
-    let m: number = month.getMonth() || month;
+    let m: number = month.getFullYear() ? month.getMonth() : month;
 
     return CalendarHelper.monthNames[m];
   }

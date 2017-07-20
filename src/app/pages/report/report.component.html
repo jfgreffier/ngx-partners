@@ -1,15 +1,15 @@
 <div class="box box-default"><div class="box-body"><div class="row">
 	<div class="col-md-12" style="margin-bottom: 10px;">
-		<button class="btn btn-success pull-right" (click)="addProjectModal.show()">
+		<button class="btn btn-success pull-right" (click)="report.openProjectsDialog()">
 			<i class="fa fa-plus fa-fw"></i> Ajouter un projet
         </button>
 	</div>
 	<div class="col-md-12" style="margin-bottom: 10px;">
-        <activity-report *ngIf="!reportProgress" [currentMonth]="currentMonth" (values)="onValuesChanges($event)"></activity-report>
+        <activity-report #report [currentMonth]="currentMonth" (values)="onValuesChanges($event)"></activity-report>
         <loading-cube class="box-body" [hidden]="!reportProgress"></loading-cube>
             <div class="col-md-12" [hidden]="reportProgress || (view && view.shownProjects.length)">
                 <p class="text-muted">
-                    <i>Ce tableau ne contient aucun projet client. <a (click)="addProjectModal.show()"><i class="fa fa-plus fa-fw"></i> Ajouter un projet</a> ?</i>
+                    <i>Ce tableau ne contient aucun projet client. <a (click)="report.openProjectsDialog()"><i class="fa fa-plus fa-fw"></i> Ajouter un projet</a> ?</i>
                 </p>
             </div>
         <hr>
@@ -20,38 +20,6 @@
         </p>
 	</div>
 </div></div></div>
-
-<modal-dialog #addProjectModal color="primary">
-    <div class="modal-dialog-header">Ajout d'un projet</div>
-    <div class="modal-dialog-body">
-        <form>
-            <div class="form-group" *ngFor="let project of projects">
-                <div class="checkbox">
-                    <label for="project_{{project.id}}"
-                        [attr.title]="isShown(project) ? 'Ce projet est déjà présent' : ''"
-                        [attr.data-toggle]="isShown(project) ? 'tooltip' : ''"
-                        [ngClass]="{'muted': isShown(project)}"
-                    >
-                        <input type="radio" name="selectedProjectId" id="project_{{project.id}}" value="{{project.id}}"
-                            [(ngModel)]="selectedProjectId"
-                            [ngClass]="{'disabled': isShown(project)}"
-                            [attr.do.not.disabled.please]="isShown(project) === true"
-                        />
-                        {{project.name}}
-                    </label>
-
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="modal-dialog-footer">
-        <button type="button" class="btn btn-default" (click)="addProjectModal.hide()">Retour</button>
-        <button type="button" class="btn btn-success" (click)="addProject(); addProjectModal.hide()"
-            [ngClass]="{'disabled': !selectedProjectId}" [disabled]="!selectedProjectId">
-            <i class="fa fa-plus fa-fw"></i> Ajouter le projet
-        </button>
-    </div>
-</modal-dialog>
 
 <modal-dialog #submitReportModal color="warning">
     <div class="modal-dialog-header">Validation du compte rendu d'activité</div>

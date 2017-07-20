@@ -46,15 +46,18 @@
                 </div>
 
                 <div class="col-md-12">
-                    <activity-report [currentMonth]="reportMonth" [readOnly]="!currentUser.isAdmin()" [user]="user" (values)="onValuesChanges($event)"></activity-report>
+                    <activity-report #report [currentMonth]="reportMonth" [readOnly]="!currentUser.isAdmin()" [user]="user" (values)="onValuesChanges($event)"></activity-report>
                 </div>
                 <div class="col-md-12">
                     <p align="right" [hidden]="progress" *ngIf="currentUser">
                         <ng-container *ngIf="user">
                             <button type="button" class="btn btn-default pull-left" [routerLink]="['/report', 'submit']" *ngIf="currentUser.id == user.id">
-                                <i class="fa fa-pencil fa-fw"></i> Accéder à la saisie du mois courrant
+                                <i class="fa fa-pencil fa-fw"></i> Accéder à la saisie du mois courant
                             </button>
                         </ng-container>
+                        <button type="button" class="btn btn-default pull-left" style="margin-left: 20px" (click)="report.openProjectsDialog()" *ngIf="currentUser.isAdmin()">
+                            <i class="fa fa-plus fa-fw"></i> Ajouter un projet
+                        </button>
                         <button type="button" class="btn btn-primary" (click)="saveReport()" *ngIf="currentUser.isAdmin()">
                             <i class="fa fa-save fa-fw"></i> Enregistrer les modifications
                         </button>

@@ -97,3 +97,24 @@
         <loading-cube></loading-cube>
     </div>
 </div>
+
+<modal-dialog #addProjectsModal color="default">
+    <div class="modal-dialog-header">Ajout d'un projet</div>
+    <div class="modal-dialog-body">
+        <div class="col-md-12">
+            <ngx-treeview
+                [config]="projectsTreeviewConfig"
+                [items]="addProjectsItems"
+                (selectedChange)="selectedProjects = $event"
+            >
+            </ngx-treeview>
+        </div>
+    </div>
+    <div class="modal-dialog-footer">
+        <button type="button" class="btn btn-default" (click)="addProjectsModal.hide()">Retour</button>
+        <button type="button" class="btn btn-success" (click)="addProjects(); addProjectsModal.hide()"
+            [ngClass]="{'disabled': !selectedProjects.length}" [disabled]="!selectedProjects.length">
+            <i class="fa fa-plus fa-fw"></i> Ajouter les projets
+        </button>
+    </div>
+</modal-dialog>
