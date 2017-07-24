@@ -159,4 +159,12 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['/report', 'history', u, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
   }
 
+  public resendConfirmationMail() {
+    this.profileProgress = 1;
+
+    this.userDal.resendConfirmationMail(this.user).then(() => {
+      this.profileProgress = 0;
+    });
+  }
+
 }

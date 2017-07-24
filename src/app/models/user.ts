@@ -5,6 +5,7 @@ export class User {
     public lastname: string;
     public email: string;
     public role: string;
+    public enabled: boolean;
 
     public avatarUrl: string;
     public creationDate: string;
@@ -19,6 +20,7 @@ export class User {
         this.lastname = data.lastname || '';
         this.email = data.email || '';
         this.role = data.role || 'ROLE_USER';
+        this.enabled = data.enabled || false;
 
         this.avatarUrl = data.avatarUrl || '';
         this.creationDate = data.creation_date || Date.now();

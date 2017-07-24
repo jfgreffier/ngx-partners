@@ -2,7 +2,7 @@
     <div class="col-lg-8 col-md-6">
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">Profil Utilisateur</h3>
+                <h3 class="box-title">Profil Utilisateur<ng-container *ngIf="user && !user.enabled"> - En attente d'activation</ng-container></h3>
             </div>
             <div class="box-body" [hidden]="!user || profileProgress">
                 <form #addUserForm="ngForm" (ngSubmit)="saveUser()" *ngIf="user">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
-                            <div class="form-group has-feedback">
+                            <div class="form-group has-feedback" *ngIf="user.enabled">
                                 <label for="username">Nom d'utilisateur</label>
                                 <input type="text" class="form-control" placeholder="Nom d'utilisateur" name="username" [(ngModel)]="user.username" required>
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -41,12 +41,14 @@
                     </div>
                     <br /><br />
                     <div class="row">
-                        <div class="col-xs-4">
+                        <div class="col-md-4">
                             <button type="button" class="btn btn-default btn-block" (click)="editPasswordModal.show()"><i class="fa fa-lock fa-fw"></i> Modifier le mot de passe</button>
                         </div>
-                        <div class="col-xs-4"></div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-default btn-block" (click)="resendConfirmationMail()" *ngIf="!user.enabled"><i class="fa fa-envelope fa-fw"></i> Renvoyer le mail d'activation</button>
+                        </div>
                         <!-- /.col -->
-                        <div class="col-xs-4">
+                        <div class="col-md-4">
                             <button type="submit" class="btn btn-primary btn-block" [disabled]="!addUserForm.form.valid"><i class="fa fa-save fa-fw"></i> Enregistrer les modifications</button>
                         </div>
                         <!-- /.col -->

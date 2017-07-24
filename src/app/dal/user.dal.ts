@@ -97,4 +97,19 @@ export class UserDAL {
     });
   }
 
+  public resendConfirmationMail = (user: User): Promise<any> => {
+    return this.rest.add('users/' + user.id + '/registration/mail', {}).first().toPromise().then((res) => {
+      this.notif.success('Le mail a bien été envoyé');
+      let u: User = new User(res.user);
+
+      this.users.first().subscribe(users => {
+        users.push(u);
+        this.users.next(users);
+      });
+    }).catch((err) => {
+      console.log(err);
+      this.notif.error('Erreur lors de l\'envoi du mail');
+    });
+  }
+
 }

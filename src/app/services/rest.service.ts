@@ -84,8 +84,11 @@ export class RestService {
         let toAdd = JSON.stringify(item);
 
         return this.http.post(this.getActionUrl(), toAdd, { headers: this.headers })
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
+        .map((response: Response) => {
+          if (response.status === 200 || response.status === 201)
+            return response.text;
+        })
+        .catch(this.handleError);
     }
 
     public update(entity: string, id: number, itemToUpdate: any): Observable<any> {
