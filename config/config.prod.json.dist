@@ -2,5 +2,8 @@
     "api": {
         "server": "http://www.web.site/",
         "uri": "api/"
+    },
+    "cache": {
+        "timeout": 10000
     }
 }
