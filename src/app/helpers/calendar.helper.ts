@@ -16,13 +16,13 @@ export class CalendarHelper {
   }
 
   public static monthName(month: any): string{
-    let m: number = month.getFullYear() ? month.getMonth() : month;
+    let m: number = month.getFullYear ? month.getMonth() : month;
 
     return CalendarHelper.monthNames[m];
   }
 
   public static dayShortName(day: any): string{
-    let d: number = day.getFullYear() ? day.getDay() : day;
+    let d: number = day.getFullYear ? day.getDay() : day;
 
     return CalendarHelper.daysShortNames[d];
   }

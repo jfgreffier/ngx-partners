@@ -40,6 +40,7 @@ import { ModalDialogComponent } from './widgets/modal-dialog';
 import { AvatarComponent } from './widgets/avatar';
 import { LoadingCubeComponent } from './widgets/loading-cube';
 import { ActivityReportComponent } from './widgets/activity-report';
+import { ReportStatusLabelComponent } from './widgets/report-status-label';
 
 let widgets = [
     AppComponent,
@@ -56,6 +57,7 @@ let widgets = [
     AvatarComponent,
     LoadingCubeComponent,
     ActivityReportComponent,
+    ReportStatusLabelComponent,
 ];
 
 import { UserService } from './services/user.service';
@@ -100,6 +102,7 @@ import { UserComponent } from './pages/user/user.component';
 import { ProfileComponent } from './pages/user/profile.component';
 import { ReportComponent } from './pages/report/report.component';
 import { ReportHistoryComponent } from './pages/report/report.history.component';
+import { ReportValidationComponent } from './pages/report/report.validation.component';
 
 let pages = [
     HomeComponent,
@@ -110,6 +113,7 @@ let pages = [
     RegistrationComponent,
     ReportComponent,
     ReportHistoryComponent,
+    ReportValidationComponent,
     UserComponent,
     ProfileComponent,
 ];

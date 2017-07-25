@@ -1,0 +1,170 @@
+<div class="row">
+    <div class="col-lg-7 col-md-6">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">En attente de validation</h3>
+            </div>
+            <div class="box-body table-responsive no-padding" [hidden]="validationProgress">
+                <table class="table table-hover table-striped" *ngIf="user">
+                    <tbody>
+                        <tr>
+                            <th>Avatar</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Mois</th>
+                            <th>Année</th>
+                            <th>Etat</th>
+                            <th>Validation</th>
+                            <th></th>
+                        </tr>
+                        <tr *ngFor="let report of pendingReports"
+                            [class.selectedReport]="reportMonth.getFullYear() == report.year && reportMonth.getMonth() == (report.month - 1)
+                                && report.user == user.id"
+                        >
+                            <td><avatar [user]="getUser(report.user)"></avatar></td>
+                            <td (click)="selectPendingReport(report)"><ng-container *ngIf="getUser(report.user)">{{ getUser(report.user).firstname }}</ng-container></td>
+                            <td (click)="selectPendingReport(report)"><ng-container *ngIf="getUser(report.user)">{{ getUser(report.user).lastname }}</ng-container></td>
+                            <td (click)="selectPendingReport(report)">{{report.monthStr}}</td>
+                            <td (click)="selectPendingReport(report)">{{report.year}}</td>
+                            <td (click)="selectPendingReport(report)">
+                                <report-status-label
+                                    *ngIf="pendingReportStatus[report.user + '-' + report.month + '-' + report.year]"
+                                    [status]="pendingReportStatus[report.user + '-' + report.month + '-' + report.year].status"
+                                    [valid]="pendingReportStatus[report.user + '-' + report.month + '-' + report.year].valid"
+                                ></report-status-label>
+                            </td>
+                            <td>
+                                <div class="switch" *ngIf="pendingReportStatus[report.user + '-' + report.month + '-' + report.year]">
+                                    <input type="checkbox" [id]="'validation-switch' + report.user + '-' + report.month + '-' + report.year"
+                                        [ngModel]="pendingReportStatus[report.user + '-' + report.month + '-' + report.year].status == 'validated'"
+                                        (ngModelChange)="toggleValidation($event, report)"
+                                    />
+                                    <label [for]="'validation-switch' + report.user + '-' + report.month + '-' + report.year" class="label-primary"></label>
+                                </div>
+                            </td>
+                            <td (click)="selectPendingReport(report)">
+                                <button title="Ouvrir" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"
+                                    (click)="selectPendingReport(report)"><i class="fa fa-fw fa-arrow-circle-right"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col-md-12" [hidden]="pendingReports.length">
+                    <p class="text-muted" style="text-align: center;">
+                        <br /><i>Il n'y a aucun rapport en attente de validation.</i>
+                    </p>
+                </div>
+            </div>
+            <loading-cube class="box-body" [hidden]="user && !validationProgress"></loading-cube>
+        </div>
+    </div>
+    <div class="col-lg-5 col-md-6">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <div class="box-title" style="vertical-align: middle">
+                    <div class="pull-left user-select">
+                        <ng-select [allowClear]="false"
+                            [items]="usersInput"
+                            [active]="selectedUser"
+                            (selected)="selectUser($event)"
+                            placeholder="Sélectionnez un utilisateur">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-body table-responsive no-padding" [hidden]="userProgress">
+                <table class="table table-hover table-striped" *ngIf="user">
+                    <tbody>
+                        <tr>
+                            <th>Mois</th>
+                            <th>Année</th>
+                            <th>Etat</th>
+                            <th>Validation</th>
+                            <th></th>
+                        </tr>
+                        <tr *ngFor="let report of reports" [class.selectedReport]="reportMonth.getFullYear() == report.year && reportMonth.getMonth() == (report.month - 1)">
+                            <td (click)="selectReport(report)">{{report.monthStr}}</td>
+                            <td (click)="selectReport(report)">{{report.year}}</td>
+                            <td (click)="selectReport(report)">
+                                <report-status-label
+                                    *ngIf="reportStatus[report.month + '-' + report.year]"
+                                    [status]="reportStatus[report.month + '-' + report.year].status"
+                                    [valid]="reportStatus[report.month + '-' + report.year].valid"
+                                ></report-status-label>
+                            </td>
+                            <td>
+                                <div class="switch" *ngIf="reportStatus[report.month + '-' + report.year]">
+                                    <input type="checkbox" [id]="'validation-switch' + report.month + '-' + report.year"
+                                        [ngModel]="reportStatus[report.month + '-' + report.year].status == 'validated'"
+                                        (ngModelChange)="toggleValidation($event, report)"
+                                    />
+                                    <label [for]="'validation-switch' + report.month + '-' + report.year" class="label-primary"></label>
+                                </div>
+                            </td>
+                            <td (click)="selectReport(report)">
+                                <button title="Ouvrir" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"
+                                    (click)="selectReport(report)"><i class="fa fa-fw fa-arrow-circle-right"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col-md-12" [hidden]="reports.length">
+                    <p class="text-muted" style="text-align: center;">
+                        <br /><i>Il n'y a aucun rapport enregistré pour cet utilisateur.</i>
+                    </p>
+                </div>
+            </div>
+            <loading-cube class="box-body" [hidden]="user && !userProgress"></loading-cube>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Compte rendu</h3>
+                <div class="pull-right">
+                    <div dropdown [autoClose]="false" [isOpen]="reportMonthDropdownOpen" class="btn-group">
+                        <button type="button" class="btn btn-primary" (click)="reportMonthPrevious()"><i class="fa fa-arrow-circle-left"></i></button>
+                        <button dropdownToggle type="button" class="btn btn-primary" (click)="toggleReportMonthDropdown($event)">
+                            {{ reportMonth | date: 'MMMM yyyy' }} <span class="caret"></span>
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu pull-right" role="menu">
+                            <datepicker [ngModel]="reportMonth" [minMode]="'month'" [datepickerMode]="'month'" [showWeeks]="false" (selectionDone)="selectReportMonth($event)"></datepicker>
+                        </ul>
+                        <button type="button" class="btn btn-primary" (click)="reportMonthNext()"><i class="fa fa-arrow-circle-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" [hidden]="progress">
+
+
+                <div class="col-md-12" style="margin-bottom: 10px;">
+                    <p align="right" [hidden]="progress">
+                        Statut :
+                        <report-status-label
+                            *ngIf="status"
+                            [status]="status"
+                            [valid]="valid"
+                        ></report-status-label>
+                    </p>
+                </div>
+
+                <div class="col-md-12">
+                    <activity-report #report [currentMonth]="reportMonth" [readOnly]="true" [user]="user"></activity-report>
+                </div>
+                <div class="col-md-12">
+                    <p align="right" [hidden]="progress" *ngIf="currentUser">
+                        <ng-container *ngIf="user">
+                            <button type="button" class="btn btn-default pull-left" (click)="goToHistory()">
+                                <i class="fa fa-pencil fa-fw"></i> Modifier ...
+                            </button>
+                        </ng-container>
+                    </p>
+                </div>
+            </div>
+            <loading-cube [hidden]="!progress"></loading-cube>
+        </div>
+    </div>
+</div>

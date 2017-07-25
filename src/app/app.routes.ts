@@ -12,6 +12,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegistrationComponent } from './pages/login/registration.component';
 import { ReportComponent } from './pages/report/report.component';
 import { ReportHistoryComponent } from './pages/report/report.history.component';
+import { ReportValidationComponent } from './pages/report/report.validation.component';
 import { UserComponent } from './pages/user/user.component';
 import { ProfileComponent } from './pages/user/profile.component';
 
@@ -39,6 +40,16 @@ const routes: Routes = [
         canActivate: [CanActivateGuard],
         component: ReportHistoryComponent,
         path: 'report/history/:user/:year/:month'
+      },
+      {
+        canActivate: [CanActivateAdminGuard],
+        component: ReportValidationComponent,
+        path: 'report/validation/:user'
+      },
+      {
+        canActivate: [CanActivateAdminGuard],
+        component: ReportValidationComponent,
+        path: 'report/validation/:user/:year/:month'
       },
       {
         canActivate: [CanActivateAdminGuard],

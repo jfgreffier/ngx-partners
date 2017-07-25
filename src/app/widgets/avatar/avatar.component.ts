@@ -20,17 +20,27 @@ export class AvatarComponent implements OnChanges {
   @Input()
   protected user: User;
 
-  protected title = "";
+  protected title: string = "";
 
   constructor(
   ) {
   }
 
   public ngOnChanges() {
-    if (this.user.firstname) this.text = this.user.firstname.length > 0 ? this.user.firstname[0].toUpperCase() : "";
+    if (!this.user){
+      this.title = this.text = '';
+      return;
+    }
 
-    this.color = AvatarComponent.hashCode(this.user.username.toLowerCase() + this.user.firstname.toLowerCase() + this.user.email.toLowerCase()) % 9 + 1;
-    this.title = this.user.firstname + ' ' + this.user.lastname;
+    let username = this.user.username || '';
+    let firstname = this.user.firstname || '';
+    let lastname = this.user.lastname || '';
+    let email = this.user.email || '';
+
+    this.text = firstname.length > 0 ? firstname[0].toUpperCase() : "";
+
+    this.color = AvatarComponent.hashCode(username.toLowerCase() + firstname.toLowerCase() + email.toLowerCase()) % 9 + 1;
+    this.title = firstname + ' ' + lastname;
   }
 
   public upload() {

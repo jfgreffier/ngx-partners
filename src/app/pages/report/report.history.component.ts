@@ -208,4 +208,9 @@ export class ReportHistoryComponent implements OnInit {
     this.values = event;
   }
 
+  public goToValidation() {
+    let id = this.user ? this.user.id : this.currentUser.id;
+    this.router.navigate(['/report', 'validation', id, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
+  }
+
 }

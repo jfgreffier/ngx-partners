@@ -36,12 +36,7 @@
                 <div class="col-md-12" style="margin-bottom: 10px;">
                     <p align="right" [hidden]="progress">
                         Statut :
-                        <small class="label bg-green"  *ngIf="status == 'validated'">Validé par un administrateur</small>
-                        <small class="label bg-orange" *ngIf="status == 'submitted'">En attente de validation</small>
-                        <small class="label bg-blue"   *ngIf="status == 'not_submitted'">En cours de saisie</small>
-                        <small class="label bg-gray"   *ngIf="status == 'empty'">Non renseigné</small>
-                        <small class="label bg-red"    *ngIf="status != 'empty' && !valid">Invalide</small>
-                        <small class="label bg-green"  *ngIf="status != 'validated' && valid">Valide</small>
+                        <report-status-label [status]="status" [valid]="valid"></report-status-label>
                     </p>
                 </div>
 
@@ -57,6 +52,9 @@
                         </ng-container>
                         <button type="button" class="btn btn-default pull-left" style="margin-left: 20px" (click)="report.openProjectsDialog()" *ngIf="currentUser.isAdmin()">
                             <i class="fa fa-plus fa-fw"></i> Ajouter un projet
+                        </button>
+                        <button type="button" class="btn btn-primary" (click)="goToValidation()" *ngIf="currentUser.isAdmin()">
+                            <i class="fa fa-flag fa-fw"></i> Accès validation ...
                         </button>
                         <button type="button" class="btn btn-primary" (click)="saveReport()" *ngIf="currentUser.isAdmin()">
                             <i class="fa fa-save fa-fw"></i> Enregistrer les modifications

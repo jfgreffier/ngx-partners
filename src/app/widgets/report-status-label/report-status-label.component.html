@@ -1,0 +1,6 @@
+<small class="label bg-green"  *ngIf="status == 'validated'">Validé par un administrateur</small>
+<small class="label bg-orange" *ngIf="status == 'submitted'">En attente de validation</small>
+<small class="label bg-blue"   *ngIf="status == 'not_submitted'">En cours de saisie</small>
+<small class="label bg-gray"   *ngIf="status == 'empty'">Non renseigné</small>
+<small class="label bg-red"    *ngIf="status != 'empty' && !valid">Invalide</small>
+<small class="label bg-green"  *ngIf="status != 'validated' && valid">Valide</small>

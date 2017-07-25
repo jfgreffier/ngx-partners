@@ -16,6 +16,15 @@ export class ReportDAL {
   ) {
   }
 
+  public listReports = (user: User): Observable<Array<any>> => {
+    let u: string = user ? 'user/'+user.id : 'me';
+    return this.rest.get('reports/' + u ).map( data => data['reports'] );
+  }
+
+  public listPendingReports = (): Observable<Array<any>> => {
+    return this.rest.get('reports/by-status/pending-validation', null, 0).map( data => data['reports'] );
+  }
+
   public readMonth = (user: User, year: number, month: number): Observable<Array<Report>> => {
     let u: string = user ? 'user/'+user.id : 'me';
     return this.rest.get('reports/' + u + '/' + year, month + 1).map((array: Array<Report>) => {
@@ -54,6 +63,12 @@ export class ReportDAL {
       this.notif.success('Compte rendu ' + (month + 1) + '/' + year + ' sauvegardé et soumis pour validation.', 'Validation');
     }).catch(e => {
       this.notif.error('Le compte rendu ' + (month + 1) + '/' + year + ' a été refusé.', 'Compte rendu invalide');
+    });
+  }
+
+  public saveValidation = (user: User, year: number, month: number, validated : boolean): Observable<any> => {
+    return this.rest.update('reports/user/' + user.id + '/' + year + '/' + (month + 1) + '/status', null, {
+      'status': validated ? 'validated' : 'submitted'
     });
   }
 

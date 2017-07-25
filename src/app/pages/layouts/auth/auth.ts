@@ -78,7 +78,7 @@ export class LayoutsAuthComponent implements OnInit {
             {
                 'title': 'Validation',
                 'icon': 'flag',
-                'link': ['/report/validation']
+                'link': ['/report/validation/' + this.currentUser.id]
             }
         )
 
