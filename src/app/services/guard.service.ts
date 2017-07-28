@@ -20,7 +20,7 @@ export class CanActivateGuard implements CanActivate {
   public canActivate() {
     // test here if you user is logged
     if (!this.authentication.loggedIn()){
-      this.router.navigate( [ 'login' ] );
+      this.router.navigate( [ '/login' ] );
     }
 
     return this.authentication.loggedIn();

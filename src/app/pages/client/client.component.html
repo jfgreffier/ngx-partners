@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="col-xs-6">
                                     <ng-container *ngFor="let user of projectUsers[project.id]">
-                                        <a [routerLink]="['/users', user.id]">
+                                        <a [routerLink]="['/portal', 'users', user.id]">
                                             <avatar [user]="user" class="pull-right" style="padding-right: 5px"></avatar>
                                         </a>
                                     </ng-container>

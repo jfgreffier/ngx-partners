@@ -18,7 +18,7 @@
                     </a>
                     <b>
                         <ng-container *ngIf="currentUser.isAdmin()">
-                            <a [routerLink]="['/clients/', project.client.id]">{{project.client.name}}</a> / <a [routerLink]="['/projects/', project.id]">{{project.name}}</a>
+                            <a [routerLink]="['/portal', 'clients', project.client.id]">{{project.client.name}}</a> / <a [routerLink]="['/portal', 'projects', project.id]">{{project.name}}</a>
                         </ng-container>
                         <ng-container *ngIf="!currentUser.isAdmin()">
                             {{project.client.name}} / {{project.name}}

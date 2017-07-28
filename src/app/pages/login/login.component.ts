@@ -26,6 +26,11 @@ export class LoginComponent implements OnInit {
 
   public ngOnInit() {
     window.dispatchEvent( new Event( 'resize' ) );
+
+    if (this.authentication.loggedIn()){
+      this.loginProgress = 1;
+      this.router.navigate(['/portal']);
+    }
   }
 
   private login() {
@@ -56,7 +61,7 @@ export class LoginComponent implements OnInit {
         user => {
           console.log(user.getName() + " logged in!");
           this.loginProgress = 0;
-          this.router.navigate(['home']);
+          this.router.navigate(['/portal', 'home']);
         },
         error => {
           this.loginProgress = 0;

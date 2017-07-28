@@ -29,6 +29,7 @@ export class MenuAsideComponent implements OnInit {
   }
 
   public isCurrentLink(link: string[]): boolean {
+    if (!this.currentUrl) return false;
     return this.currentUrl.startsWith(link.join('/'));
   }
 

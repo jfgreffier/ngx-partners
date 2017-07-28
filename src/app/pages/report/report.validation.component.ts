@@ -102,17 +102,17 @@ export class ReportValidationComponent implements OnInit {
           levels: [
             {
               icon: 'dashboard',
-              link: ['/'],
+              link: ['/portal'],
               title: 'Home'
             },
             {
               icon: 'calendar',
-              link: ['/report', 'submit'],
+              link: ['/portal', 'report', 'submit'],
               title: 'Compte rendu d\'activité'
             },
             {
               icon: 'flag',
-              link: ['/report', 'history'],
+              link: ['/portal', 'report', 'history'],
               title: 'Validation'
             },
           ]
@@ -237,13 +237,13 @@ export class ReportValidationComponent implements OnInit {
 
   public navigate() {
     if (!this.user) return;
-    this.router.navigate(['/report', 'validation', this.user.id, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
+    this.router.navigate(['/portal', 'report', 'validation', this.user.id, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
 
     this.readStatus();
   }
 
   public goToHistory() {
-    this.router.navigate(['/report', 'history', this.user.id, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
+    this.router.navigate(['/portal', 'report', 'history', this.user.id, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
   }
 
   public getUser(id: number): User {

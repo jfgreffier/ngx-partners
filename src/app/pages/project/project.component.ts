@@ -57,12 +57,12 @@ export class ProjectComponent implements OnInit, OnDestroy {
       levels: [
         {
           icon: 'dashboard',
-          link: ['/'],
+          link: ['/portal'],
           title: 'Home'
         },
         {
           icon: 'clock-o',
-          link: ['/projects'],
+          link: ['/portal', 'projects'],
           title: 'Project'
         }
       ]

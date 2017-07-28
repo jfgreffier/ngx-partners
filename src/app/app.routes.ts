@@ -4,86 +4,15 @@ import { CanActivateGuard } from './services/guard.service';
 import { CanActivateAdminGuard } from './services/admin.guard.service';
 
 // Components
-import { HomeComponent } from './pages/home/home.component';
-import { ClientComponent } from './pages/client/client.component';
-import { ProjectComponent } from './pages/project/project.component';
-import { LayoutsAuthComponent } from './pages/layouts/auth/auth';
 import { LoginComponent } from './pages/login/login.component';
 import { RegistrationComponent } from './pages/login/registration.component';
-import { ReportComponent } from './pages/report/report.component';
-import { ReportHistoryComponent } from './pages/report/report.history.component';
-import { ReportValidationComponent } from './pages/report/report.validation.component';
-import { UserComponent } from './pages/user/user.component';
-import { ProfileComponent } from './pages/user/profile.component';
 
 const routes: Routes = [
   // logged routes
   {
     canActivate: [CanActivateGuard],
-    children: [
-      {
-        canActivate: [CanActivateGuard],
-        component: HomeComponent,
-        path: 'home'
-      },
-      {
-        canActivate: [CanActivateGuard],
-        component: ReportComponent,
-        path: 'report/submit'
-      },
-      {
-        canActivate: [CanActivateGuard],
-        component: ReportHistoryComponent,
-        path: 'report/history/:user'
-      },
-      {
-        canActivate: [CanActivateGuard],
-        component: ReportHistoryComponent,
-        path: 'report/history/:user/:year/:month'
-      },
-      {
-        canActivate: [CanActivateAdminGuard],
-        component: ReportValidationComponent,
-        path: 'report/validation/:user'
-      },
-      {
-        canActivate: [CanActivateAdminGuard],
-        component: ReportValidationComponent,
-        path: 'report/validation/:user/:year/:month'
-      },
-      {
-        canActivate: [CanActivateAdminGuard],
-        component: ClientComponent,
-        path: 'clients'
-      },
-      {
-        canActivate: [CanActivateAdminGuard],
-        component: ClientComponent,
-        path: 'clients/:id'
-      },
-      {
-        canActivate: [CanActivateAdminGuard],
-        component: ProjectComponent,
-        path: 'projects'
-      },
-      {
-        canActivate: [CanActivateAdminGuard],
-        component: UserComponent,
-        path: 'users'
-      },
-      {
-        canActivate: [CanActivateGuard],
-        component: ProfileComponent,
-        path: 'users/me'
-      },
-      {
-        canActivate: [CanActivateAdminGuard],
-        component: ProfileComponent,
-        path: 'users/:id'
-      },
-    ],
-    component: LayoutsAuthComponent,
-    path: '',
+    loadChildren: './main.module#MainModule',
+    path: 'portal',
   },
   // not logged routes
   {
@@ -94,6 +23,11 @@ const routes: Routes = [
     component: RegistrationComponent,
     path: 'registration/:token'
   },
+  {
+    path: '',
+    pathMatch: 'prefix',
+    redirectTo: '/login',
+  }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

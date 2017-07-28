@@ -46,12 +46,12 @@ export class UserComponent implements OnInit {
       levels: [
         {
           icon: 'dashboard',
-          link: ['/'],
+          link: ['/portal'],
           title: 'Home'
         },
         {
           icon: 'users',
-          link: ['/users'],
+          link: ['/portal', 'users'],
           title: 'Utilisateurs'
         }
       ]

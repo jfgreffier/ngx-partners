@@ -46,7 +46,7 @@
                 <div class="col-md-12">
                     <p align="right" [hidden]="progress" *ngIf="currentUser">
                         <ng-container *ngIf="user">
-                            <button type="button" class="btn btn-default pull-left" [routerLink]="['/report', 'submit']" *ngIf="currentUser.id == user.id">
+                            <button type="button" class="btn btn-default pull-left" [routerLink]="['/portal', 'report', 'submit']" *ngIf="currentUser.id == user.id">
                                 <i class="fa fa-pencil fa-fw"></i> Accéder à la saisie du mois courant
                             </button>
                         </ng-container>

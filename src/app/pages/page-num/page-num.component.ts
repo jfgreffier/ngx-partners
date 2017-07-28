@@ -30,7 +30,7 @@ export class PageNumComponent implements OnInit, OnDestroy {
         levels: [
           {
             icon: 'dashboard',
-            link: ['/'],
+            link: ['/portal'],
             title: 'Home'
           },
           {

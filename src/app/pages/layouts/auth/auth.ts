@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../../models/user';
 import { UserService } from '../../../services/user.service';
-import { LoggerService } from '../../../services/logger.service';
 
 import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 
@@ -12,7 +11,6 @@ import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster
 })
 export class LayoutsAuthComponent implements OnInit {
     protected toastrConfig: ToasterConfig;
-    private logger: LoggerService;
     protected mylinks: Array<any> = [];
 
     private currentUrl: string;
@@ -32,8 +30,8 @@ export class LayoutsAuthComponent implements OnInit {
         this.router.events.subscribe((evt: any) => {
             this.currentUrl = evt.url
 
-            if (this.currentUrl === '' || this.currentUrl === '/')
-                this.router.navigate(['/home']);
+            if (this.currentUrl === '' || this.currentUrl === '/' || this.currentUrl === '/portal')
+                this.router.navigate(['/portal', 'home']);
         });
 
         this.userServ.currentUser.subscribe((user) => {
@@ -56,7 +54,7 @@ export class LayoutsAuthComponent implements OnInit {
         }
 
         if (this.currentUrl === '' || this.currentUrl === '/')
-            this.router.navigate(['/home']);
+            this.router.navigate(['/portal', 'home']);
     }
 
     public setupLinks() {
@@ -65,12 +63,12 @@ export class LayoutsAuthComponent implements OnInit {
             {
                 'title': 'Saisie',
                 'icon': 'pencil',
-                'link': ['/report', 'submit']
+                'link': ['/portal', 'report', 'submit']
             },
             {
                 'title': 'Historique',
                 'icon': 'history',
-                'link': ['/report/history/me']
+                'link': ['/portal', 'report', 'history', 'me']
             },
         ]
 
@@ -78,7 +76,7 @@ export class LayoutsAuthComponent implements OnInit {
             {
                 'title': 'Validation',
                 'icon': 'flag',
-                'link': ['/report/validation/' + this.currentUser.id]
+                'link': ['/portal', 'report', 'validation', ''+this.currentUser.id]
             }
         )
 
@@ -86,17 +84,17 @@ export class LayoutsAuthComponent implements OnInit {
           {
             'title': 'Home',
             'icon': 'dashboard',
-            'link': ['/home']
+            'link': ['/portal', 'home']
           },
           {
             'title': 'Mon profil',
             'icon': 'user',
-            'link': ['/users', 'me']
+            'link': ['/portal', 'users', 'me']
           },
           {
             'title': 'Compte rendu d\'activité',
             'icon': 'calendar',
-            'link': ['/report', 'submit'],
+            'link': ['/portal', 'report', 'submit'],
             'sublinks' : reportsLinks
           },
         ];
@@ -110,17 +108,17 @@ export class LayoutsAuthComponent implements OnInit {
               {
                 'title': 'Client',
                 'icon': 'users',
-                'link': ['/clients']
+                'link': ['/portal', 'clients']
               },
               {
                 'title': 'Projets',
                 'icon': 'briefcase',
-                'link': ['/projects']
+                'link': ['/portal', 'projects']
               },
               {
                 'title': 'Utilisateurs',
                 'icon': 'user-circle-o',
-                'link': ['/users']
+                'link': ['/portal', 'users']
               },
             ]
           },

@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       levels: [
         {
           icon: 'dashboard',
-          link: ['/'],
+          link: ['/portal'],
           title: 'Home'
         }
       ]

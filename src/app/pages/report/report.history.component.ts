@@ -78,17 +78,17 @@ export class ReportHistoryComponent implements OnInit {
           levels: [
             {
               icon: 'dashboard',
-              link: ['/'],
+              link: ['/portal'],
               title: 'Home'
             },
             {
               icon: 'calendar',
-              link: ['/report', 'submit'],
+              link: ['/portal', 'report', 'submit'],
               title: 'Compte rendu d\'activité'
             },
             {
               icon: 'history',
-              link: ['/report', 'history'],
+              link: ['/portal', 'report', 'history'],
               title: 'Historique'
             },
           ]
@@ -101,7 +101,7 @@ export class ReportHistoryComponent implements OnInit {
             this.user = user;
             if (!user) return;
 
-            this.breadServ.push({ icon: 'user', link: ['/report', 'history', 'me'], title: user.getName() });
+            this.breadServ.push({ icon: 'user', link: ['/portal', 'report', 'history', 'me'], title: user.getName() });
             this.selectedUser = [{ 'id': this.user.id, 'text': this.user.getName() }];
 
             this.navigate();
@@ -111,7 +111,7 @@ export class ReportHistoryComponent implements OnInit {
             this.user = user;
             if (!user) return;
 
-            this.breadServ.push({ icon: 'user', link: ['/report', 'history', user.id], title: user.getName() });
+            this.breadServ.push({ icon: 'user', link: ['/portal', 'report', 'history', user.id], title: user.getName() });
             this.selectedUser = [{ 'id': this.user.id, 'text': this.user.getName() }];
 
             this.navigate();
@@ -164,7 +164,7 @@ export class ReportHistoryComponent implements OnInit {
 
   public navigate() {
     let u = this.user ? (this.user.id === this.currentUser.id ? 'me' : '' + this.user.id) : 'me';
-    this.router.navigate(['/report', 'history', u, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
+    this.router.navigate(['/portal', 'report', 'history', u, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
 
     this.readStatus();
   }
@@ -188,7 +188,7 @@ export class ReportHistoryComponent implements OnInit {
     this.userDal.readById(event.id).then((user: User) => {
       this.user = user;
       this.breadServ.pop();
-      this.breadServ.push({ icon: 'user', link: ['/report', 'history', user.id], title: user.getName() });
+      this.breadServ.push({ icon: 'user', link: ['/portal', 'report', 'history', user.id], title: user.getName() });
 
       this.navigate();
 
@@ -210,7 +210,7 @@ export class ReportHistoryComponent implements OnInit {
 
   public goToValidation() {
     let id = this.user ? this.user.id : this.currentUser.id;
-    this.router.navigate(['/report', 'validation', id, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
+    this.router.navigate(['/portal', 'report', 'validation', id, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
   }
 
 }

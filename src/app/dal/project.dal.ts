@@ -23,7 +23,7 @@ export class ProjectDAL {
   public readByClient = (client: Client) => {
     if (!client) return;
 
-    this.rest.getAll('projects', '/by-client/' + client.id).first().toPromise().then(projects => {
+    this.rest.getAll('projects', 'by-client/' + client.id).first().toPromise().then(projects => {
       let array = new Array<Project>();
       projects.forEach(p => { array.push(new Project(p)); });
       this.projects.next(array);

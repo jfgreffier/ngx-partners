@@ -51,14 +51,14 @@ export class ProfileComponent implements OnInit {
       header: 'Utilisateur',
       display: true,
       levels: [
-        { icon: 'dashboard', link: ['/'], title: 'Home' },
-        { icon: 'users', link: ['/users'], title: 'Utilisateurs' }
+        { icon: 'dashboard', link: ['/portal'], title: 'Home' },
+        { icon: 'users', link: ['/portal', 'users'], title: 'Utilisateurs' }
       ]
     });
 
     this.route.url.subscribe(url => {
       this.route.params.subscribe(params => {
-        if (url[0].toString() == 'users' && url[1].toString() == 'me'){
+        if (url[0].toString() == 'me'){
           this.userDal.readMe().then((user: User) => {
             this.user = user;
             this.self = true;
@@ -67,8 +67,8 @@ export class ProfileComponent implements OnInit {
               header: user.getName(),
               display: true,
               levels: [
-                { icon: 'dashboard', link: ['/'], title: 'Home' },
-                { icon: 'user', link: ['/users', 'me'], title: 'Mon Profil' }
+                { icon: 'dashboard', link: ['/portal'], title: 'Home' },
+                { icon: 'user', link: ['/portal', 'users', 'me'], title: 'Mon Profil' }
               ]
             });
           });
@@ -80,9 +80,9 @@ export class ProfileComponent implements OnInit {
               header: user.getName(),
               display: true,
               levels: [
-                { icon: 'dashboard', link: ['/'], title: 'Home' },
-                { icon: 'users', link: ['/users'], title: 'Utilisateurs' },
-                { icon: 'user', link: ['/users', user.id], title: user.getName() }
+                { icon: 'dashboard', link: ['/portal'], title: 'Home' },
+                { icon: 'users', link: ['/portal', 'users'], title: 'Utilisateurs' },
+                { icon: 'user', link: (user && user.id) ? ['/portal', 'users', user.id] : [], title: user.getName() }
               ]
             });
           });
@@ -156,7 +156,7 @@ export class ProfileComponent implements OnInit {
 
   public goToDetails() {
     let u = this.user.id === this.currentUser.id ? 'me' : ''+this.user.id;
-    this.router.navigate(['/report', 'history', u, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
+    this.router.navigate(['/portal', 'report', 'history', u, this.reportMonth.getFullYear(), this.reportMonth.getMonth() + 1]);
   }
 
   public resendConfirmationMail() {

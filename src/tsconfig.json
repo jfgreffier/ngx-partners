@@ -7,6 +7,8 @@
 		"sourceMap": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
+	    "removeComments": true,
+		"skipLibCheck": true,
 		"lib": ["es2015", "dom"],
 		"noImplicitAny": true,
 		"suppressImplicitAnyIndexErrors": true,
@@ -15,5 +17,13 @@
 		[
 			"../node_modules/@types"
 		]
-	}
+	},
+	"exclude": [
+		"node_modules"
+	],
+	"awesomeTypescriptLoaderOptions": {
+		"useWebpackText": true
+	},
+	"compileOnSave": false,
+	"buildOnSave": false
 }

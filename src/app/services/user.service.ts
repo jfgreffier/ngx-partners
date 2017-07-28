@@ -34,7 +34,7 @@ export class UserService {
       let user = new User();
       user.connected = false;
       this.setCurrentUser( user );
-      this.router.navigate(['login']);
+      this.router.navigate(['/login']);
     }
 
     public fetchUser() {

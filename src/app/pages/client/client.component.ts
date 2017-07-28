@@ -50,14 +50,14 @@ export class ClientComponent implements OnInit, OnDestroy {
 
     this.route.params.subscribe(params => {
 
-      let levels = [ { icon: 'dashboard', link: ['/'], title: 'Home' },
-          { icon: 'users', link: ['/clients'],  title: 'Clients' } ];
+      let levels = [ { icon: 'dashboard', link: ['/portal'], title: 'Home' },
+          { icon: 'users', link: ['/portal', 'clients'],  title: 'Clients' } ];
 
       this.clientDal.clients.subscribe((clients) => {
         let client = this.loadClient(clients, +params['id']);
 
         if (client)
-          levels.push({ icon: 'user', link: ['/clients', ''+client.id],  title: client.name })
+          levels.push({ icon: 'user', link: ['/portal', 'clients', ''+client.id],  title: client.name })
 
         this.breadServ.set({
           header: 'Gestion des clients',
@@ -115,7 +115,7 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   public selectClient(c: Client): void {
-    this.router.navigate(['/clients', c.id]);
+    this.router.navigate(['/portal', 'clients', c.id]);
   }
 
   public editClient(c: Client): void {
@@ -131,7 +131,7 @@ export class ClientComponent implements OnInit, OnDestroy {
 
     this.clientDal.delete(c).then(any => {
       if (this.selectedClient && this.selectedClient.id === c.id)
-        this.router.navigate(['/clients']);
+        this.router.navigate(['/portal', 'clients']);
     })
     .then(() =>  this.clientsProgress = 0)
     .catch(() =>  this.clientsProgress = 0);

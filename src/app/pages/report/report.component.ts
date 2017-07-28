@@ -54,17 +54,17 @@ export class ReportComponent implements OnInit {
       levels: [
         {
           icon: 'dashboard',
-          link: ['/'],
+          link: ['/portal'],
           title: 'Home'
         },
         {
           icon: 'calendar',
-          link: ['/report', 'submit'],
+          link: ['/portal', 'report', 'submit'],
           title: 'Compte rendu d\'activité'
         },
         {
           icon: 'pencil',
-          link: ['/report', 'submit'],
+          link: ['/portal', 'report', 'submit'],
           title: 'Saisie'
         },
       ]
@@ -106,7 +106,7 @@ export class ReportComponent implements OnInit {
   }
 
   public goToHistory() {
-    this.router.navigate(['/report', 'history', 'me', this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1]);
+    this.router.navigate(['/portal', 'report', 'history', 'me', this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1]);
   }
 
 }

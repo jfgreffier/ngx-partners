@@ -22,7 +22,7 @@ export class UserDAL {
   }
 
   public readByActivity = (project: Project): Promise<Array<User>> => {
-    return this.rest.getAll('users', '/by-activity/' + project.id).first().toPromise().then(users => {
+    return this.rest.getAll('users', 'by-activity/' + project.id).first().toPromise().then(users => {
       let array = new Array<User>();
       users.forEach(u => { array.push(new User(u)); });
       this.users.next(array);
