@@ -1,0 +1,80 @@
+<body class="hold-transition login-page">
+  <div class="login-box" >
+    <div class="login-logo">
+      <a href="../../index.html">Slick<b>team</b></a>
+    </div>
+
+    <!-- /.login-logo -->
+    <div class="login-box-body" [hidden]="error != 'saml'">
+        <div class="callout callout-danger">
+          <p text-align="center">Erreur : l'authentification vers <b>{{ appName }}</b> n'a pas pu aboutir (requête invalide ou expirée)</p>
+        </div>
+        <div class="row">
+          <div class="col-xs-6">
+          </div>
+          <div class="col-xs-6">
+            <button type="button" [routerLink]="['/portal']" class="btn btn-primary btn-block btn-flat" >Retour au portail</button>
+          </div>
+        </div>
+    </div>
+    <div class="login-box-body" [hidden]="loginProgress || error == 'saml'">
+      <p class="login-box-msg">Connectez-vous pour accéder à l'application <b>{{ appName }}</b></p>
+
+      <form (submit)="login()" >
+
+        <div [hidden]="error != 'credentials'" class="callout callout-danger">
+          <p>Nom d'utilisateur ou mot de passe incorrect.</p>
+        </div>
+
+        <div [hidden]="!error || error == 'credentials'" class="callout callout-danger">
+          <h4>Erreur inconnue lors de la connexion.</h4>
+          <textarea cols="35" style="max-height: 200px; color: black;">{{error}}</textarea>
+        </div>
+
+        <div class="form-group has-feedback">
+          <input type="username" class="form-control" placeholder="Nom d'utilisateur" required name="usr" [(ngModel)]="username" #usr="ngModel">
+          <span class="fa fa-user form-control-feedback"></span>
+          <div *ngIf="usr.errors && usr.dirty" class="alert alert-danger">
+              <div [hidden]="!usr.errors.required">
+                Le nom d'utilisateur est requis
+              </div>
+          </div>
+        </div>
+
+        <div class="form-group has-feedback">
+          <input type="password" class="form-control" placeholder="Mot de passe" required name="passwd" [(ngModel)]="password" #passwd="ngModel">
+          <span class="fa fa-lock form-control-feedback"></span>
+          <div *ngIf="passwd.errors && passwd.dirty"
+               class="alert alert-danger">
+              <div [hidden]="!passwd.errors.required">
+                Le mot de passe est requis
+              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-8">
+            <div class="checkbox icheck">
+              <label>
+                <input type="checkbox"> Remember Me
+              </label>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <button type="submit" class="btn btn-primary btn-block btn-flat" >Connexion</button>
+          </div>
+        </div>
+      </form>
+
+      <a href="#">I forgot my password</a><br>
+
+    </div>
+    <!-- /.login-box-body -->
+
+    <loading-cube [hidden]="!loginProgress"></loading-cube>
+
+    <ng-container *ngIf="redirect">
+      <app-redirect [acu]="acu" [relayState]="relayState" [response]="response"></app-redirect>
+    </ng-container>
+  </div>
+  <!-- /.login-box -->
+</body>

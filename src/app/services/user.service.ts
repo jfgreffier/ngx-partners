@@ -28,13 +28,13 @@ export class UserService {
       this.currentUser.next( user );
     }
 
-    public logout() {
+    public logout(no_redirect = false) {
       this.authentication.logout();
 
       let user = new User();
       user.connected = false;
       this.setCurrentUser( user );
-      this.router.navigate(['/login']);
+      if (!no_redirect) this.router.navigate(['/']);
     }
 
     public fetchUser() {

@@ -6,6 +6,7 @@ import { CanActivateAdminGuard } from './services/admin.guard.service';
 // Components
 import { LoginComponent } from './pages/login/login.component';
 import { RegistrationComponent } from './pages/login/registration.component';
+import { CASComponent } from './pages/login/cas.component';
 
 const routes: Routes = [
   // logged routes
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     component: RegistrationComponent,
     path: 'registration/:token'
+  },
+  {
+    component: CASComponent,
+    path: 'cas/:token'
   },
   {
     path: '',

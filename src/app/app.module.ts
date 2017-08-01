@@ -48,10 +48,14 @@ let services = [
 // les pages
 import { LoginComponent } from './pages/login/login.component';
 import { RegistrationComponent } from './pages/login/registration.component';
+import { RedirectComponent } from './pages/login/redirect.component';
+import { CASComponent } from './pages/login/cas.component';
 
 let pages = [
     LoginComponent,
     RegistrationComponent,
+    RedirectComponent,
+    CASComponent,
 ];
 
 // main bootstrap

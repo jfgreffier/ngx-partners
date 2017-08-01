@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
     this.loginProgress = 1;
 
     this.authentication.authenticate(this.username, this.password)
+      .first()
       .subscribe(
         data => {
           localStorage.setItem('token', data.token);
