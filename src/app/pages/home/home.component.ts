@@ -9,6 +9,8 @@ import { ReportDAL } from '../../dal/report.dal';
 
 import { CalendarHelper } from '../../helpers/calendar.helper';
 
+import { Configuration } from '../../app.constants';
+
 @Component({
   providers: [ReportDAL],
   selector: 'app-home',
@@ -26,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private userServ: UserService,
     private breadServ: BreadcrumbService,
     private reportDal: ReportDAL,
+    protected config: Configuration,
   ) {
     this.userServ.currentUser.subscribe((user: User) => this.currentUser = user);
 

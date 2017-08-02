@@ -5,5 +5,10 @@
     },
     "cache": {
         "timeout": 10000
+    },
+    "urls": {
+        "webmail": "",
+        "blog": "",
+        "cloud": ""
     }
 }
