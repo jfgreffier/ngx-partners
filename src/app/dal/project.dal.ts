@@ -5,6 +5,7 @@ import { Observable, ReplaySubject } from 'rxjs/Rx';
 
 import { Project } from '../models/project';
 import { Client } from '../models/client';
+import { User } from '../models/user';
 
 @Injectable()
 export class ProjectDAL {
@@ -28,6 +29,16 @@ export class ProjectDAL {
       projects.forEach(p => { array.push(new Project(p)); });
       this.projects.next(array);
     });
+  }
+
+  public readByUser = (user: User) => {
+    let u: string = user ? 'by-user/'+user.id : 'me';
+
+    return this.rest.getAll('projects', u).first().map(data => {
+      let array = new Array<Project>();
+      data.forEach(p => { array.push(new Project(p)); });
+      return array;
+    }).toPromise();
   }
 
   public read = (id: number): Observable<Project> => {

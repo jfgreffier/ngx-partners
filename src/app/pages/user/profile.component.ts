@@ -7,6 +7,7 @@ import { BreadcrumbService } from '../../services/breadcrumb.service';
 import { UserService } from '../../services/user.service';
 
 import { User } from '../../models/user';
+import { Project } from '../../models/project';
 
 import { UserDAL } from '../../dal/user.dal';
 import { ProjectDAL } from '../../dal/project.dal';
@@ -33,12 +34,15 @@ export class ProfileComponent implements OnInit {
   protected reportMonth: Date = new Date();
   protected reportMonthDropdownOpen: boolean = false;
 
+  protected projects: Array<Project> = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private breadServ: BreadcrumbService,
     private userDal: UserDAL,
     private reportDal: ReportDAL,
+    private projectDal: ProjectDAL,
     private notif: NotificationService,
     private userServ: UserService,
   ) {
@@ -71,6 +75,8 @@ export class ProfileComponent implements OnInit {
                 { icon: 'user', link: ['/portal', 'users', 'me'], title: 'Mon Profil' }
               ]
             });
+
+            this.readProjects(null);
           });
         }else{
           this.userDal.readById(+params['id']).then((user: User) => {
@@ -85,6 +91,8 @@ export class ProfileComponent implements OnInit {
                 { icon: 'user', link: (user && user.id) ? ['/portal', 'users', user.id] : [], title: user.getName() }
               ]
             });
+
+            this.readProjects(user);
           });
         }
       });
@@ -164,6 +172,12 @@ export class ProfileComponent implements OnInit {
 
     this.userDal.resendConfirmationMail(this.user).then(() => {
       this.profileProgress = 0;
+    });
+  }
+
+  public readProjects(user: User) {
+    this.projectDal.readByUser(user).then(projects => {
+      this.projects = projects;
     });
   }
 
