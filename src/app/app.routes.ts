@@ -21,6 +21,10 @@ const routes: Routes = [
     path: 'login'
   },
   {
+    component: LoginComponent,
+    path: 'logout'
+  },
+  {
     component: RegistrationComponent,
     path: 'registration/:token'
   },

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private userServ: UserService,
     private router: Router,
+    private route: ActivatedRoute,
     private authentication: AuthenticationService,
   ) {
   }
@@ -27,10 +28,17 @@ export class LoginComponent implements OnInit {
   public ngOnInit() {
     window.dispatchEvent( new Event( 'resize' ) );
 
-    if (this.authentication.loggedIn()){
-      this.loginProgress = 1;
-      this.router.navigate(['/portal']);
-    }
+    this.route.url.first().subscribe(url => {
+      if (url[0].toString() == 'logout') {
+        this.userServ.logout();
+        return;
+      }
+
+      if (this.authentication.loggedIn()) {
+        this.loginProgress = 1;
+        this.router.navigate(['/portal']);
+      }
+    });
   }
 
   private login() {
