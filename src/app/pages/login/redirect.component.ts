@@ -18,28 +18,15 @@ export class RedirectComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    $("#redirectForm")[0].action = this.acu;
-    $("#redirectForm #SAMLResponse")[0].value = this.response;
-    $("#redirectForm #RelayState")[0].value = this.relayState;
-    $("#newTabRedirectForm")[0].action = this.acu;
-    $("#newTabRedirectForm #SAMLResponse")[0].value = this.response;
-    $("#newTabRedirectForm #RelayState")[0].value = this.relayState;
+    setTimeout(() => {
+      $("#redirectButton").click();
+    }, 200);
   }
 
   redirect(): void {
-    var isFirefox = typeof InstallTrigger !== 'undefined';
-
-    if (isFirefox) {
-      setTimeout(() => {
-        $("#newTabRedirectForm").submit();
-        window.close();
-      }, 200);
-    } else {
-      setTimeout(() => {
-        $("#redirectForm").submit();
-      }, 200);
-    }
-
+    setTimeout(() => {
+      $("#redirectForm").submit();
+    }, 200);
   }
 
 }

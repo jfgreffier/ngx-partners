@@ -1,9 +1,5 @@
-<form ngNoForm method="POST" target="_parent" id="redirectForm">
-    <input hidden="true" id="SAMLResponse" name="SAMLResponse" />
-    <input hidden="true" id="RelayState" name="RelayState" />
+<form ngNoForm method="POST" target="_parent" id="redirectForm" [action]="acu">
+    <input hidden="true" id="SAMLResponse" name="SAMLResponse" [value]="response" />
+    <input hidden="true" id="RelayState" name="RelayState" [value]="relayState" />
 </form>
-<form ngNoForm method="POST" target="_blank" id="newTabRedirectForm">
-    <input hidden="true" id="SAMLResponse" name="SAMLResponse" />
-    <input hidden="true" id="RelayState" name="RelayState" />
-</form>
-<input type="submit" (click)="redirect()" value="Click me!" />
+<input id="redirectButton" hidden="true" type="submit" (click)="redirect()" value="Click me!" />
