@@ -70,7 +70,7 @@ export class RestService {
       }
     }
 
-    this.http.get(this.getActionUrl(entity))
+    this.http.get(this.getActionUrl(entity) + uri)
       .map((response: Response) => {
 
         // getting an array having the same name as the model
