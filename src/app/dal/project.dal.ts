@@ -42,7 +42,7 @@ export class ProjectDAL {
   }
 
   public read = (id: number): Observable<Project> => {
-    return this.rest.get('projects', id);
+    return this.rest.get('projects', id).map(data => new Project(data['project']));
   }
 
   public create = (newProject: Project): Promise<any> => {

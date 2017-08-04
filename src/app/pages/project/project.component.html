@@ -18,7 +18,7 @@
                         <tr *ngFor="let project of projects">
                             <td>{{project.id}}</td>
                             <td><a [routerLink]="['/portal', 'clients', project.client.id]">{{project.client.name}}</a></td>
-                            <td>{{project.name}}</td>
+                            <td><a [routerLink]="['/portal', 'projects', project.id]">{{project.name}}</a></td>
                             <td>
                                 <small *ngIf="project.isActive()" class="label bg-green">Actif</small>
                                 <small *ngIf="!project.isActive()" class="label bg-yellow">Archivé</small>
@@ -27,6 +27,7 @@
                                 <div class="btn-group">
                                     <button class="btn btn-sm btn-warning" type="button" (click)="removeProjectModal.show(project)"><i class="fa fa-fw fa-times"></i> Supprimer</button>
                                     <button class="btn btn-sm btn-default" type="button" (click)="editProjectModal.show(project)"><i class="fa fa-fw fa-external-link"></i> Modifier</button>
+                                    <button class="btn btn-sm btn-default" type="button" [routerLink]="['/portal', 'projects', project.id]"><i class="fa fa-fw fa-arrow-circle-right"></i> Détails ...</button>
                                 </div>
                             </td>
                         </tr>

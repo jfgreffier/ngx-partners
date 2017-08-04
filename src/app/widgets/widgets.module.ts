@@ -30,6 +30,7 @@ import { ModalDialogComponent } from './modal-dialog';
 import { AvatarComponent } from './avatar';
 import { LoadingCubeComponent } from './loading-cube';
 import { ActivityReportComponent } from './activity-report';
+import { ProjectReportComponent } from './project-report';
 import { ReportStatusLabelComponent } from './report-status-label';
 
 let widgets = [
@@ -45,6 +46,7 @@ let widgets = [
     ModalDialogComponent,
     AvatarComponent,
     ActivityReportComponent,
+    ProjectReportComponent,
     ReportStatusLabelComponent,
 ];
 

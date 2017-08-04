@@ -26,7 +26,7 @@ export class UserDAL {
       let array = new Array<User>();
       users.forEach(u => { array.push(new User(u)); });
       this.users.next(array);
-      return users;
+      return array;
     });
   }
 

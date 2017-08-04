@@ -48,28 +48,30 @@
                 <ng-container *ngFor="let project of clientProjects">
                     <div class="col-md-12" *ngIf='project.isActive()'>
                         <div class="well" style="padding: 10px; margin: 10px">
-                            <div class="row">
-                                <div class="col-xs-5">
-                                    <div class="form-group">
-                                        <label>{{project.name}}</label>
-                                        <p>&nbsp;&nbsp;{{project.client.name}}</p>
+                            <a [routerLink]="['/portal', 'projects', project.id]">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label>{{project.name}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <ng-container *ngFor="let user of projectUsers[project.id]">
+                                            <a [routerLink]="['/portal', 'users', user.id]">
+                                                <avatar [user]="user" class="pull-right" style="padding-right: 5px"></avatar>
+                                            </a>
+                                        </ng-container>
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <div class="btn-group-vertical pull-right">
+                                            <button title="Ouvrir" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"
+                                                [routerLink]="['/portal', 'projects', project.id]">
+                                                <i class="fa fa-arrow-right"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-6">
-                                    <ng-container *ngFor="let user of projectUsers[project.id]">
-                                        <a [routerLink]="['/portal', 'users', user.id]">
-                                            <avatar [user]="user" class="pull-right" style="padding-right: 5px"></avatar>
-                                        </a>
-                                    </ng-container>
-                                </div>
-                                <div class="col-xs-1">
-                                    <div class="btn-group-vertical pull-right">
-                                        <button title="Ouvrir" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"><i class="fa fa-arrow-right"></i></button>
-                                        <button title="Archiver" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"><i class="fa fa-archive"></i></button>
-                                        <button title="Supprimer" data-toggle="tooltip" type="button" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </ng-container>

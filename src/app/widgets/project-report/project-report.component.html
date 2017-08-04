@@ -1,0 +1,45 @@
+<div class="table-responsive" style="min-height: 100px">
+    <table class="table table-striped table-hover table-condensed activity-report">
+            <tr>
+                <th class="month"><h4>{{ currentMonthName }}<br />{{ currentMonth.getFullYear() }}</h4></th>
+                <th *ngFor='let day of days'>
+                    <p>
+                        {{ day.day }}<br /><small>{{ day.shortName }}</small>
+                    </p>
+                </th>
+                <th></th>
+                <th class="row-sum">T</th>
+            </tr>
+            <tr *ngFor="let user of shownUsers" class="entry">
+                <td nowrap="nowrap">
+                    <b>
+                        <a [routerLink]="['/portal', 'users', user.id]">{{ user.getName() }}</a>
+                    </b>
+                </td>
+
+                <td *ngFor="let day of days">
+                    <div [hidden]="!day.working">
+                        <input disabled
+                            size="1" class="form-control input-sm"
+                            [ngModel]="values[user.id][day.day]"
+                            [ngClass]="{
+                                'report-value-valid': values[user.id][day.day] != 0,
+                                'report-value-invalid': values[user.id][day.day] != 0 && dayError[day.day]
+                                }"
+                        />
+                    </div>
+                </td>
+                <td></td>
+                <td class="row-sum">{{ rowSum[user.id] }}</td>
+            </tr>
+
+    </table>
+    <div class="col-md-12" [hidden]="reportProgress || shownUsers.length">
+        <p class="text-muted" style="text-align: center">
+            <i>Aucune activité renseignée pour <b>{{currentMonthName}} {{ currentMonth.getFullYear() }}</b></i>
+        </p>
+    </div>
+    <div class="floating-cube" *ngIf="reportProgress">
+        <loading-cube></loading-cube>
+    </div>
+</div>

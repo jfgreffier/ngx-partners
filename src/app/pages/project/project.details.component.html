@@ -1,0 +1,99 @@
+<div class="row">
+    <div class="col-lg-7 col-md-6">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Résumé</h3>
+            </div>
+            <div class="box-body" [hidden]="!project || resumeProgress">
+                <form #editProjectForm="ngForm" (ngSubmit)="saveProject()" *ngIf="project">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group has-feedback">
+                                <label for="name">Nom</label>
+                                <input type="text" class="form-control" placeholder="Nom du projet" name="name" [(ngModel)]="project.name" required>
+                                <span class="fa fa-tag form-control-feedback"></span>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label for="client">Client</label>
+                                <select *ngIf="project.client" class="form-control" placeholder="Client" name="client" [(ngModel)]="project.client.id" required>
+                                    <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
+                                </select>
+                                <span class="fa fa-suitcase form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group has-feedback">
+                                <label for="status">Statut</label>
+                                <select *ngIf="project.id" class="form-control" placeholder="Statut" name="status"
+                                    [ngModel]="project.getStatus()" (ngModelChange)="project.setStatus($event)"required>
+                                    <option *ngFor="let status of projectsStatus" [value]="status.value">{{status.name}}</option>
+                                </select>
+                                <span class="fa fa-wrench form-control-feedback"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br /><br />
+                    <div class="row">
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary btn-block" [disabled]="!editProjectForm.valid"><i class="fa fa-save fa-fw"></i> Enregistrer les modifications</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <loading-cube class="box-body" [hidden]="project && !resumeProgress"></loading-cube>
+        </div>
+    </div>
+    <div class="col-lg-5 col-md-6">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Partners</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Avatar</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                        </tr>
+                        <tr *ngFor="let user of users">
+                            <td>
+                                <a [routerLink]="['/portal', 'users', user.id]">
+                                    <avatar [user]="user"></avatar>
+                                </a>
+                            </td>
+                            <td>{{user.firstname}}</td>
+                            <td>{{user.lastname}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title" style="vertical-align: middle">Comptes rendus d'activités</h3>
+                <div class="pull-right">
+                    <div dropdown [autoClose]="false" [isOpen]="reportMonthDropdownOpen" class="btn-group">
+                        <button type="button" class="btn btn-primary" (click)="reportMonthPrevious()"><i class="fa fa-arrow-circle-left"></i></button>
+                        <button dropdownToggle type="button" class="btn btn-primary" (click)="toggleReportMonthDropdown($event)">
+                            {{ reportMonth | date: 'MMMM yyyy' }} <span class="caret"></span>
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu" role="menu">
+                            <datepicker [ngModel]="reportMonth" [minMode]="'month'" [datepickerMode]="'month'" [showWeeks]="false" (selectionDone)="selectReportMonth($event)"></datepicker>
+                        </ul>
+                        <button type="button" class="btn btn-primary" (click)="reportMonthNext()"><i class="fa fa-arrow-circle-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" *ngIf="project">
+                <project-report [currentMonth]="reportMonth" [project]="project"></project-report>
+            </div>
+        </div>
+    </div>
+</div>
