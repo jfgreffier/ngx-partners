@@ -17,7 +17,6 @@ export class UserService {
       private router: Router,
       private http: AuthHttp,
       private authentication: AuthenticationService,
-      private config: Configuration,
     ) {
       if (authentication.loggedIn()){
         this.fetchUser();
@@ -38,7 +37,7 @@ export class UserService {
     }
 
     public fetchUser() {
-      let url = this.config.serverWithApiUrl + 'users/me';
+      let url = Configuration.serverWithApiUrl + 'users/me';
 
       let req = this.http.get(url)
         .map((data: Response) => data.json())

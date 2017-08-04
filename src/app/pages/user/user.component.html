@@ -57,17 +57,19 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-group has-feedback">
-                                <input type="text" class="form-control" placeholder="Firstname" name="firstname" [(ngModel)]="newUser.firstname" required>
+                                <input type="text" class="form-control" placeholder="Firstname" name="firstname"
+                                    [(ngModel)]="newUser.firstname" (ngModelChange)="newUser.updateProEmail()" required>
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                             </div>
                             <div class="form-group has-feedback">
-                                <input type="text" class="form-control" placeholder="Lastname" name="lastname" [(ngModel)]="newUser.lastname" required>
+                                <input type="text" class="form-control" placeholder="Lastname" name="lastname"
+                                    [(ngModel)]="newUser.lastname" (ngModelChange)="newUser.updateProEmail()" required>
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="email" class="form-control" placeholder="Email" name="email" [(ngModel)]="newUser.email" required>
+                        <input type="email" class="form-control" placeholder="Email perso" name="email" [(ngModel)]="newUser.email" required>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
@@ -77,6 +79,17 @@
                         </select>
                         <span class="fa fa-id-badge form-control-feedback"></span>
                     </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="proEmail" [(ngModel)]="newUser.generateProEmail">
+                            Créer l'adresse {{ newUser.proEmail }}
+                        </label>
+                    </div>
+                    <p *ngIf="newUser.email">
+                        <br /><i>
+                            Un mail va être envoyé à <b>{{ newUser.email }}</b> avec les instructions pour la création du nom d'utilisateur et du mot de passe.
+                        </i>
+                    </p>
                     <div class="row">
                         <div class="col-xs-8"></div>
                         <!-- /.col -->

@@ -10,7 +10,7 @@ export class RestService {
   private headers: Headers;
   private requests: Object = new Object;
 
-  constructor(private http: AuthHttp, private config: Configuration) {
+  constructor(private http: AuthHttp) {
     this.headers = new Headers();
     this.headers.append('Content-Type', 'application/json');
     this.headers.append('Accept', 'application/json');
@@ -50,13 +50,13 @@ export class RestService {
   }
 
   private getActionUrl(modelName: string) {
-    return this.config.serverWithApiUrl + modelName + '/';
+    return Configuration.serverWithApiUrl + modelName + '/';
   }
 
   // REST functions
 
   public getAll(entity: string, uri?: string, expire: number = -1): Observable<any[]> {
-    if (expire < 0) expire = this.config.cacheTimeout;
+    if (expire < 0) expire = Configuration.cacheTimeout;
 
     uri = uri || '';
     let modelName = entity + '/' + uri;
@@ -98,7 +98,7 @@ export class RestService {
   }
 
   public get(entity: string, id?: number, expire: number = -1): Observable<any> {
-    if (expire < 0) expire = this.config.cacheTimeout;
+    if (expire < 0) expire = Configuration.cacheTimeout;
 
     let sid: string = "" + (id || "");
     let modelName = entity + '/' + sid;

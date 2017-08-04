@@ -13,12 +13,11 @@ export class AuthenticationService {
   constructor(
     private http: Http,
     private router: Router,
-    private config: Configuration,
   ) {
   }
 
   authenticate(username: string, password: string) {
-    let url = this.config.serverWithApiUrl + 'login_check';
+    let url = Configuration.serverWithApiUrl + 'login_check';
     let body = new URLSearchParams();
     body.append('username', username);
     body.append('password', password);
@@ -30,7 +29,7 @@ export class AuthenticationService {
   }
 
   getRegistrationInfo(token: string) {
-    let url = this.config.serverWithApiUrl + 'registration/' + token;
+    let url = Configuration.serverWithApiUrl + 'registration/' + token;
 
     return this.http.get(url)
       .map((data: Response) => data.json())
@@ -38,7 +37,7 @@ export class AuthenticationService {
   }
 
   registrationConfirm(token: string, username: string, password: string) {
-    let url = this.config.serverWithApiUrl + 'registration/' + token;
+    let url = Configuration.serverWithApiUrl + 'registration/' + token;
 
     let body = new URLSearchParams();
     body.append('username', username);

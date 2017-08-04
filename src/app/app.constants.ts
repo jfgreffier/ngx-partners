@@ -4,13 +4,15 @@ let Configurator = require('Configurator');
 
 @Injectable()
 export class Configuration {
-    public server: string = Configurator.api.server;
-    public apiUrl: string = Configurator.api.uri;
-    public serverWithApiUrl = this.server + this.apiUrl;
+    public static server: string = Configurator.api.server;
+    public static apiUrl: string = Configurator.api.uri;
+    public static serverWithApiUrl = Configuration.server + Configuration.apiUrl;
 
-    public cacheTimeout: number = Configurator.cache.timeout;
+    public static cacheTimeout: number = Configurator.cache.timeout;
 
-    public webmailUrl: string = Configurator.urls.webmail;
-    public blogUrl: string = Configurator.urls.blog;
-    public cloudUrl: string = Configurator.urls.cloud;
+    public static webmailUrl: string = Configurator.urls.webmail;
+    public static blogUrl: string = Configurator.urls.blog;
+    public static cloudUrl: string = Configurator.urls.cloud;
+
+    public static mailDomain: string = Configurator.mail.domain;
 }

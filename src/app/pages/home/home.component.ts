@@ -24,11 +24,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   protected reportMonth: string;
   protected reportYear: number;
 
+  protected config: any = {};
+
   constructor(
     private userServ: UserService,
     private breadServ: BreadcrumbService,
     private reportDal: ReportDAL,
-    protected config: Configuration,
   ) {
     this.userServ.currentUser.subscribe((user: User) => this.currentUser = user);
 
@@ -37,6 +38,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.reportMonth = CalendarHelper.monthName(month);
       this.reportYear = month.getFullYear();
     });
+
+    this.config.webmailUrl = Configuration.webmailUrl;
+    this.config.blogUrl = Configuration.blogUrl;
+    this.config.cloudUrl = Configuration.cloudUrl;
   }
 
   public ngOnInit() {

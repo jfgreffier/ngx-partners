@@ -37,6 +37,11 @@
                                 <input type="text" class="form-control" placeholder="Nom d'utilisateur" name="username" [(ngModel)]="user.username" required>
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                             </div>
+                            <div class="form-group has-feedback">
+                                <label for="proEmail">Adresse mail pro</label>
+                                <input type="email" class="form-control" placeholder="Email pro" name="proEmail" [(ngModel)]="user.proEmail" required>
+                                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                            </div>
                         </div>
                     </div>
                     <br /><br />

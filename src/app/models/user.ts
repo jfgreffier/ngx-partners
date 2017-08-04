@@ -1,11 +1,16 @@
+import { Configuration } from '../app.constants';
+
 export class User {
     public id: number;
     public username: string;
     public firstname: string;
     public lastname: string;
     public email: string;
+    public proEmail: string;
     public role: string;
     public enabled: boolean;
+
+    public generateProEmail: boolean;
 
     public avatarUrl: string;
     public creationDate: string;
@@ -19,8 +24,11 @@ export class User {
         this.firstname = data.firstname || '';
         this.lastname = data.lastname || '';
         this.email = data.email || '';
+        this.proEmail = data.proEmail || '@' + Configuration.mailDomain;
         this.role = data.role || 'ROLE_USER';
         this.enabled = data.enabled || false;
+
+        this.generateProEmail = data.generateProEmail || true;
 
         this.avatarUrl = data.avatarUrl || '';
         this.creationDate = data.creation_date || Date.now();
@@ -35,5 +43,18 @@ export class User {
 
     public isAdmin(): boolean {
         return this.role == 'ROLE_ADMIN';
+    }
+
+    public updateProEmail() {
+        let sanitizedFirstname = this.firstname.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase();
+        let sanitizedLastname = this.lastname.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase();
+
+        this.proEmail = sanitizedFirstname;
+
+        if (sanitizedFirstname.length && sanitizedLastname.length) this.proEmail += '.';
+
+        this.proEmail += sanitizedLastname;
+
+        this.proEmail += '@' + Configuration.mailDomain;
     }
 }

@@ -35,7 +35,6 @@ export class CASComponent implements OnInit {
     private userServ: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private config: Configuration,
     private http: Http,
     private authHttp: AuthHttp,
     private authentication: AuthenticationService,
@@ -89,7 +88,7 @@ export class CASComponent implements OnInit {
   }
 
   private saml() {
-    let url = this.config.serverWithApiUrl + 'saml/response';
+    let url = Configuration.serverWithApiUrl + 'saml/response';
     let body = new URLSearchParams();
     body.append('token', this.token);
     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
