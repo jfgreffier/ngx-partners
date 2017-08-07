@@ -58,7 +58,7 @@ export class UserDAL {
   }
 
   public update = (user: User, self: boolean): Promise<any> => {
-    return this.rest.update('users' + (self ? '/me' : ''), (self ? null : user.id), user).first().toPromise().then((res) => {
+    return this.rest.update('users' + (self ? '/me' : ''), (self ? null : user.id), (self ? user.trimForUsers() : user)).first().toPromise().then((res) => {
       this.notif.success('Les informations ont bien été enregistrées.');
       let u: User = new User(res.user);
 

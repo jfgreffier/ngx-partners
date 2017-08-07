@@ -25,19 +25,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group has-feedback" *ngIf="user.enabled && currentUser.isAdmin()">
+                                <label for="username">Nom d'utilisateur</label>
+                                <input type="text" class="form-control" placeholder="Nom d'utilisateur" name="username" [(ngModel)]="user.username" required>
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
                             <div class="form-group has-feedback">
                                 <label for="email">Adresse mail</label>
                                 <input type="email" class="form-control" placeholder="Email" name="email" [(ngModel)]="user.email" required>
                                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group has-feedback" *ngIf="user.enabled">
-                                <label for="username">Nom d'utilisateur</label>
-                                <input type="text" class="form-control" placeholder="Nom d'utilisateur" name="username" [(ngModel)]="user.username" required>
-                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                            </div>
-                            <div class="form-group has-feedback">
+                            <div class="form-group has-feedback" *ngIf="currentUser.isAdmin()">
                                 <label for="proEmail">Adresse mail pro</label>
                                 <input type="email" class="form-control" placeholder="Email pro" name="proEmail" [(ngModel)]="user.proEmail" required>
                                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -50,7 +50,7 @@
                             <button type="button" class="btn btn-default btn-block" (click)="editPasswordModal.show()"><i class="fa fa-lock fa-fw"></i> Modifier le mot de passe</button>
                         </div>
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-default btn-block" (click)="resendConfirmationMail()" *ngIf="!user.enabled"><i class="fa fa-envelope fa-fw"></i> Renvoyer le mail d'activation</button>
+                            <button type="button" class="btn btn-default btn-block" (click)="resendConfirmationMail()" *ngIf="!user.enabled && currentUser.isAdmin()"><i class="fa fa-envelope fa-fw"></i> Renvoyer le mail d'activation</button>
                         </div>
                         <!-- /.col -->
                         <div class="col-md-4">
@@ -144,6 +144,14 @@
             </div>
         </form>
     </div>
+    <small><i>
+        Attention, le mot de passe doit respecter les conditions suivantes :
+        <ul>
+        <li>Minimum 9 caractères</li>
+        <li>Maximum 30 caractères</li>
+        <li>Aucun caractère accentué</li>
+        </ul>
+    </i></small>
     <div class="modal-dialog-footer">
         <button type="button" class="btn btn-default" (click)="editPasswordModal.hide()">Retour</button>
         <button type="button" class="btn btn-success"
