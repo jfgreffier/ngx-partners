@@ -73,7 +73,7 @@ export class UserDAL {
   }
 
   public updatePassword = (user: User, password: string, self: boolean): Promise<any> => {
-    return this.rest.update('users' + (self ? '/me' : '') + '/password', (self ? null : user.id), { 'password': password }).first().toPromise().then((res) => {
+    return this.rest.update('users/' + (self ? 'me' : user.id) + '/password', null, { 'password': password }).first().toPromise().then((res) => {
       this.notif.success('Le mot de passe a bien été modifié.');
     }).catch((err) => {
       console.log(err);
