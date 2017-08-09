@@ -1,5 +1,7 @@
 import { Configuration } from '../app.constants';
 
+import { AccentsHelper } from '../helpers/accents.helper'
+
 export class User {
     public id: number;
     public username: string;
@@ -46,8 +48,8 @@ export class User {
     }
 
     public updateProEmail() {
-        let sanitizedFirstname = this.firstname.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase();
-        let sanitizedLastname = this.lastname.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase();
+        let sanitizedFirstname = AccentsHelper.removeDiacritics(this.firstname).replace(/[^A-Za-z0-9]+/g, '-').toLowerCase();
+        let sanitizedLastname = AccentsHelper.removeDiacritics(this.lastname).replace(/[^A-Za-z0-9]+/g, '-').toLowerCase();
 
         this.proEmail = sanitizedFirstname;
 

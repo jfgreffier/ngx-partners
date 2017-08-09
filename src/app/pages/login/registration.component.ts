@@ -6,6 +6,8 @@ import { AuthenticationService } from '../../services/authentication.service';
 
 import { Configuration } from '../../app.constants';
 
+import { AccentsHelper } from '../../helpers/accents.helper';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html'
@@ -49,6 +51,10 @@ export class RegistrationComponent implements OnInit {
     }
     if (this.password !== this.password_check) {
       this.error = 'credentials';
+      return;
+    }
+    if (this.password.length < 9 || this.password.length > 30 || AccentsHelper.removeDiacritics(this.password) !== this.password) {
+      this.error = 'password';
       return;
     }
 

@@ -13,6 +13,8 @@ import { UserDAL } from '../../dal/user.dal';
 import { ProjectDAL } from '../../dal/project.dal';
 import { ReportDAL } from '../../dal/report.dal';
 
+import { AccentsHelper } from '../../helpers/accents.helper';
+
 @Component({
   providers: [UserDAL, ProjectDAL, ReportDAL],
   selector: 'app-profile',
@@ -115,6 +117,10 @@ export class ProfileComponent implements OnInit {
   public updatePassword() {
     if (this.password == "" || this.password !== this.password_check) {
       this.notif.error('Les mots de passes ne correspondent pas');
+      return;
+    }
+    if (this.password.length < 9 || this.password.length > 30 || AccentsHelper.removeDiacritics(this.password) !== this.password) {
+      this.notif.error('Le mot de passe ne respecte pas les conditions.');
       return;
     }
 
