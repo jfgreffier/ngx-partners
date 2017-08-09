@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
 
@@ -17,10 +17,10 @@ export class CanActivateGuard implements CanActivate {
     });
   }
 
-  public canActivate() {
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // test here if you user is logged
     if (!this.authentication.loggedIn()){
-      this.router.navigate( [ '/login' ] );
+      this.router.navigate( [ '/login' ], { queryParams: { returnUrl: state.url }} );
     }
 
     return this.authentication.loggedIn();

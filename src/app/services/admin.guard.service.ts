@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
 import { CanActivateGuard } from './guard.service'
@@ -19,7 +19,7 @@ export class CanActivateAdminGuard extends CanActivateGuard {
     });
   }
 
-  public canActivate() {
-    return super.canActivate() && this.admin;
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return super.canActivate(route, state) && this.admin;
   }
 }

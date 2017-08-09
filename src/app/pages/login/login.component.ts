@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
 
   protected loginProgress: number = 0;
 
+  private returnUrl: string;
+
   constructor(
     private userServ: UserService,
     private router: Router,
@@ -39,6 +41,8 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/portal']);
       }
     });
+
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/portal/home';
   }
 
   private login() {
@@ -70,7 +74,7 @@ export class LoginComponent implements OnInit {
         user => {
           console.log(user.getName() + " logged in!");
           this.loginProgress = 0;
-          this.router.navigate(['/portal', 'home']);
+          this.router.navigateByUrl(this.returnUrl);
         },
         error => {
           this.loginProgress = 0;

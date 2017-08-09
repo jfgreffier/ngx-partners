@@ -1,11 +1,11 @@
 .identicons {
   border-radius: 50%;
-  padding-top: 4px;
   width: 45px;
   height: 45px;
   text-align: center;
   vertical-align: middle;
   font-size: 24px;
+  line-height: 43px;
   background-color: black;
   color: white;
 }
@@ -14,6 +14,7 @@
   width: 80px;
   height: 80px;
   font-size: 48px;
+  line-height: 80px;
   border: 2px solid;
   border-color: rgba(255, 255, 255, 0.3);
 }
@@ -22,7 +23,7 @@
   width: 25px;
   height: 25px;
   font-size: 12px;
-  padding-top: 1px;
+  line-height: 25px;
 }
 
 .identicons-img {
