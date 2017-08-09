@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
 
@@ -17,12 +18,12 @@ export class CanActivateGuard implements CanActivate {
     });
   }
 
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     // test here if you user is logged
     if (!this.authentication.loggedIn()){
       this.router.navigate( [ '/login' ], { queryParams: { returnUrl: state.url }} );
     }
 
-    return this.authentication.loggedIn();
+    return Observable.of(this.authentication.loggedIn());
   }
 }

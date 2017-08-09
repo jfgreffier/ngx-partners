@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
 import { CanActivateGuard } from './guard.service'
 
 @Injectable()
 export class CanActivateAdminGuard extends CanActivateGuard {
-  private admin: boolean = true;
+  private admin: boolean = false;
 
   constructor(
     private _router: Router,
@@ -19,7 +20,9 @@ export class CanActivateAdminGuard extends CanActivateGuard {
     });
   }
 
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return super.canActivate(route, state) && this.admin;
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    return Observable.combineLatest(this._user.currentUser, super.canActivate(route, state), (user, can) => {
+      return can && user.isAdmin();
+    });
   }
 }
