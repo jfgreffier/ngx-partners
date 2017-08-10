@@ -15,7 +15,7 @@
                             <th>Prénom</th>
                             <th>Nom</th>
                             <th>Email</th>
-                            <th style="width: 280px;">Actions</th>
+                            <th>Actions</th>
                         </tr>
                         <tr *ngFor="let user of users" class="user-entry">
                             <td>
@@ -24,13 +24,15 @@
                                 </a>
                             </td>
                             <td>{{user.id}}</td>
-                            <td><a [routerLink]="['/portal', 'users', user.id]" *ngIf="user.enabled">{{user.username}}</a></td>
+                            <td><a [routerLink]="['/portal', 'users', user.id]">{{user.username}}</a></td>
                             <td>{{user.firstname}}</td>
                             <td>{{user.lastname}}</td>
                             <td>{{user.email}}</td>
                             <td>
                                 <div class="btn-group">
                                     <button class="btn btn-sm btn-danger" type="button" (click)="removeUserModal.show(user)">Supprimer</button>
+                                    <button *ngIf="!user.enabled && user.username" class="btn btn-sm btn-primary" type="button" (click)="activateUser(user)">Activer</button>
+                                    <button *ngIf="user.enabled" class="btn btn-sm btn-warning" type="button" (click)="deactivateUserModal.show(user)">Désactiver</button>
                                     <a class="btn btn-sm btn-primary" type="button" [routerLink]="['/portal', 'users', user.id]">Modifier / Consulter le profil</a>
                                 </div>
                             </td>
@@ -106,7 +108,7 @@
 </div>
 
 <modal-dialog #removeUserModal color="danger">
-    <div class="modal-dialog-header">Suppression d'un projet</div>
+    <div class="modal-dialog-header">Suppression d'un utilisateur</div>
     <div class="modal-dialog-body" *ngIf="removeUserModal.entity">
         <i class="fa fa-exclamation-circle fa-fw"></i>
         Etes vous sûr de vouloir supprimer l'utilisateur <b>{{ removeUserModal.entity.firstname }} {{ removeUserModal.entity.lastname }}</b> ?.<br />
@@ -116,5 +118,20 @@
     <div class="modal-dialog-footer" *ngIf="removeUserModal.entity">
         <button type="button" class="btn btn-default" (click)="removeUserModal.hide()">Annuler</button>
         <button type="button" class="btn btn-danger" (click)="deleteUser(removeUserModal.entity); removeUserModal.hide()"><i class="fa fa-upload fa-fw"></i> Confirmer la suppression</button>
+    </div>
+</modal-dialog>
+
+<modal-dialog #deactivateUserModal color="warning">
+    <div class="modal-dialog-header">Désactivation d'un utilisateur</div>
+    <div class="modal-dialog-body" *ngIf="removeUserModal.entity">
+        <i class="fa fa-exclamation-circle fa-fw"></i>
+        Etes vous sûr de vouloir désactiver l'utilisateur <b>{{ deactivateUserModal.entity.firstname }} {{ deactivateUserModal.entity.lastname }}</b> ?.<br /><br />
+        Cette action aura pour effet de désactiver la connexion au portail du compte <b>{{ deactivateUserModal.entity.username }}</b> et de réinitialiser le mot de passe
+        des comptes associés (cloud et mail).<br /><br />
+        Le mot de passe généré sera envoyé à l'adresse par défaut du serveur.
+    </div>
+    <div class="modal-dialog-footer" *ngIf="removeUserModal.entity">
+        <button type="button" class="btn btn-default" (click)="deactivateUserModal.hide()">Annuler</button>
+        <button type="button" class="btn btn-danger" (click)="deactivateUser(deactivateUserModal.entity); deactivateUserModal.hide()"><i class="fa fa-upload fa-fw"></i> Confirmer la désactivation</button>
     </div>
 </modal-dialog>

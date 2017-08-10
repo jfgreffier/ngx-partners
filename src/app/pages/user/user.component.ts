@@ -75,4 +75,22 @@ export class UserComponent implements OnInit {
       this.usersProgress = 0;
     });
   }
+
+  public activateUser(user: User) {
+    this.usersProgress = 1;
+    this.userDal.activate(user).then(() => {
+      this.usersProgress = 0;
+    }).catch(() => {
+      this.usersProgress = 0;
+    });
+  }
+
+  public deactivateUser(user: User) {
+    this.usersProgress = 1;
+    this.userDal.deactivate(user).then(() => {
+      this.usersProgress = 0;
+    }).catch(() => {
+      this.usersProgress = 0;
+    });
+  }
 }

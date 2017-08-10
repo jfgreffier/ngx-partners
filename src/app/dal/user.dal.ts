@@ -112,4 +112,34 @@ export class UserDAL {
     });
   }
 
+  public activate = (user: User): Promise<any> => {
+    return this.rest.add('users/' + user.id + '/activate', {}).first().toPromise().then((res) => {
+      this.notif.success('L\'utilisateur a bien été réactivé');
+      this.users.first().subscribe(users => {
+        let index = users.indexOf(user);
+        if (index > -1) users[index].enabled = true;
+
+        this.users.next(users);
+      });
+    }).catch((err) => {
+      console.log(err);
+      this.notif.error('Erreur lors de l\'activation');
+    });
+  }
+
+  public deactivate = (user: User): Promise<any> => {
+    return this.rest.add('users/' + user.id + '/deactivate', {}).first().toPromise().then((res) => {
+      this.notif.success('L\'utilisateur a bien été désactivé');
+      this.users.first().subscribe(users => {
+        let index = users.indexOf(user);
+        if (index > -1) users[index].enabled = false;
+
+        this.users.next(users);
+      });
+    }).catch((err) => {
+      console.log(err);
+      this.notif.error('Erreur lors de la désactivation');
+    });
+  }
+
 }
