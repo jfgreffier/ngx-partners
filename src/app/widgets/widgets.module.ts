@@ -20,10 +20,6 @@ let modules = [
 import { AppHeaderComponent } from './app-header';
 import { AppFooterComponent } from './app-footer';
 import { MenuAsideComponent } from './menu-aside';
-import { ControlSidebarComponent } from './control-sidebar';
-import { MessagesBoxComponent } from './messages-box';
-import { NotificationBoxComponent } from './notification-box';
-import { TasksBoxComponent } from './tasks-box';
 import { UserBoxComponent } from './user-box';
 import { BreadcrumbComponent } from './breadcrumb';
 import { ModalDialogComponent } from './modal-dialog';
@@ -38,10 +34,6 @@ let widgets = [
     AppHeaderComponent,
     AppFooterComponent,
     MenuAsideComponent,
-    ControlSidebarComponent,
-    MessagesBoxComponent,
-    NotificationBoxComponent,
-    TasksBoxComponent,
     UserBoxComponent,
     ModalDialogComponent,
     AvatarComponent,
