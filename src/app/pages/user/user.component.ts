@@ -38,7 +38,7 @@ export class UserComponent implements OnInit {
       this.usersProgress = 0;
     });
 
-    this.newUser = new User();
+    this.newUser = new User(({generateProEmail: true}));
 
     this.breadServ.set({
       header: 'Utilisateurs',
