@@ -149,7 +149,7 @@
                 <span class="fa fa-lock form-control-feedback"></span>
             </div>
 
-            <div class="form-check" *ngIf="!user.generateProEmail && user.proEmail">
+            <div class="form-check" *ngIf="user && !user.generateProEmail && user.proEmail">
                 <label class="form-check-label">
                     <input type="checkbox" class="form-check-input" name="generateProEmail" [(ngModel)]="password_createmailbox">
                     Lier mon adresse pro ({{ user.proEmail }}) à ce compte.
