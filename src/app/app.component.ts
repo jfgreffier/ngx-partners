@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Configuration } from './app.constants';
+
 import '../styles.less';
 
 @Component( {
@@ -8,11 +10,14 @@ import '../styles.less';
 })
 export class AppComponent implements OnInit {
     constructor( ) {
-      // TODO
+
     }
 
     public ngOnInit() {
-      // TODO
+      console.log(window.location.protocol);
+      if (!window.location.protocol.includes('https') && Configuration.serverWithApiUrl.includes('https://')) {
+        window.location.href = window.location.href.replace('http', 'https');
+      }
     }
 
 }
