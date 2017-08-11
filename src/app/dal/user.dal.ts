@@ -72,8 +72,11 @@ export class UserDAL {
     });
   }
 
-  public updatePassword = (user: User, password: string, self: boolean): Promise<any> => {
-    return this.rest.update('users/' + (self ? 'me' : user.id) + '/password', null, { 'password': password }).first().toPromise().then((res) => {
+  public updatePassword = (user: User, password: string, self: boolean, password_createmailbox: boolean = false): Promise<any> => {
+    return this.rest.update(
+      'users/' + (self ? 'me' : user.id) + '/password', null,
+      { 'password': password, 'linkmailbox': password_createmailbox ? 1 : 0 }
+    ).first().toPromise().then((res) => {
       this.notif.success('Le mot de passe a bien été modifié.');
     }).catch((err) => {
       console.log(err);

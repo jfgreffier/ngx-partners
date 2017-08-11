@@ -26,11 +26,11 @@ export class User {
         this.firstname = data.firstname || '';
         this.lastname = data.lastname || '';
         this.email = data.email || '';
-        this.proEmail = data.proEmail || '@' + Configuration.mailDomain;
+        this.proEmail = data.proEmail || '';
         this.role = data.role || 'ROLE_USER';
         this.enabled = data.enabled || false;
 
-        this.generateProEmail = data.generateProEmail || true;
+        this.generateProEmail = data.generateProEmail || false;
 
         this.avatarUrl = data.avatarUrl || '';
         this.creationDate = data.creation_date || Date.now();

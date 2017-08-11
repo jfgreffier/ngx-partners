@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
 
   protected password: string;
   protected password_check: string;
+  protected password_createmailbox: boolean;
 
   private self: boolean = false;
 
@@ -126,7 +127,7 @@ export class ProfileComponent implements OnInit {
 
     this.profileProgress = 1;
 
-    this.userDal.updatePassword(this.user, this.password, this.self).then(() => {
+    this.userDal.updatePassword(this.user, this.password, this.self, this.password_createmailbox).then(() => {
       this.profileProgress = 0;
     });
 

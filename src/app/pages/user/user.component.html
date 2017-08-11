@@ -24,7 +24,9 @@
                                 </a>
                             </td>
                             <td>{{user.id}}</td>
-                            <td><a [routerLink]="['/portal', 'users', user.id]">{{user.username}}</a></td>
+                            <td *ngIf="!user.isAdmin() && user.enabled"><a [routerLink]="['/portal', 'users', user.id]">{{user.username}}</a></td>
+                            <td *ngIf="user.isAdmin() && user.enabled"><b><a [routerLink]="['/portal', 'users', user.id]">{{user.username}}*</a></b></td>
+                            <td *ngIf="!user.enabled"><i><a [routerLink]="['/portal', 'users', user.id]">{{user.username}}</a></i></td>
                             <td>{{user.firstname}}</td>
                             <td>{{user.lastname}}</td>
                             <td>{{user.email}}</td>

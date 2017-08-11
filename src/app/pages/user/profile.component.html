@@ -42,18 +42,24 @@
                                 <input type="email" class="form-control" placeholder="Email pro" name="proEmail" [(ngModel)]="user.proEmail" email required>
                                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                             </div>
+                            <div class="form-check" *ngIf="currentUser.isAdmin()">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="generateProEmail" [(ngModel)]="user.generateProEmail" >
+                                    Gérer le mot de passe et la création de l'email pro.
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <br /><br />
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-lg-4">
                             <button type="button" class="btn btn-default btn-block" (click)="editPasswordModal.show()"><i class="fa fa-lock fa-fw"></i> Modifier le mot de passe</button>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-lg-4">
                             <button type="button" class="btn btn-default btn-block" (click)="resendConfirmationMail()" *ngIf="!user.enabled && currentUser.isAdmin()"><i class="fa fa-envelope fa-fw"></i> Renvoyer le mail d'activation</button>
                         </div>
                         <!-- /.col -->
-                        <div class="col-md-4">
+                        <div class="col-lg-4">
                             <button type="submit" class="btn btn-primary btn-block" [disabled]="!addUserForm.form.valid"><i class="fa fa-save fa-fw"></i> Enregistrer les modifications</button>
                         </div>
                         <!-- /.col -->
@@ -141,6 +147,15 @@
                 <label for="status">Confirmation</label>
                 <input type="password" class="form-control" placeholder="Confirmation" required name="passwd_check" [(ngModel)]="password_check" #passwd_check="ngModel">
                 <span class="fa fa-lock form-control-feedback"></span>
+            </div>
+
+            <div class="form-check" *ngIf="!user.generateProEmail && user.proEmail">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="generateProEmail" [(ngModel)]="password_createmailbox">
+                    Lier mon adresse pro ({{ user.proEmail }}) à ce compte.
+                    <i class="fa fa-fw fa-question-circle-o"
+                        title="Cette action va mettre à jour de mot de passe de votre compte {{ user.proEmail }} et le connecter au webmail. Vous pourrez y accéder avec la page Mail de ce portail."></i>
+                </label>
             </div>
         </form>
         <small><i>
