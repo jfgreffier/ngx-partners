@@ -9,14 +9,12 @@
                 <table class="table table-hover table-striped">
                     <tbody>
                         <tr>
-                            <th>Id</th>
                             <th>Client</th>
                             <th>Nom du projet</th>
                             <th>Etat</th>
 							<th></th>
                         </tr>
                         <tr *ngFor="let project of projects">
-                            <td>{{project.id}}</td>
                             <td><a [routerLink]="['/portal', 'clients', project.client.id]">{{project.client.name}}</a></td>
                             <td><a [routerLink]="['/portal', 'projects', project.id]">{{project.name}}</a></td>
                             <td>

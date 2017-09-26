@@ -10,12 +10,10 @@
                 <table class="table table-hover table-striped">
                     <tbody>
                         <tr>
-                            <th>Id</th>
                             <th>Client</th>
                             <th style="text-align: center; width: 110px"><i class="fa fa-gear"></i></th>
                         </tr>
                         <tr *ngFor="let client of clients" [class.selectedClient]="selectedClient == client">
-                            <td (click)="selectClient(client)">{{client.id}}</td>
                             <td (click)="selectClient(client)">{{client.name}}</td>
                             <td class="text-right">
                                 <button title="Supprimer" data-toggle="tooltip" type="button" class="btn btn-xs btn-danger"

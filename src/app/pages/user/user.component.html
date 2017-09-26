@@ -10,7 +10,6 @@
                     <tbody>
                         <tr>
                             <th style="width: 80px;">Avatar</th>
-                            <th style="width: 50px;">Id</th>
                             <th>Nom d'utilisateur</th>
                             <th>Prénom</th>
                             <th>Nom</th>
@@ -23,7 +22,6 @@
                                     <avatar [user]="user"></avatar>
                                 </a>
                             </td>
-                            <td>{{user.id}}</td>
                             <td *ngIf="!user.isAdmin() && user.enabled"><a [routerLink]="['/portal', 'users', user.id]">{{user.username}}</a></td>
                             <td *ngIf="user.isAdmin() && user.enabled"><b><a [routerLink]="['/portal', 'users', user.id]">{{user.username}}*</a></b></td>
                             <td *ngIf="!user.enabled"><i><a [routerLink]="['/portal', 'users', user.id]">{{user.username}}</a></i></td>
