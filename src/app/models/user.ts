@@ -49,7 +49,7 @@ export class User {
 
     public updateProEmail() {
         let sanitizedFirstname = AccentsHelper.removeDiacritics(this.firstname).replace(/[^A-Za-z0-9]+/g, '-').toLowerCase();
-        let sanitizedLastname = AccentsHelper.removeDiacritics(this.lastname).replace(/[^A-Za-z0-9]+/g, '-').toLowerCase();
+        let sanitizedLastname = AccentsHelper.removeDiacritics(this.lastname).replace(/[^A-Za-z0-9]+/g, '').toLowerCase();
 
         this.proEmail = sanitizedFirstname;
 
