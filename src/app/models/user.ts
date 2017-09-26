@@ -20,7 +20,7 @@ export class User {
 
     public connected: boolean = false;
 
-    public constructor( data: any = {}) {
+    public constructor(data: any = {}) {
         this.id = data.id || null;
         this.username = data.username || '';
         this.firstname = data.firstname || '';
@@ -53,7 +53,8 @@ export class User {
 
         this.proEmail = sanitizedFirstname;
 
-        if (sanitizedFirstname.length && sanitizedLastname.length) this.proEmail += '.';
+        if (sanitizedFirstname.length && sanitizedLastname.length)
+            this.proEmail += '.';
 
         this.proEmail += sanitizedLastname;
 

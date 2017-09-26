@@ -7,7 +7,7 @@
     <div class="login-box-body" *ngIf="!progress">
       <p class="login-box-msg">Bienvenue {{firstname}} {{lastname}} !</p>
 
-      <p>Pour terminer votre inscription, vous devez choisir un nom d'utilisateur et un mot de passe.</p>
+      <p>Pour terminer votre inscription, vous devez choisir un mot de passe.</p>
 
       <div [hidden]="error != 'token'" class="callout callout-danger">
         <p>Le token fourni est invalide.</p>
@@ -27,23 +27,9 @@
           <p>Les mots de passes de correspondent pas.</p>
         </div>
 
-        <div [hidden]="error != 'username'" class="callout callout-danger">
-          <p>Ce nom d'utilisateur est déjà pris.</p>
-        </div>
-
         <div [hidden]="!error || error == 'token' || error == 'credentials' || error == 'password' || error == 'fields' || error == 'username'" class="callout callout-danger">
           <h4>Erreur lors de la connexion.</h4>
           <p>Le token fourni est probablement expiré.</p>
-        </div>
-
-        <div class="form-group has-feedback">
-          <input type="username" class="form-control" placeholder="Nom d'utilisateur" required name="usr" [(ngModel)]="username" #usr="ngModel">
-          <span class="fa fa-user form-control-feedback"></span>
-          <div *ngIf="usr.errors && usr.dirty" class="alert alert-danger">
-              <div [hidden]="!usr.errors.required">
-                Le nom d'utilisateur est requis.
-              </div>
-          </div>
         </div>
 
         <div class="form-group has-feedback">

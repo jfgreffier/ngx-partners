@@ -45,7 +45,7 @@ export class RegistrationComponent implements OnInit {
   public register() {
     this.error = '';
 
-    if (this.password == null || this.password_check == null || this.username == null) {
+    if (this.password == null || this.password_check == null) {
       this.error = 'fields';
       return;
     }
@@ -60,7 +60,7 @@ export class RegistrationComponent implements OnInit {
 
     this.progress = 1;
 
-    this.authentication.registrationConfirm(this.token, this.username, this.password).first().toPromise().then((r: Response) => {
+    this.authentication.registrationConfirm(this.token, this.password).first().toPromise().then((r: Response) => {
       this.progress = 2;
     }).catch((r: Response) => {
       if (r.status == 200 || r.status == 201) {

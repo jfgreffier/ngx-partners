@@ -36,11 +36,10 @@ export class AuthenticationService {
       .map((data: Object) => data['user']);
   }
 
-  registrationConfirm(token: string, username: string, password: string) {
+  registrationConfirm(token: string, password: string) {
     let url = Configuration.serverWithApiUrl + 'registration/' + token;
 
     let body = new URLSearchParams();
-    body.append('username', username);
     body.append('password', password);
     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
     let options = new RequestOptions({ headers: headers });
