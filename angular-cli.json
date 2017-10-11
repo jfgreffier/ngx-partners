@@ -1,7 +1,7 @@
 {
   "project": {
-    "version": "1.0.0-beta.32",
-    "name": "ng2-admin-lte"
+    "version": "0.5.0",
+    "name": "ngx-partners"
   },
   "apps": [
     {
