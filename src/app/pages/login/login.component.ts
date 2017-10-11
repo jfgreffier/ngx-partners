@@ -54,7 +54,11 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           localStorage.setItem('token', data.token);
-          this.updateUser();
+          let timeoutId = setTimeout(() => {  
+            this.updateUser();
+          }, 50);
+          
+          clearTimeout(timeoutId);
         },
         error => {
           this.loginProgress = 0;
