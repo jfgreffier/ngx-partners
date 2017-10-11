@@ -39,22 +39,23 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-8">
+          <div class="col-xs-6">
             <div class="checkbox icheck">
               <label class="login-checkbox">
-                <input type="checkbox">Se souvenir de moi
+                <input type="checkbox">Rester connecté
               </label>
             </div>
           </div>
           <!-- /.col -->
-          <div class="col-xs-4">
-            <button type="submit" class="btn btn-primary btn-block btn-flat" >Connexion</button>
+          <div class="col-xs-4 login-forgotpwd">
+            <button type="button" class="btn btn-link" (click)="forgotPwd()">Mot de passe oublié</button>
           </div>
           <!-- /.col -->
         </div>
+        <div class="row connect-button">
+          <button type="submit" class="btn btn-primary btn-block btn-flat" >Connexion</button>
+        </div>
       </form>
-
-      <button type="button" class="btn btn-link" (click)="forgotPwd()">J'ai oublié mon mot de passe</button><br/>
 
     </div>
     <!-- /.login-box-body -->
