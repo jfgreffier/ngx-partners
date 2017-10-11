@@ -50,12 +50,14 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegistrationComponent } from './pages/login/registration.component';
 import { RedirectComponent } from './pages/login/redirect.component';
 import { CASComponent } from './pages/login/cas.component';
+import { ForgotPwdComponent } from './pages/login/forgotPwd.component';
 
 let pages = [
     LoginComponent,
     RegistrationComponent,
     RedirectComponent,
     CASComponent,
+    ForgotPwdComponent
 ];
 
 // main bootstrap
