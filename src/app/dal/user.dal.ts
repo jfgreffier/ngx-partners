@@ -145,4 +145,12 @@ export class UserDAL {
     });
   }
 
+  public getNewPassword = (username: String): Promise<any> => {
+    return this.rest.update('users/forgotPassword', null, {'username': username}).first().toPromise().then((res) => {
+      this.notif.success('Un email a été envoyé à l\'adresse personnelle de ' + username + '.')
+    }).catch((err) => {
+      console.log(err);
+      this.notif.error('Erreur lors de la réinitialisation du mot de passe.');
+    });
+
 }
