@@ -152,5 +152,6 @@ export class UserDAL {
       console.log(err);
       this.notif.error('Erreur lors de la réinitialisation du mot de passe.');
     });
-
+  }
+  
 }
