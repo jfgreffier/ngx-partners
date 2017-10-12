@@ -57,8 +57,6 @@ export class LoginComponent implements OnInit {
           let timeoutId = setTimeout(() => {  
             this.updateUser();
           }, 50);
-          
-          clearTimeout(timeoutId);
         },
         error => {
           this.loginProgress = 0;
