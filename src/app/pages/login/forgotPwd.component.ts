@@ -1,17 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { User } from '../../models/user';
-import { UserService } from '../../services/user.service';
-
-import { UserDAL } from '../../dal/user.dal';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
-  providers: [UserDAL],
   selector: 'app-forgotPwd',
   templateUrl: './forgotPwd.component.html'
 })
-export class ForgotPwdComponent {
+export class ForgotPwdComponent implements OnInit {
   protected username: string;
 
   protected error: string;
@@ -19,18 +15,26 @@ export class ForgotPwdComponent {
   private returnUrl: string;
 
   constructor(
-    private userServ: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private userDal: UserDAL
+    private authentication: AuthenticationService
   ) {
   }
+  
+    public ngOnInit() {
+      window.dispatchEvent(new Event('resize'));
+    }
 
   private getNewPassword() {
-    this.userDal.getNewPassword(this.username).then((res) => {
-        console.log('Réinitialisation du mot de passe réussie.')
-    }).catch((err) => {
-        console.log(err);
-    });
+    this.authentication.forgotPassword(this.username)
+    .first()
+    .subscribe(
+      data => {
+        console.log('Réinitialisation du mot de passe réussie.');
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }

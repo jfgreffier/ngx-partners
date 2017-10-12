@@ -11,7 +11,10 @@ import { RestService } from '../services/rest.service';
 export class UserDAL {
   public users: ReplaySubject<Array<User>> = new ReplaySubject<Array<User>>( 1 );
 
-  constructor(private rest: RestService, private notif: NotificationService) { }
+  constructor(
+    private rest: RestService, 
+    private notif: NotificationService
+  ) { }
 
   public readAll = () => {
     this.rest.getAll('users').first().toPromise().then(users => {
@@ -142,15 +145,6 @@ export class UserDAL {
     }).catch((err) => {
       console.log(err);
       this.notif.error('Erreur lors de la désactivation');
-    });
-  }
-
-  public getNewPassword = (username: String): Promise<any> => {
-    return this.rest.update('users/forgotPassword', null, {'username': username}).first().toPromise().then((res) => {
-      this.notif.success('Un email a été envoyé à l\'adresse personnelle de ' + username + '.')
-    }).catch((err) => {
-      console.log(err);
-      this.notif.error('Erreur lors de la réinitialisation du mot de passe.');
     });
   }
   

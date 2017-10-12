@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
 
   constructor(
     private breadServ: BreadcrumbService,
-    private userDal: UserDAL,
+    private userDal: UserDAL
   ) {
   }
 

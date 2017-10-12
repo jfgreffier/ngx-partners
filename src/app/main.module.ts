@@ -10,7 +10,7 @@ let modules = [
     CommonModule,
     RouterModule,
     ToasterModule,
-    WidgetsModule,
+    WidgetsModule
 ];
 
 import { MessagesService } from './services/messages.service';
@@ -20,7 +20,7 @@ import { BreadcrumbService } from './services/breadcrumb.service';
 let services = [
     BreadcrumbService,
     MessagesService,
-    NotificationService,
+    NotificationService
 ];
 
 // les pages
@@ -29,7 +29,7 @@ import { LayoutsAuthComponent } from './pages/layouts/auth/auth';
 
 let pages = [
     HomeComponent,
-    LayoutsAuthComponent,
+    LayoutsAuthComponent
 ];
 
 import { MainRoutingModule } from './main.routing';

@@ -54,4 +54,16 @@ export class AuthenticationService {
   loggedIn() {
     return tokenNotExpired();
   }
+  
+  forgotPassword(username: string) {
+
+    let url = Configuration.serverWithApiUrl + 'users/forgotPassword';
+    
+    let body = new URLSearchParams();
+    body.append('username', username);
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(url, body.toString(), options);
+  }
 }
